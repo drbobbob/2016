@@ -1,3 +1,6 @@
+
+import wpilib 
+
 class Pitcher: 
    
     def enable(self):
