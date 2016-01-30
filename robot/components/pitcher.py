@@ -1,4 +1,4 @@
-class Pitcher(): 
+class Pitcher: 
    
     def enable(self):
         """ turn on motor to spin wheel """
