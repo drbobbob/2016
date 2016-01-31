@@ -72,7 +72,7 @@ function getStaging() {
 }
 
 function getGoal() {
-	var goal = $('[name=obsticle_types]:checked').val();
+	var goal = $('[name=shooting_target]:checked').val();
 	return goal
 }
 
@@ -84,6 +84,25 @@ function passingBall() {
 $('[name=staging_position]').on('click', function() {
 	console.log(getStaging()) 
 	console.log('staging position changed'); 
+	NetworkTables.putValue('/SmartDashboard/stagingposition', getStaging());
+	});
+
+$('[name=obsticle_types]').on('click', function() {
+	console.log(getObsticle()) 
+	console.log('obsticle type changed'); 
+	NetworkTables.putValue('/SmartDashboard/obsticletypes', getObsticle());
+	});
+
+$('[name=shooting_target]').on('click', function() {
+	console.log(getGoal()) 
+	console.log('shooting goal changed'); 
+	networktables.putValue('/SmartDashboard/shootingtarget', getGoal())
+});
+
+$('[name=pass_ball]').on('click', function() {
+	console.log(passingBall()) 
+	console.log('ball passing changed'); 
+	networktables.putValue('/SmartDashboard/passball', passingBall())
 });
 </script>
 
