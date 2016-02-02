@@ -21,6 +21,11 @@
      that d3.js and jQuery are included first -->
 <!-- <script src="/networktables/utils.js"></script> -->
 
+<p>
+<h1>
+Autonomous
+</h1>
+</p>
 
 <h3>
 Staging Position:
@@ -58,12 +63,14 @@ Passing Ball to Others:
 </h3>
 Passing ball to others: <input type="checkbox" name="pass_ball" value="1">
 </p>
+<p>
+<a href="index.html">Back</a>
 <script type="text/javascript">
 "use strict";
 
 function getObsticle() {
 	var obsticle = $('[name=obsticle_types]:checked').val();
-	return obsticle;
+	return obsticle
 }
 
 function getStaging() {
@@ -96,13 +103,13 @@ $('[name=obsticle_types]').on('click', function() {
 $('[name=shooting_target]').on('click', function() {
 	console.log(getGoal()) 
 	console.log('shooting goal changed'); 
-	networktables.putValue('/SmartDashboard/shootingtarget', getGoal())
+	NetworkTables.putValue('/SmartDashboard/shootingtarget', getGoal())
 });
 
 $('[name=pass_ball]').on('click', function() {
 	console.log(passingBall()) 
 	console.log('ball passing changed'); 
-	networktables.putValue('/SmartDashboard/passball', passingBall())
+	NetworkTables.putValue('/SmartDashboard/passball', passingBall())
 });
 </script>
 
