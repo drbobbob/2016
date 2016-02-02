@@ -9,31 +9,37 @@ from robotpy_ext.common_drivers.distance_sensors import SharpIRGP2Y0A41SK0F as S
 class Lenny():
 
     def __init__(self):
+        '''virgin who made all powerful variables'''
         self.beltvelocity = 0
         self.beltmotor = wpilib.CANTalon(0)
         self.Sharp = Sharp(0)
         
     def getdistance (self):
-        '''sets the distance based on output from distance sensor'''
+        '''it aint that fah'''
         
         self.distance = self.Sharp.getDistance()
     
     def ball_in(self):
-        '''used to drive the belts so that the boulder goes into the robot'''
+        '''come in at your own risk'''
         self.beltvelocity = 1
         
     def ball_out(self):
-        '''used to drive belts so that the boulder exits the robot'''
+        '''geet outa town'''
         
         self.beltvelocity = -1
         
     def fire(self):
-        '''brings ball into shooter which should be at speed before launch'''
+        '''bye bye boulder. let her rip!'''
         
         self.beltvelocity = 1
+        
+    def disable(self):
+        '''stay put. good doggie'''
+        
+        self.beltvelocity = 0
             
     def execute(self):
-        '''sets final values for belt motors'''
+        '''the "boss".'''
         
         self.beltmotor.set(self.beltvelocity())
         
