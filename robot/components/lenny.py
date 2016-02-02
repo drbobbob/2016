@@ -13,10 +13,16 @@ class Lenny():
         self.beltmotor = wpilib.CANTalon(0)
         self.Sharp = Sharp(0)
         
-    def getdistance (self):
-        '''it aint that fah'''
+    def ball_detector (self):
+        '''I can't tell is it there'''
         
         self.distance = self.Sharp.getDistance()
+        
+        if self.distance > 5:
+            return False
+        
+        else:
+            return True
     
     def ball_in(self):
         '''come in at your own risk'''
