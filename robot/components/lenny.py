@@ -7,32 +7,37 @@ import wpilib
 from robotpy_ext.common_drivers.distance_sensors import SharpIRGP2Y0A41SK0F as Sharp
 
 class Lenny():
-    
-    x = 0
+
+    def __init__(self):
+        self.beltvelocity = 0
+        self.beltmotor = wpilib.CANTalon(0)
+        self.Sharp = Sharp(0)
+        
+    def getdistance (self):
+        '''sets the distance based on output from distance sensor'''
+        
+        self.distance = self.Sharp.getDistance()
     
     def ball_in(self):
         '''used to drive the belts so that the boulder goes into the robot'''
-        x = 1
+        self.beltvelocity = 1
         
     def ball_out(self):
         '''used to drive belts so that the boulder exits the robot'''
         
-        x = -1
+        self.beltvelocity = -1
         
     def fire(self):
         '''brings ball into shooter which should be at speed before launch'''
         
-        x = 1
+        self.beltvelocity = 1
             
     def execute(self):
+        '''sets final values for belt motors'''
         
-        self.belt = wpilib.CANTalon(1)
+        self.beltmotor.set(self.beltvelocity())
         
-        if Sharp.getDistance(self) > 14:
-            self.belt.set(x)
-        else:
-            self.belt.set(0)
         
-    
-    
+        
+        
     
