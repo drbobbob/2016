@@ -43,6 +43,7 @@ UI/CONTROLS
 * FIRE!
 * Hang
 * Ball sensor
+* Diagram of Robot
 
 **Controls**
 * +To do
