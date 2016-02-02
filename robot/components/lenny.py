@@ -9,7 +9,6 @@ from robotpy_ext.common_drivers.distance_sensors import SharpIRGP2Y0A41SK0F as S
 class Lenny():
 
     def __init__(self):
-        '''virgin who made all powerful variables'''
         self.beltvelocity = 0
         self.beltmotor = wpilib.CANTalon(0)
         self.Sharp = Sharp(0)
