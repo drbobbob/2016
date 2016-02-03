@@ -34,10 +34,15 @@ class Lenny():
         '''geet outa town'''
         if self.ball_detector() == True:
             self.beltvelocity = -1
+        else:
+            self.beltvelocity = 0
         
     def fire(self):
         '''bye bye boulder. let her rip!'''
-        self.beltvelocity = 1
+        if self.ball_detector() == True:
+            self.beltvelocity = 1
+        else:
+            self.beltvelocity = 0
         
     def stop(self):
         '''stay put. good doggie'''
