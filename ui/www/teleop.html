@@ -5,13 +5,38 @@
 	2016 Robot Teleop UI
 	</title>
 </head>
+<style>
+.fire {
+	color: red;
+	font-size: 30px;
+}
+
+.hang {
+	color: green;
+	font-size: 30px;
+}
+</style>
 <body>
 	<p>
 		<h1>Teleop</h1>
 	</p>
+	
 	<p>
 		<h3> Activate Lenny: <input type="checkbox" name="act_lenny" value="1"></h3>
 	</p>
+	
+	<p>
+		<input type="button" class="fire" value="FIRE!">
+	</p>
+	
+	<p>
+		<input type="button" class="hang" value="Hang">
+	</p>
+	
+	<p>
+		<h3> Ball in?<input type="checkbox" name="ball_sensor" value=(1)><h3>
+	</p>
+	
 	<p>
 		<a href="index.html">Back</a>
 	</p>
@@ -33,12 +58,11 @@
 
 	<script type="text/javascript">
 	"use strict";
-
+	
 	function getLenny(){
 		var activated = $('[name=act_lenny]').prop('checked');
 		return activated;
 	}
-
 
 	$('[name=act_lenny]').on('click', function() {
 		console.log(getLenny());
@@ -49,7 +73,25 @@
 			console.log('Lenny Deactivated');
 		}
 	});
-
+		
+		
+	
+	
+	function getBallsensor(){
+		var guy = $('[name=ball_sensor]').prop('checked');
+		return guy;
+	}
+	
+	$(['name=ball_sensor']).on('click',function(){
+		console.log(getBallsensor());
+		if(getBallsensor() == true) {
+			console.log('Ball in');
+		}
+		else {
+			console.log('ball out');
+		}
+	});
+		
 	</script>
 </body>
 </html>
