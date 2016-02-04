@@ -6,6 +6,8 @@ class Tapemeasure:
     STOP = 1
     input = STOP
     lastinput = STOP
+    encoderinput = derp
+    encoderstop= bler
     def update ( self, input ):
         """updates inputs and remembers last input"""
         self.lastinput = self.input
@@ -14,12 +16,14 @@ class Tapemeasure:
     def perform ( self ):
         """Determines action based on last input"""
         if self.input != self.lastinput:
-            if self.input == self.EXTEND:
-                self.performExtend()
-            elif self.input == self.RETRACT:
-                self.performRetract()
-            elif self.input == self.STOP:
-                self.performStop()
+            if self.encoderinput != self.encoderstop:
+                if self.input == self.STOP:
+                    self.performStop()
+                    self.performExtend()
+                elif self.input == self.RETRACT:
+                    self.performRetract()
+                elif self.input == self.EXTEND:
+                    self.performExtend()
 
     def performExtend (self):
         """activate motors to extend"""
