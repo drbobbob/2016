@@ -15,6 +15,22 @@
 	color: green;
 	font-size: 30px;
 }
+
+.diagram.ballout .ballout-image{
+	display: block;
+}
+
+.diagram.ballout .ballin-image{
+	display: none;
+}
+
+.diagram.ballin .ballout-image{
+	display: none;
+}
+
+.diagram.ballin .ballin-image{
+	display: block;
+}
 </style>
 <body>
 	<p>
@@ -35,6 +51,11 @@
 	
 	<p>
 		<h3> Ball in?<input type="checkbox" name="ball_sensor" value=(1)><h3>
+	</p>
+	
+	<p class="diagram ballout">
+		<img src="2016robottestdiagram.jpg" class="ballout-image" height="300">
+		<img src="2016robottestdiagramballin.jpg" class="ballin-image" height="300">
 	</p>
 	
 	<p>
@@ -82,13 +103,25 @@
 		return guy;
 	}
 	
-	$(['name=ball_sensor']).on('click',function(){
+	$('[name=ball_sensor]').on('click',function() {
 		console.log(getBallsensor());
 		if(getBallsensor() == true) {
 			console.log('Ball in');
 		}
 		else {
 			console.log('ball out');
+		}
+	});
+	
+	$('[name=ball_sensor]').on('click', function() {
+		getBallsensor();
+		if(getBallsensor()==true) {
+			$('p').removeClass('ballout');
+			$('p').addClass('ballin');
+		}
+		else {
+			$('p').removeClass('ballin');
+			$('p').addClass('ballout');
 		}
 	});
 		
