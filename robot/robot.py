@@ -3,17 +3,16 @@ import wpilib
 from magicbot import MagicRobot
 from robotpy_ext.common_drivers.distance_sensors import SharpIRGP2Y0A41SK0F as Sharp
 
-import components.lenny.Lenny
+from components.lenny import Lenny
 import components.pitcher.Pitcher
-import components.TapMes.Tapemeasure
-import components.drive.Drive
+from components.tape_measure import Tapemeasure
 from components.drive import Drive
 
 class MyRobot(MagicRobot):
-    lenny = components.lenny.Lenny
+    lenny = Lenny
     pitcher = components.pitcher.Pitcher
-    tapemeasure = components.TapMes.Tapemeasure
-    drive = components.drive.Drive
+    tapemeasure = Tapemeasure
+    drive = Drive
     
     def createObjects(self):
         self.beltmotor = wpilib.CANTalon(0)
