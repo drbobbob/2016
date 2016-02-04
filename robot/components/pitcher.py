@@ -14,11 +14,11 @@ class Pitcher:
         self.is_disabled = is_disabled
         
     def set_range(self, r):
-        """ set motor to paricular speed? """
+        """ set motor to particular speed? """
         self.r = r
         
     def execute(self):
-        """ JUST DO IT ✔ """
+        """ JUST DO IT """
         #if motor is enabled, set motor to 1#
         #if motor is disabled, set motor to 0#
         if self.is_enabled:
@@ -26,4 +26,4 @@ class Pitcher:
         elif self.is_disabled:
             self.pitcher_motor.set(0)
         
-    
+        
