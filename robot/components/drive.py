@@ -22,7 +22,7 @@ class Drive:
         self.angle = angle
         
     def execute(self):
-        """ JUST DO IT ✔ """
+        """ JUST DO IT """
         
         # for now, ignore driving at a particular angle
         
