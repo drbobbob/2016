@@ -4,13 +4,13 @@ from magicbot import MagicRobot
 from robotpy_ext.common_drivers.distance_sensors import SharpIRGP2Y0A41SK0F as Sharp
 
 from components.lenny import Lenny
-import components.pitcher.Pitcher
+from components.pitcher import Pitcher
 from components.tape_measure import Tapemeasure
 from components.drive import Drive
 
 class MyRobot(MagicRobot):
     lenny = Lenny
-    pitcher = components.pitcher.Pitcher
+    pitcher = Pitcher
     tapemeasure = Tapemeasure
     drive = Drive
     
