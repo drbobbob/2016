@@ -52,7 +52,7 @@ class Lenny():
         self.disabled = True
             
     def execute(self):
-        '''the "boss".'''
+        '''da "boss".'''
         if self.disabled == False:
             self.beltmotor.set(self.beltvelocity)
         else:
