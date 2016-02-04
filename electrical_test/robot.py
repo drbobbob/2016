@@ -8,16 +8,22 @@ from wpilib.cantalon import CANTalon
 
 class MyRobot(wpilib.IterativeRobot):
     
+    
+    
     def robotInit(self):
         """
         This function is called upon program startup and
         should be used for any initialization code.
         """
-        pass
+        self.left_motor = wpilib.CANTalon(2)
+        self.right_motor = wpilib.CANTalon(5)
+        self.robot_drive = wpilib.RobotDrive(self.left_motor, self.right_motor)
+        self.joystick = wpilib.Joystick(0)
         
     def teleopPeriodic(self):
         """This function is called periodically during operator control."""
-        pass
+        self.robot_drive.arcadeDrive(self.joystick)
+    
     def testPeriodic(self):
         """This function is called periodically during test mode."""
         wpilib.LiveWindow.run()

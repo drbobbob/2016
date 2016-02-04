@@ -7,32 +7,60 @@ import wpilib
 from robotpy_ext.common_drivers.distance_sensors import SharpIRGP2Y0A41SK0F as Sharp
 
 class Lenny():
-    
-    x = 0
+    '''lenny's matrix self'''
+    def __init__(self):
+        self.beltvelocity = 0
+        self.beltmotor = wpilib.CANTalon(0)
+        self.Sharp = Sharp(0)
+        self.disabled = False
+        
+    def ball_detector (self):
+        '''I can't tell is it there'''
+        self.distance = self.Sharp.getDistance()
+        
+        if self.distance > 5:
+            return False
+        else:
+            return True
     
     def ball_in(self):
-        '''used to drive the belts so that the boulder goes into the robot'''
-        x = 1
+        '''come in at your own risk'''
+        if self.ball_detector() == False:
+            self.beltvelocity = 1
+        else:
+            self.beltvelocity = 0
         
     def ball_out(self):
-        '''used to drive belts so that the boulder exits the robot'''
-        
-        x = -1
+        '''geet outa town'''
+        if self.ball_detector() == True:
+            self.beltvelocity = -1
+        else:
+            self.beltvelocity = 0
         
     def fire(self):
-        '''brings ball into shooter which should be at speed before launch'''
+        '''bye bye boulder. let her rip!'''
+        if self.ball_detector() == True:
+            self.beltvelocity = 1
+        else:
+            self.beltvelocity = 0
         
-        x = 1
+    def stop(self):
+        '''stay put. good doggie'''
+        self.beltvelocity = 0
+        
+    def disable(self):
+        self.disabled = True
             
     def execute(self):
-        
-        self.belt = wpilib.CANTalon(1)
-        
-        if Sharp.getDistance(self) > 14:
-            self.belt.set(x)
+        '''da "boss".'''
+        if self.disabled == False:
+            self.beltmotor.set(self.beltvelocity)
         else:
-            self.belt.set(0)
+            self.beltmotor.set(0)
+            
+        self.beltvelocity = 0
+        self.disabled = False
         
-    
-    
+        
+        
     

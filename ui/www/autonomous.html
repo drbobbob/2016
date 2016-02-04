@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>
+	2016 Robot Autonomous UI
+	</title>
+	<meta charset="utf-8">
+</head>
+<body>
+
+<!-- This starts the NetworkTables websocket, it can be accessed from multiple
+     pages simultaneously -->
+<script src="/networktables/networktables.js"></script>
+
+<!-- Obviously, you will want to copy this file locally in a real 
+     dashboard, as the Driver Station won't have internet access -->
+<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+
+<!-- uncomment this is you want to use included utility functions that
+     implement common functionality that you might find useful. Requires
+     that d3.js and jQuery are included first -->
+<!-- <script src="/networktables/utils.js"></script> -->
+
+<p>
+<h1>
+Autonomous
+</h1>
+</p>
+
+<h3>
+Staging Position:
+</h3>
+<p>
+Left position: <input type="radio" name="staging_position" value="1" checked>
+Middle postion: <input type="radio" name="staging_position" value="2">
+Right position: <input type="radio" name="staging_position" value="3">
+</p>
+<h3>
+Shooting Goal:
+</h3>
+<p>
+High Goal: <input type="radio" name="shooting_target" value="1" checked>
+Low Goal: <input type="radio" name="shooting_target" value="2">
+No Goal: <input type="radio" name="shooting_target" value="3">
+</p>
+<h3>
+Obsticle Type:
+</h3>
+<p>
+Low bar: <input type="radio" name="obsticle_types" value="1" checked>
+Portcullis(A): <input type="radio" name="obsticle_types" value="2">
+Cheval de Frise(A): <input type="radio" name="obsticle_types" value="3">
+Moat(B): <input type="radio" name="obsticle_types" value="4">
+Ramparts(B): <input type="radio" name="obsticle_types" value="5">
+Drawbridge(C): <input type="radio" name="obsticle_types" value="6">
+Sally Port(C): <input type="radio" name="obsticle_types" value="7">
+Rock Wall(D): <input type="radio" name="obsticle_types" value="8">
+Rough Terrain(D): <input type="radio" name="obsticle_types" value="9">
+</p>
+<p>
+<h3>
+Passing Ball to Others:
+</h3>
+Passing ball to others: <input type="checkbox" name="pass_ball" value="1">
+</p>
+<p>
+<a href="index.html">Back</a>
+<script type="text/javascript">
+"use strict";
+
+function getObsticle() {
+	var obsticle = $('[name=obsticle_types]:checked').val();
+	return obsticle
+}
+
+function getStaging() {
+	var staging = $('[name=staging_position]:checked').val();
+	return staging
+}
+
+function getGoal() {
+	var goal = $('[name=shooting_target]:checked').val();
+	return goal
+}
+
+function passingBall() {
+	var passing_ball = $('[name=pass_ball]:checked').val();
+	return passing_ball
+}
+
+$('[name=staging_position]').on('click', function() {
+	console.log(getStaging()) 
+	console.log('staging position changed'); 
+	NetworkTables.putValue('/SmartDashboard/stagingposition', getStaging());
+	});
+
+$('[name=obsticle_types]').on('click', function() {
+	console.log(getObsticle()) 
+	console.log('obsticle type changed'); 
+	NetworkTables.putValue('/SmartDashboard/obsticletypes', getObsticle());
+	});
+
+$('[name=shooting_target]').on('click', function() {
+	console.log(getGoal()) 
+	console.log('shooting goal changed'); 
+	NetworkTables.putValue('/SmartDashboard/shootingtarget', getGoal())
+});
+
+$('[name=pass_ball]').on('click', function() {
+	console.log(passingBall()) 
+	console.log('ball passing changed'); 
+	NetworkTables.putValue('/SmartDashboard/passball', passingBall())
+});
+</script>
+
+</body>
+</html>
