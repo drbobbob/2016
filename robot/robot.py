@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 
 import wpilib
 from magicbot import MagicRobot
@@ -9,9 +10,9 @@ from components.tape_measure import Tapemeasure
 from components.drive import Drive
 
 class MyRobot(MagicRobot):
-    lenny = Lenny
-    pitcher = Pitcher
-    tapemeasure = Tapemeasure
+    #lenny = Lenny
+    #pitcher = Pitcher
+    #tapemeasure = Tapemeasure
     drive = Drive
     
     def createObjects(self):
