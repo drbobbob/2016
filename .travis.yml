@@ -6,7 +6,7 @@ install:
   - "pip install pyfrc"
 # command to run tests
 script:
-  - electrical_tests/robot.py test
+  - electrical_test/robot.py test
   - robot/robot.py test
 
 branches:
