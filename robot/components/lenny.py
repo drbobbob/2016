@@ -10,13 +10,13 @@ class Lenny:
     '''lenny's matrix self'''
     def __init__(self):
         self.beltvelocity = 0
-        self.beltmotor = None
-        self.Sharp = None
+        self.beltmotor = wpilib.CANTalon(6)
+        self.sharp = Sharp(7)
         self.disabled = False
         
     def ball_detector (self):
         '''I can't tell is it there'''
-        self.distance = self.Sharp.getDistance()
+        self.distance = self.sharp.getDistance()
         
         if self.distance > 5:
             return False

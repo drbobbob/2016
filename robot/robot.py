@@ -18,13 +18,18 @@ class MyRobot(MagicRobot):
         self.beltmotor = wpilib.CANTalon(0)
         self.sharp = Sharp
         self.pitcher_motor = wpilib.CANTalon(1)
-        self.motor_r = wpilib.CANTalon(2)
-        self.motor_l = wpilib.CANTalon(3)
         self.joystick0 = wpilib.Joystick(0)
+        self.left_motor = wpilib.CANTalon(2)
+        self.right_motor = wpilib.CANTalon(5)
+        self.robot_drive = wpilib.RobotDrive(self.left_motor, self.right_motor)
+        
         
     def teleopPeriodic(self):
-        self.drive(self.joystick0.getX(), self.joystick0.getY())
+        self.drive.drive(self.joystick0.getX(), self.joystick0.getY())
     
     def autonomous(self):
         pass
         
+        
+if __name__ == "__main__":
+    wpilib.run(MyRobot)

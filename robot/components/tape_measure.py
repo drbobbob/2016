@@ -11,8 +11,8 @@ class Tapemeasure:
     STOP = 1
     input = STOP
     lastinput = STOP
-    encoderinput = derp
-    encoderstop= bler
+    encoderinput = 1
+    encoderstop= 2
     def update ( self, input ):
         """updates inputs and remembers last input"""
         self.lastinput = self.input
@@ -32,7 +32,14 @@ class Tapemeasure:
 
     def performExtend (self):
         """activate motors to extend"""
+        
     def performRetract (self):
         """activate motors to retract"""
+        
     def performStop (self):
         """deactivate motors"""
+        
+    def execute(self):
+        pass
+        
+    
