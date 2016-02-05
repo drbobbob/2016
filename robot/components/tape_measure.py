@@ -1,6 +1,11 @@
+
+
 import wpilib
 
 class Tapemeasure:
+    '''we will need electric actuator or pnuematic piston. piston will have solenoid and pid pressure system.
+    this system will control gear box for wench '''
+    
     EXTEND = 3
     RETRACT = 2
     STOP = 1
