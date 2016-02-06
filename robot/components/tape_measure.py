@@ -29,9 +29,10 @@ class Tapemeasure:
 
     def performExtend (self):
         """activate motors to extend"""
-
+        set.set
     def performRetract (self):
         """activate motors to retract"""
-
+        set.set
     def performStop (self):
         """deactivate motors"""
+        set.set
