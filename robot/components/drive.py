@@ -8,6 +8,10 @@ class Drive:
     
     robot_drive = wpilib.RobotDrive
     
+    def __init__(self):
+        self.x = 0
+        self.y = 0
+        
     def drive(self, x, y):
         """Moves the robot"""
         self.x = x
@@ -27,4 +31,6 @@ class Drive:
         # for now, ignore driving at a particular angle
         
         self.robot_drive.arcadeDrive(self.y, self.x)
+        self.x = 0
+        self.y = 0
     

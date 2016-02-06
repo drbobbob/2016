@@ -9,7 +9,7 @@ from robotpy_ext.common_drivers.distance_sensors import SharpIRGP2Y0A41SK0F as S
 class Lenny:
     
     beltmotor = wpilib.CANTalon
-    sharp = Sharp
+    ball_sensor = Sharp
     
     '''lenny's matrix self'''
     def __init__(self):
