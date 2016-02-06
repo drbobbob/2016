@@ -10,14 +10,14 @@ from components.tape_measure import Tapemeasure
 from components.drive import Drive
 
 class MyRobot(MagicRobot):
-    #lenny = Lenny
-    #pitcher = Pitcher
+    lenny = Lenny
+    pitcher = Pitcher
     #tapemeasure = Tapemeasure
     drive = Drive
     
     def createObjects(self):
         self.beltmotor = wpilib.CANTalon(0)
-        self.sharp = Sharp
+        self.ball_sensor = Sharp(1)
         self.pitcher_motor = wpilib.CANTalon(4)
         self.joystick0 = wpilib.Joystick(0)
         self.left_motor = wpilib.CANTalon(2)
