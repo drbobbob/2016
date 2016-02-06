@@ -1,18 +1,14 @@
-
-
 import wpilib
 
 class Tapemeasure:
-    '''we will need electric actuator or pnuematic piston. piston will have solenoid and pid pressure system.
-    this system will control gear box for wench '''
-    
     EXTEND = 3
     RETRACT = 2
     STOP = 1
-    input = STOP
-    lastinput = STOP
-    encoderinput = 1
-    encoderstop= 2
+    input = """button input expressed in values 1, 2, and 3"""
+    lastinput = """Current input for action"""
+    encoderinput = """input from the encoder translated to fit a more simple numeric value"""
+    encoderstop1= """quota the encoder must meet to auto-stop the tape measure whilst extended"""
+    encoderstop2 = """the default state of the encoder/motors"""
     def update ( self, input ):
         """updates inputs and remembers last input"""
         self.lastinput = self.input
@@ -20,26 +16,23 @@ class Tapemeasure:
 
     def perform ( self ):
         """Determines action based on last input"""
-        if self.input != self.lastinput:
-            if self.encoderinput != self.encoderstop:
-                if self.input == self.STOP:
-                    self.performStop()
-                    self.performExtend()
-                elif self.input == self.RETRACT:
+        if self.encoderinput != self.encoderstop1:
+            if self.input != self.lastinput:
+                if self.input == self.RETRACT:
                     self.performRetract()
                 elif self.input == self.EXTEND:
                     self.performExtend()
+                else:
+                    self.performStop ()
+        else:
+                self.performStop ()
 
     def performExtend (self):
         """activate motors to extend"""
-        
+        set.set
     def performRetract (self):
         """activate motors to retract"""
-        
+        set.set
     def performStop (self):
         """deactivate motors"""
-        
-    def execute(self):
-        pass
-        
-    
+        set.set
