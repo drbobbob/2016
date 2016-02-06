@@ -14,28 +14,27 @@ class Tapemeasure:
     encoderstop1= """quota the encoder must meet to auto-stop the tape measure whilst extended"""
     encoderstop2= """lower limit to the encoder"""
 
+    TICKS_PER_ROTATION = 300
+    FULL_ROTATION_DISTANCE = 3 # in feet
+
     def __init__(self):
         self.state = Tapemeasure.STOP
 
-    def statecheck(self):
-        if self.encoderinput == self.encoderstop1:
-            self.input += 1
-        elif self.encoderinput == self.encoderstop2:
-            self.input +=1
-        elif self.input == self.stop1:
-            self.stop
-        elif self.input == self.stop2:
-            self.stop
-        elif self.input == self.extend:
-            self.extend
-        elif self.input ==self.retract:
-            self.retract
+    def getdistance(self):
+        ticks = 0 # self.encoder.get()
+        return (ticks / Tapemeasure.TICKS_PER_ROTATION) * Tapemeasure.FULL_ROTATION_DISTANCE
 
     def extend(self):
-        self.state = Tapemeasure.EXTEND
+        if self.ticks <= self.encoderstop1:
+            self.state = Tapemeasure.EXTEND
+        else:
+            self.state = Tapemeasure.STOP
 
     def retract(self):
-        self.state = Tapemeasure.RETRACT
+        if self.ticks >= self.esncoderstop2:
+            self.state = Tapemeasure.RETRACT
+        else:
+            self.state = Tapemeasure.STOP
 
     def stop(self):
         self.state = Tapemeasure.STOP
