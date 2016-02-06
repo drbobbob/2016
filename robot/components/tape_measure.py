@@ -25,13 +25,13 @@ class Tapemeasure:
         return (ticks / Tapemeasure.TICKS_PER_ROTATION) * Tapemeasure.FULL_ROTATION_DISTANCE
 
     def extend(self):
-        if self.ticks <= self.encoderstop1:
+        if self.getdistance() <= Tapemeasure.encoderstop1:
             self.state = Tapemeasure.EXTEND
         else:
             self.state = Tapemeasure.STOP
 
     def retract(self):
-        if self.ticks >= self.esncoderstop2:
+        if self.getdistance() >= Tapemeasure.esncoderstop2:
             self.state = Tapemeasure.RETRACT
         else:
             self.state = Tapemeasure.STOP
@@ -47,6 +47,7 @@ class Tapemeasure:
             self.performExtend()
         elif self.state == Tapemeasure.RETRACT:
             self.performRetract()
+        self.state = Tapemeasure.STOP
 
     def performExtend (self):
         """activate motors to extend"""
