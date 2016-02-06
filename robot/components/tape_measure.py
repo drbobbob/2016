@@ -1,38 +1,38 @@
 import wpilib
 
 class Tapemeasure:
-    EXTEND = 3
-    RETRACT = 2
+
+    tape_motor = wpilib.CANTalon
+
+    EXTEND = 2
+    RETRACT = 3
     STOP = 1
     input = """button input expressed in values 1, 2, and 3"""
-    lastinput = """Current input for action"""
     encoderinput = """input from the encoder translated to fit a more simple numeric value"""
     encoderstop1= """quota the encoder must meet to auto-stop the tape measure whilst extended"""
-    encoderstop2 = """the default state of the encoder/motors"""
-    def update ( self, input ):
-        """updates inputs and remembers last input"""
-        self.lastinput = self.input
-        self.input = input
 
-    def perform ( self ):
-        """Determines action based on last input"""
+    def execute ( self ):
+        """Determines action based on input"""
         if self.encoderinput != self.encoderstop1:
-            if self.input != self.lastinput:
-                if self.input == self.RETRACT:
-                    self.performRetract()
-                elif self.input == self.EXTEND:
-                    self.performExtend()
-                else:
-                    self.performStop ()
-        else:
+            if self.input == self.RETRACT:
+                self.performRetract()
+            elif self.input == self.EXTEND:
+                self.performExtend()
+            else:
                 self.performStop ()
+        else:
+            self.performStop ()
+            self.input = 1
 
     def performExtend (self):
         """activate motors to extend"""
-        set.set
+        self.tape_motor.set(0.2)
+        self.winch_motor.set(0.2)
     def performRetract (self):
         """activate motors to retract"""
-        set.set
+        self.tape_motor.set(-0.2)
+        self.winch_motor.set(-0.2)
     def performStop (self):
         """deactivate motors"""
-        set.set
+        self.tape_motor.set(0)
+        self.winch_motor.set(0)
