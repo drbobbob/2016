@@ -3,6 +3,7 @@ import wpilib
 class Tapemeasure:
 
     tape_motor = wpilib.CANTalon
+    winch_motor = wpilib.CANTalon
 
     EXTEND = 2
     RETRACT = 3
