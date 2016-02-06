@@ -1,31 +1,36 @@
+#!/usr/bin/env python3
 
 import wpilib
 from magicbot import MagicRobot
 from robotpy_ext.common_drivers.distance_sensors import SharpIRGP2Y0A41SK0F as Sharp
 
-import components.lenny.Lenny
-import components.pitcher.Pitcher
-import components.TapMes.Tapemeasure
-import components.drive.Drive
+from components.lenny import Lenny
+from components.pitcher import Pitcher
+from components.tape_measure import Tapemeasure
 from components.drive import Drive
 
 class MyRobot(MagicRobot):
-    lenny = components.lenny.Lenny
-    pitcher = components.pitcher.Pitcher
-    tapemeasure = components.TapMes.Tapemeasure
-    drive = components.drive.Drive
+    #lenny = Lenny
+    #pitcher = Pitcher
+    #tapemeasure = Tapemeasure
+    drive = Drive
     
     def createObjects(self):
         self.beltmotor = wpilib.CANTalon(0)
         self.sharp = Sharp
         self.pitcher_motor = wpilib.CANTalon(1)
-        self.motor_r = wpilib.CANTalon(2)
-        self.motor_l = wpilib.CANTalon(3)
         self.joystick0 = wpilib.Joystick(0)
+        self.left_motor = wpilib.CANTalon(2)
+        self.right_motor = wpilib.CANTalon(5)
+        self.robot_drive = wpilib.RobotDrive(self.left_motor, self.right_motor)
+        
         
     def teleopPeriodic(self):
-        self.drive(self.joystick0.getX(), self.joystick0.getY())
+        self.drive.drive(self.joystick0.getX(), self.joystick0.getY())
     
     def autonomous(self):
         pass
         
+        
+if __name__ == "__main__":
+    wpilib.run(MyRobot)
