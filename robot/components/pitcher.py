@@ -29,5 +29,7 @@ class Pitcher:
             self.pitcher_motor.set(self.r)
         else:
             self.pitcher_motor.set(0)
+            
+        self.is_enabled = False
         
         
