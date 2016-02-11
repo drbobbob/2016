@@ -4,14 +4,19 @@ import wpilib
 class Pitcher: 
    
     pitcher_motor = wpilib.CANTalon
+    
+    def __init__(self):
+        self.is_enabled = False
+        self.r = 1
+    
    
-    def enable(self, is_enabled):
+    def enable(self):
         """ turn on motor to spin wheel """
-        self.is_enabled = is_enabled 
+        self.is_enabled = True
         
-    def disable(self, is_disabled):
+    def disable(self):
         """ turn off motor """
-        self.is_disabled = is_disabled
+        self.is_enabled = False
         
     def set_range(self, r):
         """ set motor to particular speed? """
@@ -22,8 +27,8 @@ class Pitcher:
         #if motor is enabled, set motor to 1#
         #if motor is disabled, set motor to 0#
         if self.is_enabled:
-            self.pitcher_motor.set(1)
-        elif self.is_disabled:
+            self.pitcher_motor.set(self.r)
+        else:
             self.pitcher_motor.set(0)
         
         

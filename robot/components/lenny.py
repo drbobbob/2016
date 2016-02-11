@@ -7,16 +7,18 @@ import wpilib
 from robotpy_ext.common_drivers.distance_sensors import SharpIRGP2Y0A41SK0F as Sharp
 
 class Lenny:
+    
+    beltmotor = wpilib.CANTalon
+    ball_sensor = Sharp
+    
     '''lenny's matrix self'''
     def __init__(self):
         self.beltvelocity = 0
-        self.beltmotor = None
-        self.Sharp = None
         self.disabled = False
         
     def ball_detector (self):
         '''I can't tell is it there'''
-        self.distance = self.Sharp.getDistance()
+        self.distance = self.sharp.getDistance()
         
         if self.distance > 5:
             return False
