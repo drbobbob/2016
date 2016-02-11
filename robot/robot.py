@@ -12,7 +12,7 @@ from components.drive import Drive
 class MyRobot(MagicRobot):
     lenny = Lenny
     pitcher = Pitcher
-    #tapemeasure = Tapemeasure
+    tapemeasure = Tapemeasure
     drive = Drive
     
     def createObjects(self):

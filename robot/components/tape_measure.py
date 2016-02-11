@@ -7,6 +7,7 @@ class Tapemeasure:
 
     EXTEND = 2
     RETRACT = 4
+    STOP = 0
     STOP1 = 1
     STOP2 = 3
     input = """button input expressed in values 1, 2, and 3"""
