@@ -12,7 +12,7 @@
 }
 
 .hang {
-	color: green;
+	color: green;    
 	font-size: 30px;
 }
 
@@ -42,11 +42,11 @@
 	</p>
 	
 	<p>
-		<input type="button" class="fire" value="FIRE!">
+		<input type="button" name="firer"  class="fire" value="FIRE!">
 	</p>
 	
 	<p>
-		<input type="button" class="hang" value="Hang">
+		<input type="button" name="hango" class="hang" value="Hang">
 	</p>
 	
 	<p>
@@ -61,8 +61,8 @@
 	<p>
 		<a href="index.html">Back</a>
 	</p>
-	
-	
+</body>
+</html>
 	<!-- This starts the NetworkTables websocket, it can be accessed from multiple
      pages simultaneously -->
 	<script src="/networktables/networktables.js"></script>
@@ -88,16 +88,31 @@
 	$('[name=act_lenny]').on('click', function() {
 		console.log(getLenny());
 		if (getLenny() == true) {
-			console.log('Lenny Activated');
+			console.log('Lenny Activated');	
 		}
 		else {
 			console.log('Lenny Deactivated');
+		NetworkTables.putValue('/SmartDashboard/shootingtarget', getLenny())
 		}
 	});
 		
+	function fired() {
+		var fires = $('[name=firer]').prop(clicked);
+		return firer;
+	}
+
+	$('[name=firer]').on('click', function() {
+	console.log(fired())
+	console.log
+	}
+	
+	function hangit() {
+		var hanger = $('[name=hango]').prop(clicked);
+	}
+
+	$
+
 		
-	
-	
 	function getBallsensor(){
 		var guy = $('[name=ball_sensor]').prop('checked');
 		return guy;
@@ -122,6 +137,7 @@
 		else {
 			$('p').removeClass('ballin');
 			$('p').addClass('ballout');
+		NetworkTables.putValue('/SmartDashboard/shootingtarget', getBallsensor())
 		}
 	});
 		
