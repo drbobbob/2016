@@ -21,7 +21,7 @@ class MyRobot(MagicRobot):
         self.pitcher_motor = wpilib.CANTalon(4)
         self.joystick0 = wpilib.Joystick(0)
         self.left_motor = wpilib.CANTalon(2)
-        self.right_motor = wpilib.CANTalon(5)
+        self.right_motor = wpilib.CANTalon(5)  
         self.robot_drive = wpilib.RobotDrive(self.left_motor, self.right_motor)
         self.tape_motor = wpilib.CANTalon(6)
         self.winch_motor = wpilib.CANTalon(7)

@@ -7,8 +7,7 @@ class Pitcher:
     
     def __init__(self):
         self.is_enabled = False
-        self.r = 1
-    
+        self.r = 1 
    
     def enable(self):
         """ turn on motor to spin wheel """
