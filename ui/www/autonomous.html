@@ -84,7 +84,7 @@ function getGoal() {
 }
 
 function passingBall() {
-	var passing_ball = $('[name=pass_ball]:checked').val();
+	var passing_ball = $('[name=pass_ball]:checked').prop('checked');
 	return passing_ball
 }
 
@@ -107,8 +107,12 @@ $('[name=shooting_target]').on('click', function() {
 });
 
 $('[name=pass_ball]').on('click', function() {
-	console.log(passingBall()) 
-	console.log('ball passing changed'); 
+	if (passingBall()== true) {
+		console.log('Passing ball');
+	}
+	else {
+		console.log('Not passing ball')
+	}
 	NetworkTables.putValue('/SmartDashboard/passball', passingBall())
 });
 </script>
