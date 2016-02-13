@@ -22,49 +22,61 @@
 <!-- <script src="/networktables/utils.js"></script> -->
 
 <p>
-<h1>
-Autonomous
-</h1>
+	<h1>
+		Autonomous
+	</h1>
 </p>
-
+	<h3>
+		Staging Position:
+	</h3>
+<p>
+	<svg height="490" width="480">
+		<image xlink:href="2016_field_diagram_default.jpg" height="490" width="480" />
+		<line x1="80" y1="420" x2="80" y2="200" style="stroke:rgb(0,0,300); stroke-width:4" />
+		<line x1="80" y1="200" x2="150" y2="145" style="stroke:rgb(0,0,300); stroke-width:4" />
+		
+		<line x1="200" y1="420" x2="200" y2="280" style="stroke:rgb(0,0,300); stroke-width:4" />
+		<line x1="200" y1="280" x2 ="250" y2="240" style="stroke:rgb(0,0,300); stroke-width:4" />
+		<line x1 ="250" y1="240" x2="250" y2="180" style="stroke:rgb(0,0,300); stroke-width:4" />
+		
+		<line x1 ="330" y1="420" x2="330" y2="280" style="stroke:rgb(0,0,300); stroke-width:4" />
+	</svg>
+</p>
+<p>
+	Left position: <input type="radio" name="staging_position" value="1" checked>
+	Middle postion: <input type="radio" name="staging_position" value="2">
+	Right position: <input type="radio" name="staging_position" value="3">
+</p>
+	<h3>
+	Shooting Goal:
+	</h3>
+<p>
+	High Goal: <input type="radio" name="shooting_target" value="1" checked>
+	Low Goal: <input type="radio" name="shooting_target" value="2">
+	No Goal: <input type="radio" name="shooting_target" value="3">
+</p>
+	<h3>
+		Obsticle Type:
+	</h3>
+<p>
+	Low bar: <input type="radio" name="obsticle_types" value="1" checked>
+	Portcullis(A): <input type="radio" name="obsticle_types" value="2">
+	Cheval de Frise(A): <input type="radio" name="obsticle_types" value="3">
+	Moat(B): <input type="radio" name="obsticle_types" value="4">
+	Ramparts(B): <input type="radio" name="obsticle_types" value="5">
+	Drawbridge(C): <input type="radio" name="obsticle_types" value="6">
+	Sally Port(C): <input type="radio" name="obsticle_types" value="7">
+	Rock Wall(D): <input type="radio" name="obsticle_types" value="8">
+	Rough Terrain(D): <input type="radio" name="obsticle_types" value="9">
+</p>
+<p>
 <h3>
-Staging Position:
+	Passing Ball to Others:
 </h3>
-<p>
-Left position: <input type="radio" name="staging_position" value="1" checked>
-Middle postion: <input type="radio" name="staging_position" value="2">
-Right position: <input type="radio" name="staging_position" value="3">
-</p>
-<h3>
-Shooting Goal:
-</h3>
-<p>
-High Goal: <input type="radio" name="shooting_target" value="1" checked>
-Low Goal: <input type="radio" name="shooting_target" value="2">
-No Goal: <input type="radio" name="shooting_target" value="3">
-</p>
-<h3>
-Obsticle Type:
-</h3>
-<p>
-Low bar: <input type="radio" name="obsticle_types" value="1" checked>
-Portcullis(A): <input type="radio" name="obsticle_types" value="2">
-Cheval de Frise(A): <input type="radio" name="obsticle_types" value="3">
-Moat(B): <input type="radio" name="obsticle_types" value="4">
-Ramparts(B): <input type="radio" name="obsticle_types" value="5">
-Drawbridge(C): <input type="radio" name="obsticle_types" value="6">
-Sally Port(C): <input type="radio" name="obsticle_types" value="7">
-Rock Wall(D): <input type="radio" name="obsticle_types" value="8">
-Rough Terrain(D): <input type="radio" name="obsticle_types" value="9">
+	Passing ball to others: <input type="checkbox" name="pass_ball" value="1">
 </p>
 <p>
-<h3>
-Passing Ball to Others:
-</h3>
-Passing ball to others: <input type="checkbox" name="pass_ball" value="1">
-</p>
-<p>
-<a href="index.html">Back</a>
+	<a href="index.html">Back</a>
 <script type="text/javascript">
 "use strict";
 
