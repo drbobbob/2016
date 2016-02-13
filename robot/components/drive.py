@@ -11,13 +11,22 @@ class Drive:
     def __init__(self):
         self.x = 0
         self.y = 0
+        self.y1 = 0
+        self.y2 = 0
+        self.function_called = None
         
-    def drive(self, x, y):
+    def move(self, x, y):
         """Moves the robot"""
         self.x = x
         self.y = y
+        self.function_called = Drive.move
         
-    def drive_at_angle(self, speed, angle):
+    def tank(self, y1, y2): 
+        self.y1 = y1
+        self.y2 = y2 
+        self.function_called = Drive.tank
+        
+    def move_at_angle(self, speed, angle):
         """Moves the robot and turns it to a specified direction"""
         
         raise NotImplementedError
@@ -30,7 +39,14 @@ class Drive:
         
         # for now, ignore driving at a particular angle
         
-        self.robot_drive.arcadeDrive(self.y, self.x)
+        if self.function_called == Drive.tank:  
+            self.robot_drive.tankDrive(self.y1, self.y2)
+        else: 
+            self.robot_drive.arcadeDrive(self.y, self.x)
+        
         self.x = 0
         self.y = 0
-    
+        self.y1 = 0
+        self.y2 = 0
+        self.function_called = None
+        
