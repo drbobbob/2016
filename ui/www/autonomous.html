@@ -6,6 +6,61 @@
 	</title>
 	<meta charset="utf-8">
 </head>
+<style>
+.field_position_diagram.default .trial-left {
+	display: none;
+}
+
+.field_position_diagram.default .trail-mid {
+	display: none;
+}
+.field_position_diagram.default .trail-right {
+	display: none;
+}
+
+
+
+.field_position_diagram.left .trail-left {
+	display: block;
+}
+
+.field_position_diagram.left .trail-mid {
+	display: none;
+}
+
+.field_position_diagram.left .trail-right {
+	display: none;
+}
+
+
+
+.field_position_diagram.mid .trail-left {
+	display: none;
+}
+
+.field_position_diagram.mid .trail-mid {
+	display: block;
+}
+
+.field_position_diagram.mid .trail-right {
+	display: none;
+}
+
+
+
+.field_position_diagram.right .trail-left {
+	display: none;
+}
+
+.field_position_diagram.right .trail-mid {
+	display: none;
+}
+
+.field_position_diagram.right .trail-right {
+	display: block;
+}
+
+</style>
 <body>
 
 <!-- This starts the NetworkTables websocket, it can be accessed from multiple
@@ -24,26 +79,26 @@
 <p>
 	<h1>
 		Autonomous
-	</h1>
+	<h1>
 </p>
 	<h3>
 		Staging Position:
 	</h3>
 <p>
-	<svg height="490" width="480">
+	<svg class="field_position_diagram default" height="490" width="480">
 		<image xlink:href="2016_field_diagram_default.jpg" height="490" width="480" />
-		<line x1="80" y1="420" x2="80" y2="200" style="stroke:rgb(0,0,300); stroke-width:4" />
-		<line x1="80" y1="200" x2="150" y2="145" style="stroke:rgb(0,0,300); stroke-width:4" />
+		<line class="trail-left" x1="80" y1="420" x2="80" y2="200" style="stroke:rgb(0,0,300); stroke-width:4" />
+		<line class="trail-left" x1="80" y1="200" x2="150" y2="145" style="stroke:rgb(0,0,300); stroke-width:4" />
 		
-		<line x1="200" y1="420" x2="200" y2="280" style="stroke:rgb(0,0,300); stroke-width:4" />
-		<line x1="200" y1="280" x2 ="250" y2="240" style="stroke:rgb(0,0,300); stroke-width:4" />
-		<line x1 ="250" y1="240" x2="250" y2="180" style="stroke:rgb(0,0,300); stroke-width:4" />
+		<line class="trail-mid" x1="200" y1="420" x2="200" y2="280" style="stroke:rgb(0,0,300); stroke-width:4" />
+		<line class="trail-mid" x1="200" y1="280" x2 ="250" y2="240" style="stroke:rgb(0,0,300); stroke-width:4" />
+		<line class="trail-mid" x1 ="250" y1="240" x2="250" y2="180" style="stroke:rgb(0,0,300); stroke-width:4" />
 		
-		<line x1 ="330" y1="420" x2="330" y2="280" style="stroke:rgb(0,0,300); stroke-width:4" />
+		<line class="trail-right" x1 ="330" y1="420" x2="330" y2="140" style="stroke:rgb(0,0,300); stroke-width:4" />
 	</svg>
 </p>
 <p>
-	Left position: <input type="radio" name="staging_position" value="1" checked>
+	Left position: <input type="radio" name="staging_position" value="1" >
 	Middle postion: <input type="radio" name="staging_position" value="2">
 	Right position: <input type="radio" name="staging_position" value="3">
 </p>
@@ -78,7 +133,7 @@
 <p>
 	<a href="index.html">Back</a>
 <script type="text/javascript">
-"use strict";
+"use strict"; 
 
 function getObsticle() {
 	var obsticle = $('[name=obsticle_types]:checked').val();
@@ -127,6 +182,34 @@ $('[name=pass_ball]').on('click', function() {
 	}
 	NetworkTables.putValue('/SmartDashboard/passball', passingBall())
 });
+
+
+
+
+
+$('[name=staging_position]').on('click', function() {
+	getStaging();
+	if (getStaging()==1) {
+		$('svg').attr('class', ' field_position_diagram left')
+	}
+});
+
+$('[name=staging_position]').on('click', function() {
+	getStaging()
+	if (getStaging()==2) {
+		$('svg').attr('class', 'field_position_diagram mid')
+	}
+});
+
+$('[name=staging_position]').on('click', function() {
+	getStaging()
+	if (getStaging()==3) {
+		$('svg').attr('class', 'field_position_diagram right')
+	}
+});
+
+
+
 </script>
 
 </body>
