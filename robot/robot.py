@@ -56,10 +56,6 @@ class MyRobot(MagicRobot):
             #self.tapemeasure.retract()
         # if self.left_joystick.getTrigger():
             #self.drive.move_at_angle(0, 90)
-            
-    def autonomous(self):
-        pass
-        
         
 if __name__ == "__main__":
     wpilib.run(MyRobot)
