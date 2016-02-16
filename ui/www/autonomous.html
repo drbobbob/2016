@@ -7,6 +7,16 @@
 	<meta charset="utf-8">
 </head>
 <style>
+body {
+	background-color: rgb(0,200,0); 
+}
+
+<!-- Field Position Diagram -->
+.field_position_diagram.default .trial-left, .field_position_diagram.default .trail-mid {
+	display: none;
+}
+
+
 .field_position_diagram.default .trial-left {
 	display: none;
 }
@@ -60,6 +70,189 @@
 	display: block;
 }
 
+
+<!-- Shooting Goal Diagram -->
+
+<!--- [name=shooting_diagram].middle.high .-left{
+	display: block;
+}
+
+[name=shooting_diagram].left.high .high-left{
+	display: block;
+}
+
+[name=shooting_diagram].left.high .high-left{
+	display: block;
+}
+
+[name=shooting_diagram].left.high .high-left{
+	display: block;
+}
+
+[name=shooting_diagram].left.high .high-left{
+	display: block;
+}
+
+[name=shooting_diagram].left.high .high-left{
+	display: block;
+} -->
+
+.height.side .high-left {
+	display: none;
+}
+
+.height.side .high-mid {
+	display: none;
+}
+
+.height.side .high-right {
+	display: none;
+}
+
+.height.side .low-left {
+	display: none;
+}
+
+.height.side .low-right {
+	display: none;
+}
+
+
+
+.nothing.lol .high-left {
+	display: none;
+}
+
+.nothing.lol .high-mid {
+	display: none;
+}	
+
+.nothing.lol .high-right {
+	display: none;
+}
+	
+.nothing.lol .low-left {
+	display: none;
+}
+
+.nothing.lol .low-right {
+	display: none;
+}
+
+
+
+.high.left .high-left {
+	display: block;
+}
+
+.high.left .high-mid {
+	display: none;
+}	
+
+.high.left .high-right {
+	display: none;
+}
+	
+.high.left .low-left {
+	display: none;
+}
+
+.high.left .low-right {
+	display: none;
+}
+
+
+
+.high.mid .high-left {
+	display: none;
+}
+
+.high.mid .high-mid {
+	display: block;
+}
+
+.high.mid .high-right {
+	display: none;
+}
+
+.high.mid .low-left {
+	display: none;
+}
+
+.high.mid .low-right {
+	display: none
+}
+
+
+
+.high.right .high-left {
+	display: none;
+}
+
+.high.right .high-mid {
+	display: none;
+}
+
+.high.right .high-right {
+	display: block;
+}
+
+.high.right .low-left {
+	display: none;
+}
+
+.high.right .low-right {
+	display: none;
+}
+
+
+
+.low.left .high-left {
+	display: none;
+}
+
+.low.left .high-left {
+	display: none;
+}
+
+.low.left .high-mid {
+	display: none;
+}
+
+.low.left .high-right {
+	display: none;
+}
+
+.low.left .low-left {
+	display: block;
+}
+
+.low.left .low-right {
+	display: none;
+}
+
+
+
+.low.right .high-left {
+	display: none;
+}
+
+.low.right .high-mid {
+	display: none;
+}
+
+.low.right .high-right {
+	display: none;
+}
+
+.low.right .low-left {
+	display: none;
+}
+
+.low.right .low-right {
+	display: block;
+}
+
 </style>
 <body>
 
@@ -85,7 +278,7 @@
 		Staging Position:
 	</h3>
 <p>
-	<svg class="field_position_diagram default" height="490" width="480">
+	<svg name="staging_diagram" class="field_position_diagram default" height="490" width="480">
 		<image xlink:href="2016_field_diagram_default.jpg" height="490" width="480" />
 		<line class="trail-left" x1="80" y1="420" x2="80" y2="200" style="stroke:rgb(0,0,300); stroke-width:4" />
 		<line class="trail-left" x1="80" y1="200" x2="150" y2="145" style="stroke:rgb(0,0,300); stroke-width:4" />
@@ -98,15 +291,36 @@
 	</svg>
 </p>
 <p>
-	Left position: <input type="radio" name="staging_position" value="1" >
+	Left position: <input type="radio" name="staging_position" value="1" checked>
 	Middle postion: <input type="radio" name="staging_position" value="2">
 	Right position: <input type="radio" name="staging_position" value="3">
 </p>
+<p>	
 	<h3>
 	Shooting Goal:
 	</h3>
+	<svg name="shooting_diagram" class="high left" height="490" width="480">
+		<image xlink:href="2016_robotics_stronghold_shooting_goal_diagram.png" height="490" width="480" />	
+		<circle class=high-left cx=155 cy=120 r=20 stroke=red stroke-width=7 fill=white />
+		<circle class=high-left cx=155 cy=120 r=9 stroke=red stroke-width=5 fill=white />
+	
+		<circle class=high-mid cx=240 cy=120 r=20 stroke=red stroke-width=7 fill=white />
+		<circle class=high-mid cx=240 cy=120 r=9 stroke=red stroke-width=5 fill=white />
+	
+		<circle class=high-right cx=323 cy=120 r=20 stroke=red stroke-width=7 fill=white />
+		<circle class=high-right cx=323 cy=120 r=9 stroke=red stroke-width=5 fill=white />
+	
+		<circle class=low-left cx=175 cy=400 r=20 stroke=red stroke-width=7 fill=white />
+		<circle class=low-left cx=175 cy=400 r=9 stroke=red stroke-width=5 fill=white />
+	
+		<circle class=low-right cx=303 cy=400 r=20 stroke=red stroke-width=7 fill=white />
+		<circle class=low-right cx=303 cy=400 r=9 stroke=red stroke-width=5 fill=white />
+	
+	
+	</svg>
+</p>	
 <p>
-	High Goal: <input type="radio" name="shooting_target" value="1" checked>
+	High Goal: <input type="radio" name="shooting_target" value="1">
 	Low Goal: <input type="radio" name="shooting_target" value="2">
 	No Goal: <input type="radio" name="shooting_target" value="3">
 </p>
@@ -184,32 +398,137 @@ $('[name=pass_ball]').on('click', function() {
 });
 
 
+// Staging Position Diagram
 
 
 
 $('[name=staging_position]').on('click', function() {
 	getStaging();
 	if (getStaging()==1) {
-		$('svg').attr('class', ' field_position_diagram left')
+		$('[name=staging_diagram]').attr('class', ' field_position_diagram left')
 	}
 });
 
 $('[name=staging_position]').on('click', function() {
 	getStaging()
 	if (getStaging()==2) {
-		$('svg').attr('class', 'field_position_diagram mid')
+		$('[name=staging_diagram]').attr('class', 'field_position_diagram mid')
 	}
 });
 
 $('[name=staging_position]').on('click', function() {
 	getStaging()
 	if (getStaging()==3) {
-		$('svg').attr('class', 'field_position_diagram right')
+		$('[name=staging_diagram]').attr('class', 'field_position_diagram right')
 	}
+});
+
+// Shooting Diagram
+
+$('[name=shooting_target]').on('click', function() {
+	getGoal()
+	getStaging()
+	if (getGoal()==1 && getStaging()==1)
+		$('[name=shooting_diagram]').attr('class', 'high left')
+});
+
+$('[name=shooting_target]').on('click', function() {
+	getGoal()
+	getStaging()
+	if (getGoal()==1 && getStaging()==2)
+		$('[name=shooting_diagram]').attr('class', 'high mid')
+});
+
+$('[name=shooting_target]').on('click', function() {
+	getGoal()
+	getStaging()
+	if (getGoal()==1 && getStaging()==3)
+		$('[name=shooting_diagram]').attr('class', 'high right')
+});
+
+$('[name=shooting_target]').on('click', function() {
+	getGoal()
+	getStaging()
+	if (getGoal()==2 && getStaging()==1)
+		$('[name=shooting_diagram]').attr('class', 'low left')
+});
+
+$('[name=shooting_target]').on('click', function() {
+	getGoal()
+	getStaging()
+	if (getGoal()==2 && getStaging()==3)
+		$('[name=shooting_diagram]').attr('class', 'low right')
+});
+
+$('[name=shooting_target]').on('click', function() {
+	getGoal()
+	getStaging()
+	if (getGoal()==3)
+		$('[name=shooting_diagram]').attr('class', 'height side')
+});
+
+$('[name=shooting_target]').on('click', function() {
+	getGoal()
+	getStaging()
+	if (getGoal()==2 && getStaging()==2)
+		$('[name=shooting_diagram]').attr('class', 'nothing lol')
 });
 
 
 
+
+
+
+
+
+$('[name=staging_position]').on('click', function() {
+	getGoal()
+	getStaging()
+	if (getGoal()==1 && getStaging()==1)
+		$('[name=shooting_diagram]').attr('class', 'high left')
+});
+
+$('[name=staging_position]').on('click', function() {
+	getGoal()
+	getStaging()
+	if (getGoal()==1 && getStaging()==2)
+		$('[name=shooting_diagram]').attr('class', 'high mid')
+});
+
+$('[name=staging_position]').on('click', function() {
+	getGoal()
+	getStaging()
+	if (getGoal()==1 && getStaging()==3)
+		$('[name=shooting_diagram]').attr('class', 'high right')
+});
+
+
+$('[name=staging_position]').on('click', function() {
+	getGoal()
+	getStaging()
+	if (getGoal()==2 && getStaging()==1)
+		$('[name=shooting_diagram]').attr('class', 'low left')
+});
+
+$('[name=staging_position]').on('click', function() {
+	getGoal()
+	getStaging()
+	if (getGoal()==2 && getStaging()==3)
+		$('[name=shooting_diagram]').attr('class', 'low right')
+});
+
+$('[name=staging_position]').on('click', function() {
+	getGoal()
+	if (getGoal()==3)
+		$('[name=shooting_diagram]').attr('class', 'height side')
+});
+
+$('[name=staging_position]').on('click', function() {
+	getGoal()
+	getStaging()
+	if (getGoal()==2 && getStaging()==2)
+		$('[name=shooting_diagram]').attr('class', 'nothing lol')
+});
 </script>
 
 </body>
