@@ -18,7 +18,7 @@ class Lenny:
         
     def ball_detector (self):
         '''I can't tell is it there'''
-        self.distance = self.sharp.getDistance()
+        self.distance = self.ball_sensor.getDistance()
         
         if self.distance > 5:
             return False
@@ -34,10 +34,7 @@ class Lenny:
         
     def ball_out(self):
         '''geet outa town'''
-        if self.ball_detector() == True:
-            self.beltvelocity = -1
-        else:
-            self.beltvelocity = 0
+        self.beltvelocity = -1
         
     def fire(self):
         '''bye bye boulder. let her rip!'''

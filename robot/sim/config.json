@@ -9,6 +9,15 @@
       "starting_angle": 0
   	},
   	
+  	"CAN": {
+      "2": "Left",
+      "3": "Belt",
+      "4": "Pitcher",
+      "5": "Right",
+      "6": "Tape",
+      "7": "Winch"
+    },
+    
   	"field": {
       "w": 25,
       "h": 27,
@@ -21,6 +30,38 @@
       	{ "color": "grey",
       	  "points": [ [16.83, 0], [19.90, 0], [19.90, 15.75], [16.83, 15.75] ] }
       ]
+   },
+   
+   "joysticks": {
+      "0": {
+      	"axes": {
+      	  "Y": "Left" 
+      	},
+      
+        "buttons": {
+          "1": "Align",
+          "2": "Intake",
+          "3": "Outtake",
+          "6": "Extend",
+          "7": "Winch"
+        }
+      },
+      
+      "1": {
+        "axes": {
+      	  "Y": "Right" 
+      	},
+      
+        "buttons": {
+          "1": "Fire",
+          "4": "Prime On",
+          "5": "Prime Off"
+          
+        }
+      }
     }
   }
 }
+
+    
+  
