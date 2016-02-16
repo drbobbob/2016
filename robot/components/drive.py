@@ -7,7 +7,7 @@ class Drive:
     """
     
     robot_drive = wpilib.RobotDrive
-    
+     
     def __init__(self):
         self.x = 0
         self.y = 0
@@ -16,7 +16,12 @@ class Drive:
         self.function_called = None
         
     def move(self, x, y):
-        """Moves the robot"""
+        """Moves the robot
+
+        :param x: -1 is left, 1 is right
+        :param y: 1 is forward, -1 is backwards
+
+        """
         self.x = x
         self.y = y
         self.function_called = Drive.move
@@ -42,7 +47,7 @@ class Drive:
         if self.function_called == Drive.tank:  
             self.robot_drive.tankDrive(self.y1, self.y2)
         else: 
-            self.robot_drive.arcadeDrive(self.y, self.x)
+            self.robot_drive.arcadeDrive(-self.y, self.x)
         
         self.x = 0
         self.y = 0
