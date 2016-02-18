@@ -6,9 +6,7 @@
 	</title>
 	<meta charset="utf-8">
 </head>
-<!-- REMINDER: WHEN NO GOAL IS SELECTED MAKE A SHORT LIKE ON THE FEILD DIAGRAM SHOWING IT ONLY GO OVER THE OBSTICLE AND NO GO TO THE GOALS-->
-
-
+<!-- To Do:  -->
 <style>
 
 <!-- Field Position Diagram -->
@@ -39,7 +37,7 @@
 	display: none;
 }
 
-.field_position_diagram.left .trail-right {
+.field_position_diagram.left .trail-right, .field_position_diagram.left .straight-left, .field_position_diagram.left .straight-mid, .field_position_diagram.left .straight-right {
 	display: none;
 }
 
@@ -53,9 +51,11 @@
 	display: block;
 }
 
-.field_position_diagram.mid .trail-right {
+.field_position_diagram.mid .trail-right,.field_position_diagram.mid .straight-left, .field_position_diagram.mid .straight-mid, .field_position_diagram.mid .straight-right {
 	display: none;
 }
+
+
 
 
 
@@ -63,7 +63,7 @@
 	display: none;
 }
 
-.field_position_diagram.right .trail-mid {
+.field_position_diagram.right .trail-mid,.field_position_diagram.right .straight-left, .field_position_diagram.right .straight-mid, .field_position_diagram.right .straight-right {
 	display: none;
 }
 
@@ -71,6 +71,32 @@
 	display: block;
 }
 
+
+<!--
+.straight_left .trail-left, straight_left .trail-mid, .straight_left .trail-right, .straight_left .straight-mid, .straight_left .straight-right {
+	display: none;
+}
+
+.straight_left .straight-left {
+	display: block;
+}
+
+.straight_mid .trail-left, straight_mid .trail-mid, .straight_mid .trail-right, .straight_mid .straight-left, .straight_mid .straight-right {
+	display: none;
+}
+
+.straight_mid .straight-mid {
+	display: block;
+}
+
+.straight_right .trail-left, straight_right .trail-mid, .straight_right .trail-right, .straight_right .straight-left, .straight_right .straight-mid {
+	display: none;
+}
+
+.straight_right .straight-right {
+	display: block;
+}
+-->
 
 <!-- Shooting Goal Diagram -->
 
@@ -334,7 +360,7 @@
 
 .rough_terrain .rough-terrain {
 	display: block;
-}
+} 
 </style>
 <body>
 
@@ -370,6 +396,13 @@
 		<line class="trail-mid" x1 ="250" y1="240" x2="250" y2="180" style="stroke:rgb(0,0,300); stroke-width:4" />
 		
 		<line class="trail-right" x1 ="330" y1="420" x2="330" y2="140" style="stroke:rgb(0,0,300); stroke-width:4" />
+		
+		
+		<line class="straight-left" x1="80" y1="420" x2="80" y2="200" style="style:rgb(0,0,300); stroke-width:4" />
+		
+		<line class="straight-mid" x1="200" y1="420" x2="200" y2="200" style="style:rgb(0,0,300); stroke-width:4" />
+		
+		<line class="straight-right" x1="330" y1="420" x2="330" y2="200" style="style:rgb(0,0,300); stroke-width:4" />
 	</svg>
 </p>
 <p>
@@ -529,6 +562,55 @@ $('[name=staging_position]').on('click', function() {
 	}
 });
 
+$('[name=shooting_target]').on('click', function() {
+	getStaging()
+	getGoal()
+	if (getStaging()==1 && getGoal()==3) {
+		$('[name=staging_diagram]').attr('class', 'straight_left')
+	}
+});
+
+$('[name=shooting_target]').on('click', function() {
+	getStaging()
+	getGoal()
+	if (getStaging()==2 && getGoal()==3) {
+		$('[name=staging_diagram]').attr('class', 'straight_mid')
+	}
+});
+
+$('[name=shooting_target]').on('click', function() {
+	getStaging()
+	getGoal()
+	if (getStaging()==1 && getGoal()==3) {
+		$('[name=staging_diagram]').attr('class', 'straight_right')
+	}
+});
+
+
+$('[name=staging_position]').on('click', function() {
+	getStaging()
+	getGoal()
+	if (getStaging()==1 && getGoal()==3) {
+		$('[name=staging_diagram]').attr('class', 'straight_left')
+	}
+});
+
+$('[name=staging_position]').on('click', function() {
+	getStaging()
+	getGoal()
+	if (getStaging()==2 && getGoal()==3) {
+		$('[name=staging_diagram]').attr('class', 'straight_mid')
+	}
+});
+
+$('[name=staging_position]').on('click', function() {
+	getStaging()
+	getGoal()
+	if (getStaging()==3 && getGoal()==3) {
+		$('[name=staging_diagram]').attr('class', 'straight_right')
+	}
+});
+
 // Shooting Diagram
 
 $('[name=shooting_target]').on('click', function() {
@@ -635,6 +717,70 @@ $('[name=staging_position]').on('click', function() {
 	if (getGoal()==2 && getStaging()==2)
 		$('[name=shooting_diagram]').attr('class', 'nothing lol')
 });
+
+//Obsticle picture
+
+$('[name=obsticle_types]').on('click', function () {
+	getObsticle()
+	if (getObsticle()==1)
+		$('[name=obsticle]').attr('class','low_bar')	
+});
+
+$('[name=obsticle_types]').on('click', function () {
+	getObsticle()
+	if (getObsticle()==2)
+		$('[name=obsticle]').attr('class','portcullis')	
+});
+
+$('[name=obsticle_types]').on('click', function () {
+	getObsticle()
+	if (getObsticle()==3)
+		$('[name=obsticle]').attr('class','cheval_de_frise')	
+});
+
+$('[name=obsticle_types]').on('click', function () {
+	getObsticle()
+	if (getObsticle()==4)
+		$('[name=obsticle]').attr('class','moat')	
+});
+
+$('[name=obsticle_types]').on('click', function () {
+	getObsticle()
+	if (getObsticle()==5)
+		$('[name=obsticle]').attr('class','ramparts')	
+});
+
+$('[name=obsticle_types]').on('click', function () {
+	getObsticle()
+	if (getObsticle()==6)
+		$('[name=obsticle]').attr('class','drawbridge')	
+});
+
+$('[name=obsticle_types]').on('click', function () {
+	getObsticle()
+	if (getObsticle()==7)
+		$('[name=obsticle]').attr('class','sally_port')	
+});
+
+$('[name=obsticle_types]').on('click', function () {
+	getObsticle()
+	if (getObsticle()==8)
+		$('[name=obsticle]').attr('class','rock_wall')	
+});
+
+$('[name=obsticle_types]').on('click', function () {
+	getObsticle()
+	if (getObsticle()==9)
+		$('[name=obsticle]').attr('class','rough_terrain')	
+});
+
+$('[name=staging_position]').on('click', function () {
+	getStaging
+	if (getStaging()==1)
+		$('[name=obsticle]').attr('class','low_bar')	
+});
+
+
 </script>
 
 </body>
