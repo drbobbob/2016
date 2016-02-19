@@ -9,29 +9,43 @@ from components.pitcher import Pitcher
 from components.tape_measure import Tapemeasure
 from components.drive import Drive
 
+from networktables.util import ntproperty
+
 class MyRobot(MagicRobot):
     lenny = Lenny
     pitcher = Pitcher 
     #tapemeasure = Tapemeasure
     drive = Drive
     
+    use_arcade_drive = ntproperty('/SmartDashboard/use_arcade', True, True)
+    
     def createObjects(self):
-        self.beltmotor = wpilib.CANTalon(3)
         self.ball_sensor = Sharp(1)
-        self.pitcher_motor = wpilib.CANTalon(4)
-        self.left_joystick = wpilib.Joystick(0)
-        self.right_joystick = wpilib.Joystick(1)
-        self.left_motor = wpilib.CANTalon(2)
-        self.right_motor = wpilib.CANTalon(5)  
-        self.robot_drive = wpilib.RobotDrive(self.left_motor, self.right_motor)
+        
+        self.beltmotor = wpilib.CANTalon(6)
+        self.pitcher_motor = wpilib.CANTalon(7)
+        
+        lf_motor = wpilib.CANTalon(2)
+        lr_motor = wpilib.CANTalon(3)
+        rf_motor = wpilib.CANTalon(4)
+        rr_motor = wpilib.CANTalon(5)   
+        self.robot_drive = wpilib.RobotDrive(lf_motor, lr_motor,
+                                             rf_motor, rr_motor)
+        
         #self.tape_motor = wpilib.CANTalon(6)
         #self.winch_motor = wpilib.CANTalon(7)
+        
+        self.left_joystick = wpilib.Joystick(0)
+        self.right_joystick = wpilib.Joystick(1)
     
     def teleopInit(self):
         self.pitcher_enabled = False
     
     def teleopPeriodic(self):
-        self.drive.tank(self.left_joystick.getY(), self.right_joystick.getY())
+        if self.use_arcade_drive:
+            self.drive.move(self.left_joystick.getX(), self.left_joystick.getY())
+        else:
+            self.drive.tank(self.left_joystick.getY(), self.right_joystick.getY())
         
         # Pitcher controls
         if self.right_joystick.getRawButton(4):

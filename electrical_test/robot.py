@@ -6,6 +6,9 @@
 import wpilib
 from wpilib.cantalon import CANTalon
 
+from robotpy_ext.common_drivers.distance_sensors import SharpIRGP2Y0A41SK0F as Sharp
+
+
 class MyRobot(wpilib.IterativeRobot):
     
     
@@ -16,6 +19,8 @@ class MyRobot(wpilib.IterativeRobot):
         should be used for any initialization code.
         """
         
+        self.ball_sensor = Sharp(1)
+        
         self.beltmotor = wpilib.CANTalon(6)
         self.pitcher_motor = wpilib.CANTalon(7)
         
@@ -25,6 +30,9 @@ class MyRobot(wpilib.IterativeRobot):
         rr_motor = wpilib.CANTalon(5)   
         self.robot_drive = wpilib.RobotDrive(lf_motor, lr_motor,
                                              rf_motor, rr_motor)
+        
+        #self.tape_motor = wpilib.CANTalon(6)
+        #self.winch_motor = wpilib.CANTalon(7)
         
         self.left_joystick = wpilib.Joystick(0)
         self.right_joystick = wpilib.Joystick(1)
