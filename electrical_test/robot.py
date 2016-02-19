@@ -15,14 +15,36 @@ class MyRobot(wpilib.IterativeRobot):
         This function is called upon program startup and
         should be used for any initialization code.
         """
-        self.left_motor = wpilib.CANTalon(2)
-        self.right_motor = wpilib.CANTalon(5)
-        self.robot_drive = wpilib.RobotDrive(self.left_motor, self.right_motor)
-        self.joystick = wpilib.Joystick(0)
+        
+        self.beltmotor = wpilib.CANTalon(6)
+        self.pitcher_motor = wpilib.CANTalon(7)
+        
+        lf_motor = wpilib.CANTalon(2)
+        lr_motor = wpilib.CANTalon(3)
+        rf_motor = wpilib.CANTalon(4)
+        rr_motor = wpilib.CANTalon(5)   
+        self.robot_drive = wpilib.RobotDrive(lf_motor, lr_motor,
+                                             rf_motor, rr_motor)
+        
+        self.left_joystick = wpilib.Joystick(0)
+        self.right_joystick = wpilib.Joystick(1)
         
     def teleopPeriodic(self):
         """This function is called periodically during operator control."""
-        self.robot_drive.arcadeDrive(self.joystick)
+        self.robot_drive.arcadeDrive(self.left_joystick)
+        
+        # activate the pitcher motor
+        if self.left_joystick.getTrigger():
+            self.pitcher_motor.set(self.left_joystick.getZ())
+        else:
+            self.pitcher_motor.set(0)
+            
+        if self.left_joystick.getRawButton(2):
+            self.beltmotor.set(1)
+        elif self.left_joystick.getRawButton(3):
+            self.beltmotor.set(-1)
+        else:
+            self.beltmotor.set(0)
     
     def testPeriodic(self):
         """This function is called periodically during test mode."""
