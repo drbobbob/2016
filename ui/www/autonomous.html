@@ -23,7 +23,7 @@
 .field_position_diagram.default .trail-mid {
 	display: none;
 }
-.field_position_diagram.default .trail-right {
+.field_position_diagram.default .trail-right, .field_position_diagram.default .straight-left, .field_position_diagram.default .straight-mid,  .field_position_diagram.default .straight-right {
 	display: none;
 }
 
@@ -57,13 +57,11 @@
 
 
 
-
-
 .field_position_diagram.right .trail-left {
 	display: none;
 }
 
-.field_position_diagram.right .trail-mid,.field_position_diagram.right .straight-left, .field_position_diagram.right .straight-mid, .field_position_diagram.right .straight-right {
+.field_position_diagram.right .trail-mid, .field_position_diagram.right .straight-left, .field_position_diagram.right .straight-mid, .field_position_diagram.right .straight-right {
 	display: none;
 }
 
@@ -72,8 +70,8 @@
 }
 
 
-<!--
-.straight_left .trail-left, straight_left .trail-mid, .straight_left .trail-right, .straight_left .straight-mid, .straight_left .straight-right {
+
+.straight_left .trail-left, .straight_left .trail-mid, .straight_left .trail-right, .straight_left .straight-mid, .straight_left .straight-right {
 	display: none;
 }
 
@@ -81,7 +79,7 @@
 	display: block;
 }
 
-.straight_mid .trail-left, straight_mid .trail-mid, .straight_mid .trail-right, .straight_mid .straight-left, .straight_mid .straight-right {
+.straight_mid .trail-left, .straight_mid .trail-mid, .straight_mid .trail-right, .straight_mid .straight-left, .straight_mid .straight-right {
 	display: none;
 }
 
@@ -89,14 +87,14 @@
 	display: block;
 }
 
-.straight_right .trail-left, straight_right .trail-mid, .straight_right .trail-right, .straight_right .straight-left, .straight_right .straight-mid {
+.straight_right .trail-left, .straight_right .trail-mid, .straight_right .trail-right, .straight_right .straight-left, .straight_right .straight-mid {
 	display: none;
 }
 
 .straight_right .straight-right {
 	display: block;
 }
--->
+
 
 <!-- Shooting Goal Diagram -->
 
@@ -398,11 +396,11 @@
 		<line class="trail-right" x1 ="330" y1="420" x2="330" y2="140" style="stroke:rgb(0,0,300); stroke-width:4" />
 		
 		
-		<line class="straight-left" x1="80" y1="420" x2="80" y2="200" style="style:rgb(0,0,300); stroke-width:4" />
+		<line class="straight-left" x1="80" y1="420" x2="80" y2="250" style="stroke:rgb(0,0,300); stroke-width:4" />
 		
-		<line class="straight-mid" x1="200" y1="420" x2="200" y2="200" style="style:rgb(0,0,300); stroke-width:4" />
-		
-		<line class="straight-right" x1="330" y1="420" x2="330" y2="200" style="style:rgb(0,0,300); stroke-width:4" />
+		<line class="straight-mid" x1="200" y1="420" x2="200" y2="250" style="stroke:rgb(0,0,300); stroke-width:4" />
+	
+		<line class="straight-right" x1="330" y1="420" x2="330" y2="250" style="stroke:rgb(0,0,300); stroke-width:4" />
 	</svg>
 </p>
 <p>
@@ -443,7 +441,7 @@
 		Obsticle Type:
 	</h3>
 <p>
-	Low bar: <input type="radio" name="obsticle_types" value="1" checked>
+	Low bar: <input type="radio" name="obsticle_types" name="lol" value="1" checked>
 </p>
 <p>	
 	Portcullis(A): <input type="radio" name="obsticle_types" value="2">
@@ -562,6 +560,30 @@ $('[name=staging_position]').on('click', function() {
 	}
 });
 
+
+$('[name=shooting_target]').on('click', function() {
+	getStaging();
+	if (getStaging()==1) {
+		$('[name=staging_diagram]').attr('class', ' field_position_diagram left')
+	}
+});
+
+$('[name=shooting_target]').on('click', function() {
+	getStaging()
+	if (getStaging()==2) {
+		$('[name=staging_diagram]').attr('class', 'field_position_diagram mid')
+	}
+});
+
+$('[name=shooting_target]').on('click', function() {
+	getStaging()
+	if (getStaging()==3) {
+		$('[name=staging_diagram]').attr('class', 'field_position_diagram right')
+	}
+});
+
+
+
 $('[name=shooting_target]').on('click', function() {
 	getStaging()
 	getGoal()
@@ -581,7 +603,7 @@ $('[name=shooting_target]').on('click', function() {
 $('[name=shooting_target]').on('click', function() {
 	getStaging()
 	getGoal()
-	if (getStaging()==1 && getGoal()==3) {
+	if (getStaging()==3 && getGoal()==3) {
 		$('[name=staging_diagram]').attr('class', 'straight_right')
 	}
 });
@@ -718,7 +740,7 @@ $('[name=staging_position]').on('click', function() {
 		$('[name=shooting_diagram]').attr('class', 'nothing lol')
 });
 
-//Obsticle picture
+//Obsticle pictures
 
 $('[name=obsticle_types]').on('click', function () {
 	getObsticle()
@@ -780,6 +802,11 @@ $('[name=staging_position]').on('click', function () {
 		$('[name=obsticle]').attr('class','low_bar')	
 });
 
+$('[name=staging_position]').on('click', function () {
+	//getStaging
+	if (getStaging()==1)
+		$('[name=obsticle_types][value=1]').prop('checked', true);
+});
 
 </script>
 
