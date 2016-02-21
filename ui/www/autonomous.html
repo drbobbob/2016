@@ -6,10 +6,25 @@
 	</title>
 	<meta charset="utf-8">
 </head>
-<!-- To Do:  -->
+<!-- To Do: 
+* Make buttons look cool  
+* Talk to Robot programmers about NetworkTables connectivity
+-->
 <style>
 
+<!-- Field position buttons-->
+
+.left_position_button {
+  background-image: url(button_unselected.jpg);
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  height: 240px;
+  width: 240px;
+  border: none;
+}
+
 <!-- Field Position Diagram -->
+
 
 .field_position_diagram.default .trial-left, .field_position_diagram.default .trail-mid {
 	display: none;
@@ -404,9 +419,9 @@
 	</svg>
 </p>
 <p>
-	Left position: <input type="radio" name="staging_position" value="1" checked>
-	Middle postion: <input type="radio" name="staging_position" value="2">
-	Right position: <input type="radio" name="staging_position" value="3">
+	Left position: <input type="radio" class="left_position_button" name="staging_position" value="1" >
+	Middle postion: <input type="radio" class="middle_position_button" name="staging_position" value="2">
+	Right position: <input type="radio" class="right_position_button" name="staging_position" value="3">
 </p>
 <p>	
 	<h3>
@@ -543,7 +558,7 @@ $('[name=staging_position]').on('click', function() {
 	getStaging();
 	if (getStaging()==1) {
 		$('[name=staging_diagram]').attr('class', ' field_position_diagram left')
-	}
+	} 
 });
 
 $('[name=staging_position]').on('click', function() {
@@ -615,6 +630,7 @@ $('[name=staging_position]').on('click', function() {
 	if (getStaging()==1 && getGoal()==3) {
 		$('[name=staging_diagram]').attr('class', 'straight_left')
 	}
+	NetworkTables.putValue('/SmartDashboard/driveforward', $('[name=staging_position]:checked').val());
 });
 
 $('[name=staging_position]').on('click', function() {
@@ -623,6 +639,7 @@ $('[name=staging_position]').on('click', function() {
 	if (getStaging()==2 && getGoal()==3) {
 		$('[name=staging_diagram]').attr('class', 'straight_mid')
 	}
+	NetworkTables.putValue('/SmartDashboard/driveforward', $('[name=staging_position]:checked').val());
 });
 
 $('[name=staging_position]').on('click', function() {
@@ -631,6 +648,8 @@ $('[name=staging_position]').on('click', function() {
 	if (getStaging()==3 && getGoal()==3) {
 		$('[name=staging_diagram]').attr('class', 'straight_right')
 	}
+	console.log('staging position: ', $('[name=staging_position]:checked').val());
+	NetworkTables.putValue('/SmartDashboard/driveforward', $('[name=staging_position]:checked').val());//getStaging())
 });
 
 // Shooting Diagram
