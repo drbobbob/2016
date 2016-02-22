@@ -25,10 +25,15 @@ class MyRobot(MagicRobot):
         self.beltmotor = wpilib.CANTalon(6)
         self.pitcher_motor = wpilib.CANTalon(7)
         
-        lf_motor = wpilib.CANTalon(2)
-        lr_motor = wpilib.CANTalon(3)
-        rf_motor = wpilib.CANTalon(4)
-        rr_motor = wpilib.CANTalon(5)   
+        lf_motor = wpilib.CANTalon(4)
+        lr_motor = wpilib.CANTalon(5)
+        rf_motor = wpilib.CANTalon(2)
+        rr_motor = wpilib.CANTalon(3)
+
+        lf_motor.setInverted(True)
+        lr_motor.setInverted(True)
+        rf_motor.setInverted(True)
+        rr_motor.setInverted(True)
         self.robot_drive = wpilib.RobotDrive(lf_motor, lr_motor,
                                              rf_motor, rr_motor)
         
