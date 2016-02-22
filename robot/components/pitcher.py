@@ -40,9 +40,9 @@ class Pitcher:
     def is_ready(self):
        
         if self.pid_enabled:
-            return self.timer.get() > self.pid_ok_time
+            return self.ready_timer.get() > self.pid_ok_time
         else:
-            return self.timer.get() > self.manual_ok_time
+            return self.ready_timer.get() > self.manual_ok_time
     
     
     def execute(self):
