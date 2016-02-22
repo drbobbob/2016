@@ -16,6 +16,9 @@
 		</div>
 
 		<button class="pause-toggle-btn">Pause</button>
+		<p>
+			Encoder Setpoint <input type="number" name="encoder-setpoint" value="0" />
+		</p>
 	</div>
 
 
@@ -217,21 +220,13 @@
 		var graph = new Graph('#placeholder', {
 			timeTracked : 30,
 			updateRate : .1,
+			rangeMin : -9000,
+			rangeMax : 9000,
 			plots : [
-				{ plot : 'setPoint', label : 'Set Point' },
-				{ plot : 'value', label : 'Value' }
+				{ plot : 'encoder', label : 'Encoder' , ntKey : 'encoder_speed'},
+				{ plot : 'setpoint', label : 'Setpoint' , ntKey : 'encoder_setpoint'}
 			]
 		});
-
-		var value = 0;
-
-		setInterval(function() {
-			value += .1;
-			graph.setNextValue('setPoint', value);
-			graph.setNextValue('value', value * 2);
-		}, 100);
-
-
 
 		$('.pause-toggle-btn').on('click', function() {
 			var $btn = $(this),
@@ -239,6 +234,14 @@
 
 			var btnText = paused ? 'Play' : 'Pause';
 			$btn.text(btnText);
+		});
+
+
+
+		$('input[name=encoder-setpoint').on('change', function() {
+			var $el = $(this);
+			var setpoint = parseFloat($el.val());
+			NetworkTables.putValue('/SmartDashboard/encoder_setpoint', setpoint);
 		});
 	</script>
 
