@@ -8,10 +8,12 @@ from components.lenny import Lenny
 from components.pitcher import Pitcher
 from components.tape_measure import Tapemeasure
 from components.drive import Drive
+from components.shooter_control import ShooterControl
 
 from networktables.util import ntproperty
 
 class MyRobot(MagicRobot):
+    shooter_control = ShooterControl
     lenny = Lenny
     pitcher = Pitcher 
     #tapemeasure = Tapemeasure
@@ -62,7 +64,7 @@ class MyRobot(MagicRobot):
             
         # Lenny controls
         if self.right_joystick.getTrigger():
-            self.lenny.fire()
+            self.shooter_control.fire()
         elif self.left_joystick.getRawButton(2):
             self.lenny.ball_in()
         elif self.left_joystick.getRawButton(3):

@@ -10,12 +10,12 @@
   	},
   	
   	"CAN": {
-      "2": "Left",
-      "3": "Belt",
-      "4": "Pitcher",
-      "5": "Right",
-      "6": "Tape",
-      "7": "Winch"
+      "2": "Right1",
+      "3": "Right2",
+      "4": "Left1",
+      "5": "Left2",
+      "6": "Belt",
+      "7": "Pitcher"
     },
     
     "field": {
