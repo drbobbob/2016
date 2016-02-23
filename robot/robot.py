@@ -22,10 +22,16 @@ class MyRobot(MagicRobot):
     use_arcade_drive = ntproperty('/SmartDashboard/use_arcade', True, True)
     
     def createObjects(self):
-        self.ball_sensor = Sharp(1)
+        self.ball_sensor = Sharp(0)
         
         self.beltmotor = wpilib.CANTalon(6)
         self.pitcher_motor = wpilib.CANTalon(7)
+        self.pitcher_motor.reverseSensor(True)
+        self.pitcher_motor.changeControlMode(wpilib.CANTalon.ControlMode.Speed)
+        self.pitcher_motor.setFeedbackDevice(wpilib.CANTalon.FeedbackDevice.QuadEncoder)
+        self.pitcher_motor.setPID(0.3, 0.0, 0.0, 0.12)
+        self.pitcher_motor.enableBrakeMode(False)
+        self.pitcher_motor.setAllowableClosedLoopErr(20)
         
         lf_motor = wpilib.CANTalon(4)
         lr_motor = wpilib.CANTalon(5)
@@ -61,6 +67,7 @@ class MyRobot(MagicRobot):
             self.pitcher_enabled = False
         if self.pitcher_enabled == True:
             self.pitcher.enable()
+            self.pitcher_enabled = False
             
         # Lenny controls
         if self.right_joystick.getTrigger():
