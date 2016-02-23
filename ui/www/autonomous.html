@@ -6,6 +6,384 @@
 	</title>
 	<meta charset="utf-8">
 </head>
+<!-- To Do: 
+* Make buttons look cool  
+* Talk to Robot programmers about NetworkTables connectivity
+-->
+<style>
+
+/* Field position buttons */
+
+.left_position_button {
+  background-image: url(button_unselected.jpg);
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  height: 240px;
+  width: 240px;
+  border: none;
+  display: block
+}
+
+
+
+
+
+
+
+
+
+
+/* Field Position Diagram */
+
+.field_position_diagram.default .trial-left, .field_position_diagram.default .trail-mid {
+	display: none;
+}
+
+
+.field_position_diagram.default .trial-left {
+	display: none;
+}
+
+.field_position_diagram.default .trail-mid {
+	display: none;
+}
+.field_position_diagram.default .trail-right, .field_position_diagram.default .straight-left, .field_position_diagram.default .straight-mid,  .field_position_diagram.default .straight-right {
+	display: none;
+}
+
+
+
+.field_position_diagram.left .trail-left {
+	display: block;
+}
+
+.field_position_diagram.left .trail-mid {
+	display: none;
+}
+
+.field_position_diagram.left .trail-right, .field_position_diagram.left .straight-left, .field_position_diagram.left .straight-mid, .field_position_diagram.left .straight-right {
+	display: none;
+}
+
+
+
+.field_position_diagram.mid .trail-left {
+	display: none;
+}
+
+.field_position_diagram.mid .trail-mid {
+	display: block;
+}
+
+.field_position_diagram.mid .trail-right,.field_position_diagram.mid .straight-left, .field_position_diagram.mid .straight-mid, .field_position_diagram.mid .straight-right {
+	display: none;
+}
+
+
+
+.field_position_diagram.right .trail-left {
+	display: none;
+}
+
+.field_position_diagram.right .trail-mid, .field_position_diagram.right .straight-left, .field_position_diagram.right .straight-mid, .field_position_diagram.right .straight-right {
+	display: none;
+}
+
+.field_position_diagram.right .trail-right {
+	display: block;
+}
+
+
+
+.straight_left .trail-left, .straight_left .trail-mid, .straight_left .trail-right, .straight_left .straight-mid, .straight_left .straight-right {
+	display: none;
+}
+
+.straight_left .straight-left {
+	display: block;
+}
+
+.straight_mid .trail-left, .straight_mid .trail-mid, .straight_mid .trail-right, .straight_mid .straight-left, .straight_mid .straight-right {
+	display: none;
+}
+
+.straight_mid .straight-mid {
+	display: block;
+}
+
+.straight_right .trail-left, .straight_right .trail-mid, .straight_right .trail-right, .straight_right .straight-left, .straight_right .straight-mid {
+	display: none;
+}
+
+.straight_right .straight-right {
+	display: block;
+}
+
+
+<!-- Shooting Goal Diagram -->
+
+<!--- [name=shooting_diagram].middle.high .-left{
+	display: block;
+}
+
+[name=shooting_diagram].left.high .high-left{
+	display: block;
+}
+
+[name=shooting_diagram].left.high .high-left{
+	display: block;
+}
+
+[name=shooting_diagram].left.high .high-left{
+	display: block;
+}
+
+[name=shooting_diagram].left.high .high-left{
+	display: block;
+}
+
+[name=shooting_diagram].left.high .high-left{
+	display: block;
+} -->
+
+.height.side .high-left {
+	display: none;
+}
+
+.height.side .high-mid {
+	display: none;
+}
+
+.height.side .high-right {
+	display: none;
+}
+
+.height.side .low-left {
+	display: none;
+}
+
+.height.side .low-right {
+	display: none;
+}
+
+
+
+.nothing.lol .high-left {
+	display: none;
+}
+
+.nothing.lol .high-mid {
+	display: none;
+}	
+
+.nothing.lol .high-right {
+	display: none;
+}
+	
+.nothing.lol .low-left {
+	display: none;
+}
+
+.nothing.lol .low-right {
+	display: none;
+}
+
+
+
+.high.left .high-left {
+	display: block;
+}
+
+.high.left .high-mid {
+	display: none;
+}	
+
+.high.left .high-right {
+	display: none;
+}
+	
+.high.left .low-left {
+	display: none;
+}
+
+.high.left .low-right {
+	display: none;
+}
+
+
+
+.high.mid .high-left {
+	display: none;
+}
+
+.high.mid .high-mid {
+	display: block;
+}
+
+.high.mid .high-right {
+	display: none;
+}
+
+.high.mid .low-left {
+	display: none;
+}
+
+.high.mid .low-right {
+	display: none
+}
+
+
+
+.high.right .high-left {
+	display: none;
+}
+
+.high.right .high-mid {
+	display: none;
+}
+
+.high.right .high-right {
+	display: block;
+}
+
+.high.right .low-left {
+	display: none;
+}
+
+.high.right .low-right {
+	display: none;
+}
+
+
+
+.low.left .high-left {
+	display: none;
+}
+
+.low.left .high-left {
+	display: none;
+}
+
+.low.left .high-mid {
+	display: none;
+}
+
+.low.left .high-right {
+	display: none;
+}
+
+.low.left .low-left {
+	display: block;
+}
+
+.low.left .low-right {
+	display: none;
+}
+
+
+
+.low.right .high-left {
+	display: none;
+}
+
+.low.right .high-mid {
+	display: none;
+}
+
+.low.right .high-right {
+	display: none;
+}
+
+.low.right .low-left {
+	display: none;
+}
+
+.low.right .low-right {
+	display: block;
+}
+
+<!-- Obsticle Diagram -->
+
+.obsticle_type .low-bar, .obsticle_type .portcullis, .obsticle_type .cheval-de-frise, .obsticle_type .moat, .obsticle_type .ramparts, .obsticle_type .drawbridge, .obsticle_type .sally-port, .obsticle_type .rock-wall, .obsticle_type .rough-terrain {
+	display: none;
+} 
+
+.obsticle_type .low-bar, .obsticle_type .portcullis, .obsticle_type .cheval-de-frise, .obsticle_type .moat, .obsticle_type .ramparts, .obsticle_type .drawbridge, .obsticle_type .sally-port, .obsticle_type .rock-wall, .obsticle_type .rough-terrain {
+	display: none;
+} 
+
+.low_bar .portcullis, .low_bar .cheval-de-frise, .low_bar .moat, .low_bar .ramparts, .low_bar .drawbridge, .low_bar .sally-port, .low_bar .rock-wall, .low_bar .rough-terrain {
+	display: none;
+} 
+
+.low_bar .low-bar {
+	display: block;
+}
+
+.portcullis .low-bar, .portcullis .cheval-de-frise, .portcullis .moat, .portcullis .ramparts, .portcullis .drawbridge, .portcullis .sally-port, .portcullis .rock-wall, .portcullis .rough-terrain {
+	display: none;
+}
+
+.portcullis .portcullis {
+	display: block;
+}
+
+.cheval_de_frise .low-bar, .cheval_de_frise .portcullis, .cheval_de_frise .moat, .cheval_de_frise .ramparts, .cheval_de_frise .drawbridge, .cheval_de_frise .sally-port, .cheval_de_frise .rock-wall, .cheval_de_frise .rough-terrain {
+	display: none;
+} 
+
+.cheval_de_frise .cheval-de-frise {
+	display:block;
+}
+
+.moat .low-bar, .moat .portcullis, .moat .cheval-de-frise, .moat .ramparts, .moat .drawbridge, .moat .sally-port, .moat .rock-wall, .moat .rough-terrain {
+	display: none;
+}
+
+.moat .moat {
+	display: block;
+}
+
+.ramparts .low-bar, .ramparts .portcullis,.ramparts .cheval-de-frise, .ramparts .moat, .ramparts .ramparts, .ramparts .drawbridge, .ramparts .sally-port, .ramparts .rock-wall, .ramparts .rough-terrain {
+	display: none;
+}
+
+.ramparts .ramparts {
+	display: block
+}
+
+.drawbridge .low-bar, .drawbridge .portcullis, .drawbridge .cheval-de-frise, .drawbridge .moat, .drawbridge .ramparts, .drawbridge .sally-port, .drawbridge .rock-wall, .drawbridge .rough-terrain {
+	display: none;
+}
+
+.drawbridge .drawbridge {
+	display: block
+}
+
+.sally_port .low-bar, .sally_port .portcullis, .sally_port .cheval-de-frise, .sally_port .moat, .sally_port .ramparts, .sally_port .drawbridge, .sally_port .rock-wall, .sally_port .rough-terrain {
+	display: none;
+}
+
+.sally_port .sally-port {
+	display: block;
+} 
+
+.rock_wall .low-bar, .rock_wall .portcullis, .rock_wall .cheval-de-frise, .rock_wall .moat, .rock_wall .ramparts, .rock_wall .drawbridge, .rock_wall .sally-port, .rock_wall .rough-terrain {
+	display: none;
+} 
+
+.rock_wall .rock-wall {
+	display: block;
+}
+
+.rough_terrain .low-bar, .rough_terrain .portcullis, .rough_terrain .cheval-de-frise, .rough_terrain .moat, .rough_terrain .ramparts, .rough_terrain .drawbridge, .rough_terrain .sally-port, .rough_terrain .rock-wall {
+	display: none;
+} 
+
+.rough_terrain .rough-terrain {
+	display: block;
+} 
+</style>
 <body>
 
 <!-- This starts the NetworkTables websocket, it can be accessed from multiple
@@ -22,51 +400,115 @@
 <!-- <script src="/networktables/utils.js"></script> -->
 
 <p>
-<h1>
-Autonomous
-</h1>
+	<h1>
+		Autonomous
+	<h1>
+</p>
+	<h3>
+		Staging Position:
+	</h3>
+<p>
+	<svg name="staging_diagram" class="field_position_diagram default" height="490" width="480">
+		<image xlink:href="2016_field_diagram_default.jpg" height="490" width="480" />
+		<line class="trail-left" x1="80" y1="420" x2="80" y2="200" style="stroke:rgb(0,0,300); stroke-width:4" />
+		<line class="trail-left" x1="80" y1="200" x2="150" y2="145" style="stroke:rgb(0,0,300); stroke-width:4" />
+		
+		<line class="trail-mid" x1="200" y1="420" x2="200" y2="280" style="stroke:rgb(0,0,300); stroke-width:4" />
+		<line class="trail-mid" x1="200" y1="280" x2 ="250" y2="240" style="stroke:rgb(0,0,300); stroke-width:4" />
+		<line class="trail-mid" x1 ="250" y1="240" x2="250" y2="180" style="stroke:rgb(0,0,300); stroke-width:4" />
+		
+		<line class="trail-right" x1 ="330" y1="420" x2="330" y2="140" style="stroke:rgb(0,0,300); stroke-width:4" />
+		
+		
+		<line class="straight-left" x1="80" y1="420" x2="80" y2="250" style="stroke:rgb(0,0,300); stroke-width:4" />
+		
+		<line class="straight-mid" x1="200" y1="420" x2="200" y2="250" style="stroke:rgb(0,0,300); stroke-width:4" />
+	
+		<line class="straight-right" x1="330" y1="420" x2="330" y2="250" style="stroke:rgb(0,0,300); stroke-width:4" />
+	</svg>
+</p>
+<p>
+	Left position: <input type="radio" class="left_position_button" name="staging_position" value="1" >
+	Middle postion: <input type="radio" class="middle_position_button" name="staging_position" value="2">
+	Right position: <input type="radio" class="right_position_button" name="staging_position" value="3">
+</p>
+<p>	
+	<h3>
+	Shooting Goal:
+	</h3>
+	<svg name="shooting_diagram" class="high left" height="490" width="480">
+		<image xlink:href="2016_robotics_stronghold_shooting_goal_diagram.png" height="490" width="480" />	
+		<circle class=high-left cx=155 cy=120 r=20 stroke=red stroke-width=7 fill=white />
+		<circle class=high-left cx=155 cy=120 r=9 stroke=red stroke-width=5 fill=white />
+	
+		<circle class=high-mid cx=240 cy=120 r=20 stroke=red stroke-width=7 fill=white />
+		<circle class=high-mid cx=240 cy=120 r=9 stroke=red stroke-width=5 fill=white />
+	
+		<circle class=high-right cx=323 cy=120 r=20 stroke=red stroke-width=7 fill=white />
+		<circle class=high-right cx=323 cy=120 r=9 stroke=red stroke-width=5 fill=white />
+	
+		<circle class=low-left cx=175 cy=400 r=20 stroke=red stroke-width=7 fill=white />
+		<circle class=low-left cx=175 cy=400 r=9 stroke=red stroke-width=5 fill=white />
+	
+		<circle class=low-right cx=303 cy=400 r=20 stroke=red stroke-width=7 fill=white />
+		<circle class=low-right cx=303 cy=400 r=9 stroke=red stroke-width=5 fill=white />
+	
+	
+	</svg>
+</p>	
+<p>
+	High Goal: <input type="radio" name="shooting_target" value="1" checked>
+	Low Goal: <input type="radio" name="shooting_target" value="2">
+	No Goal: <input type="radio" name="shooting_target" value="3">
+</p>
+	<h3>
+		Obsticle Type:
+	</h3>
+<p>
+	Low bar: <input type="radio" name="obsticle_types" name="lol" value="1" checked>
+</p>
+<p>	
+	Portcullis(A): <input type="radio" name="obsticle_types" value="2">
+	Cheval de Frise(A): <input type="radio" name="obsticle_types" value="3">
+</p>
+<p>	
+	Moat(B): <input type="radio" name="obsticle_types" value="4">
+	Ramparts(B): <input type="radio" name="obsticle_types" value="5">
+</p>	
+<p>	
+	Drawbridge(C): <input type="radio" name="obsticle_types" value="6">
+	Sally Port(C): <input type="radio" name="obsticle_types" value="7">
 </p>
 
-<h3>
-Staging Position:
-</h3>
 <p>
-Left position: <input type="radio" name="staging_position" value="1" checked>
-Middle postion: <input type="radio" name="staging_position" value="2">
-Right position: <input type="radio" name="staging_position" value="3">
-</p>
-<h3>
-Shooting Goal:
-</h3>
-<p>
-High Goal: <input type="radio" name="shooting_target" value="1" checked>
-Low Goal: <input type="radio" name="shooting_target" value="2">
-No Goal: <input type="radio" name="shooting_target" value="3">
-</p>
-<h3>
-Obsticle Type:
-</h3>
-<p>
-Low bar: <input type="radio" name="obsticle_types" value="1" checked>
-Portcullis(A): <input type="radio" name="obsticle_types" value="2">
-Cheval de Frise(A): <input type="radio" name="obsticle_types" value="3">
-Moat(B): <input type="radio" name="obsticle_types" value="4">
-Ramparts(B): <input type="radio" name="obsticle_types" value="5">
-Drawbridge(C): <input type="radio" name="obsticle_types" value="6">
-Sally Port(C): <input type="radio" name="obsticle_types" value="7">
-Rock Wall(D): <input type="radio" name="obsticle_types" value="8">
-Rough Terrain(D): <input type="radio" name="obsticle_types" value="9">
+	Rock Wall(D): <input type="radio" name="obsticle_types" value="8">
+	Rough Terrain(D): <input type="radio" name="obsticle_types" value="9">
 </p>
 <p>
+
+</p>
+<svg name="obsticle" class="obsticle_type" height="300" width="400">
+		<rect height="300" width="400" style="fill:white;fill-opacity:0.1;stroke:black;stroke-width:5" />
+		<image class="low-bar" xlink:href="2016_robotics_stronghold_low_bar.jpg" x="5" y="5" height="250" width="390"  />
+		<image class="portcullis" xlink:href="2016_robotics_stronghold_portcullis.jpg" x="5" y="5" height="290" width="390" />
+		<image class="cheval-de-frise" xlink:href="2016_robotics_stronghold_cheval_de_frise.jpg" x="5" y="5" height="290" width="390" />
+		<image class="moat" xlink:href="2016_robotics_stronghold_moat.jpg" x="5" y="5" height="290" width="390" />
+		<image class="ramparts" xlink:href="2016_robotics_stronghold_ramparts.jpg" x="5" y="5" height="290" width="390" />
+		<image class="drawbridge" xlink:href="2016_robotics_stronghold_drawbridge.jpg" x="5" y="5" height="290" width="390" />
+		<image class="sally-port" xlink:href="2016_robotics_stronghold_sally_port.jpg" x="5" y="5" height="290" width="390" />
+		<image class="rock-wall" xlink:href="2016_robotics_stronghold_rock_wall.jpg" x="5" y="5" height="290" width="390" />
+		<image class="rough-terrain" xlink:href="2016_robotics_stronghold_rough_terrain.jpg" x="5" y="5" height="290" width="390" />
+</svg>
+<p>
 <h3>
-Passing Ball to Others:
+	Passing Ball to Others:
 </h3>
-Passing ball to others: <input type="checkbox" name="pass_ball" value="1">
+	Passing ball to others: <input type="checkbox" name="pass_ball" value="1">
 </p>
 <p>
-<a href="index.html">Back</a>
+	<a href="index.html">Back</a>
 <script type="text/javascript">
-"use strict";
+"use strict"; 
 
 function getObsticle() {
 	var obsticle = $('[name=obsticle_types]:checked').val();
@@ -84,7 +526,7 @@ function getGoal() {
 }
 
 function passingBall() {
-	var passing_ball = $('[name=pass_ball]:checked').val();
+	var passing_ball = $('[name=pass_ball]:checked').prop('checked');
 	return passing_ball
 }
 
@@ -107,10 +549,293 @@ $('[name=shooting_target]').on('click', function() {
 });
 
 $('[name=pass_ball]').on('click', function() {
-	console.log(passingBall()) 
-	console.log('ball passing changed'); 
+	if (passingBall()== true) {
+		console.log('Passing ball');
+	}
+	else {
+		console.log('Not passing ball')
+	}
 	NetworkTables.putValue('/SmartDashboard/passball', passingBall())
 });
+
+
+// Staging Position Diagram
+
+
+
+$('[name=staging_position]').on('click', function() {
+	getStaging();
+	if (getStaging()==1) {
+		$('[name=staging_diagram]').attr('class', ' field_position_diagram left')
+	} 
+});
+
+$('[name=staging_position]').on('click', function() {
+	getStaging()
+	if (getStaging()==2) {
+		$('[name=staging_diagram]').attr('class', 'field_position_diagram mid')
+	}
+});
+
+$('[name=staging_position]').on('click', function() {
+	getStaging()
+	if (getStaging()==3) {
+		$('[name=staging_diagram]').attr('class', 'field_position_diagram right')
+	}
+});
+
+
+$('[name=shooting_target]').on('click', function() {
+	getStaging();
+	if (getStaging()==1) {
+		$('[name=staging_diagram]').attr('class', ' field_position_diagram left')
+	}
+});
+
+$('[name=shooting_target]').on('click', function() {
+	getStaging()
+	if (getStaging()==2) {
+		$('[name=staging_diagram]').attr('class', 'field_position_diagram mid')
+	}
+});
+
+$('[name=shooting_target]').on('click', function() {
+	getStaging()
+	if (getStaging()==3) {
+		$('[name=staging_diagram]').attr('class', 'field_position_diagram right')
+	}
+});
+
+
+
+$('[name=shooting_target]').on('click', function() {
+	getStaging()
+	getGoal()
+	if (getStaging()==1 && getGoal()==3) {
+		$('[name=staging_diagram]').attr('class', 'straight_left')
+	}
+});
+
+$('[name=shooting_target]').on('click', function() {
+	getStaging()
+	getGoal()
+	if (getStaging()==2 && getGoal()==3) {
+		$('[name=staging_diagram]').attr('class', 'straight_mid')
+	}
+});
+
+$('[name=shooting_target]').on('click', function() {
+	getStaging()
+	getGoal()
+	if (getStaging()==3 && getGoal()==3) {
+		$('[name=staging_diagram]').attr('class', 'straight_right')
+	}
+});
+
+
+$('[name=staging_position]').on('click', function() {
+	getStaging()
+	getGoal()
+	if (getStaging()==1 && getGoal()==3) {
+		$('[name=staging_diagram]').attr('class', 'straight_left')
+	}
+	NetworkTables.putValue('/SmartDashboard/driveforward', $('[name=staging_position]:checked').val());
+});
+
+$('[name=staging_position]').on('click', function() {
+	getStaging()
+	getGoal()
+	if (getStaging()==2 && getGoal()==3) {
+		$('[name=staging_diagram]').attr('class', 'straight_mid')
+	}
+	NetworkTables.putValue('/SmartDashboard/driveforward', $('[name=staging_position]:checked').val());
+});
+
+$('[name=staging_position]').on('click', function() {
+	getStaging()
+	getGoal()
+	if (getStaging()==3 && getGoal()==3) {
+		$('[name=staging_diagram]').attr('class', 'straight_right')
+	}
+	console.log('staging position: ', $('[name=staging_position]:checked').val());
+	NetworkTables.putValue('/SmartDashboard/driveforward', $('[name=staging_position]:checked').val());//getStaging())
+});
+
+// Shooting Diagram
+
+$('[name=shooting_target]').on('click', function() {
+	getGoal()
+	getStaging()
+	if (getGoal()==1 && getStaging()==1)
+		$('[name=shooting_diagram]').attr('class', 'high left')
+});
+
+$('[name=shooting_target]').on('click', function() {
+	getGoal()
+	getStaging()
+	if (getGoal()==1 && getStaging()==2)
+		$('[name=shooting_diagram]').attr('class', 'high mid')
+});
+
+$('[name=shooting_target]').on('click', function() {
+	getGoal()
+	getStaging()
+	if (getGoal()==1 && getStaging()==3)
+		$('[name=shooting_diagram]').attr('class', 'high right')
+});
+
+$('[name=shooting_target]').on('click', function() {
+	getGoal()
+	getStaging()
+	if (getGoal()==2 && getStaging()==1)
+		$('[name=shooting_diagram]').attr('class', 'low left')
+});
+
+$('[name=shooting_target]').on('click', function() {
+	getGoal()
+	getStaging()
+	if (getGoal()==2 && getStaging()==3)
+		$('[name=shooting_diagram]').attr('class', 'low right')
+});
+
+$('[name=shooting_target]').on('click', function() {
+	getGoal()
+	getStaging()
+	if (getGoal()==3)
+		$('[name=shooting_diagram]').attr('class', 'height side')
+});
+
+$('[name=shooting_target]').on('click', function() {
+	getGoal()
+	getStaging()
+	if (getGoal()==2 && getStaging()==2)
+		$('[name=shooting_diagram]').attr('class', 'nothing lol')
+});
+
+
+
+
+
+
+
+
+$('[name=staging_position]').on('click', function() {
+	getGoal()
+	getStaging()
+	if (getGoal()==1 && getStaging()==1)
+		$('[name=shooting_diagram]').attr('class', 'high left')
+});
+
+$('[name=staging_position]').on('click', function() {
+	getGoal()
+	getStaging()
+	if (getGoal()==1 && getStaging()==2)
+		$('[name=shooting_diagram]').attr('class', 'high mid')
+});
+
+$('[name=staging_position]').on('click', function() {
+	getGoal()
+	getStaging()
+	if (getGoal()==1 && getStaging()==3)
+		$('[name=shooting_diagram]').attr('class', 'high right')
+});
+
+
+$('[name=staging_position]').on('click', function() {
+	getGoal()
+	getStaging()
+	if (getGoal()==2 && getStaging()==1)
+		$('[name=shooting_diagram]').attr('class', 'low left')
+});
+
+$('[name=staging_position]').on('click', function() {
+	getGoal()
+	getStaging()
+	if (getGoal()==2 && getStaging()==3)
+		$('[name=shooting_diagram]').attr('class', 'low right')
+});
+
+$('[name=staging_position]').on('click', function() {
+	getGoal()
+	if (getGoal()==3)
+		$('[name=shooting_diagram]').attr('class', 'height side')
+});
+
+$('[name=staging_position]').on('click', function() {
+	getGoal()
+	getStaging()
+	if (getGoal()==2 && getStaging()==2)
+		$('[name=shooting_diagram]').attr('class', 'nothing lol')
+});
+
+//Obsticle pictures
+
+$('[name=obsticle_types]').on('click', function () {
+	getObsticle()
+	if (getObsticle()==1)
+		$('[name=obsticle]').attr('class','low_bar')	
+});
+
+$('[name=obsticle_types]').on('click', function () {
+	getObsticle()
+	if (getObsticle()==2)
+		$('[name=obsticle]').attr('class','portcullis')	
+});
+
+$('[name=obsticle_types]').on('click', function () {
+	getObsticle()
+	if (getObsticle()==3)
+		$('[name=obsticle]').attr('class','cheval_de_frise')	
+});
+
+$('[name=obsticle_types]').on('click', function () {
+	getObsticle()
+	if (getObsticle()==4)
+		$('[name=obsticle]').attr('class','moat')	
+});
+
+$('[name=obsticle_types]').on('click', function () {
+	getObsticle()
+	if (getObsticle()==5)
+		$('[name=obsticle]').attr('class','ramparts')	
+});
+
+$('[name=obsticle_types]').on('click', function () {
+	getObsticle()
+	if (getObsticle()==6)
+		$('[name=obsticle]').attr('class','drawbridge')	
+});
+
+$('[name=obsticle_types]').on('click', function () {
+	getObsticle()
+	if (getObsticle()==7)
+		$('[name=obsticle]').attr('class','sally_port')	
+});
+
+$('[name=obsticle_types]').on('click', function () {
+	getObsticle()
+	if (getObsticle()==8)
+		$('[name=obsticle]').attr('class','rock_wall')	
+});
+
+$('[name=obsticle_types]').on('click', function () {
+	getObsticle()
+	if (getObsticle()==9)
+		$('[name=obsticle]').attr('class','rough_terrain')	
+});
+
+$('[name=staging_position]').on('click', function () {
+	getStaging
+	if (getStaging()==1)
+		$('[name=obsticle]').attr('class','low_bar')	
+});
+
+$('[name=staging_position]').on('click', function () {
+	//getStaging
+	if (getStaging()==1)
+		$('[name=obsticle_types][value=1]').prop('checked', true);
+});
+
 </script>
 
 </body>
