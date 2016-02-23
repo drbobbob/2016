@@ -15,8 +15,9 @@ class Lenny:
     
     ball_detected = ntproperty('/components/lenny/ball_detected', True)
     ball_detected_distance = ntproperty('/components/lenny/ball_detected_distance', 0)
-    beltvelocity_in = ntproperty('/components/lenny/beltvelocity_in', 1)
-    beltvelocity_out = ntproperty('/components/lenny/beltvelocity_out', -1)
+    ball_detected_threshold = ntproperty('/components/lenny/ball_detected_threshold', 6.5)
+    beltvelocity_in = ntproperty('/components/lenny/beltvelocity_in', -1)
+    beltvelocity_out = ntproperty('/components/lenny/beltvelocity_out', 1)
     
     '''lenny's matrix self'''
     def __init__(self):
@@ -26,7 +27,7 @@ class Lenny:
     def is_ball_detected(self):
         '''I can't tell is it there'''
         self.ball_detected_distance = self.ball_sensor.getDistance()
-        self.ball_detected = self.ball_detected_distance > 5
+        self.ball_detected = self.ball_detected_distance < self.ball_detected_threshold
         return self.ball_detected
     
     def ball_in(self, force=False):
