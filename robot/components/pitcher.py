@@ -8,13 +8,13 @@ class Pitcher:
     pitcher_motor = wpilib.CANTalon
     
     pid_enabled = ntproperty('/components/pitcher/pid_enabled', True)
-    pid_speed = ntproperty('/components/pitcher/pid_speed', 1000)
+    pid_speed = ntproperty('/components/pitcher/pid_speed', 8000)
     pid_ok = ntproperty('/components/pitcher/pid_ok', 50)
     
     manual_speed = ntproperty('/components/pitcher/manual_speed', 1)
     motor_speed = ntproperty('/components/pitcher/motor_speed', 0)
     
-    manual_ok_time = ntproperty('/components/pitcher/manual_ok_time', 0.5)
+    manual_ok_time = ntproperty('/components/pitcher/manual_ok_time', 1)
     pid_ok_time = ntproperty('/components/pitcher/pid_ok_time', 0.5)
     
     MANUAL_MODE = wpilib.CANTalon.ControlMode.PercentVbus
