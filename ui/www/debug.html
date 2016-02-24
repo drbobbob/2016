@@ -11,14 +11,19 @@
 
 	<div id="content">
 
-		<div class="demo-container" style="width: 850px; height: 450px;">
+		<div class="demo-container" style="width: 1300px; height: 600px;">
 			<div id="placeholder" class="demo-placeholder" style="width: 100%; height: 100%;"></div>
 		</div>
 
 		<button class="pause-toggle-btn">Pause</button>
-		<p>
-			Encoder Setpoint <input type="number" name="encoder-setpoint" value="0" />
-		</p>
+		<div>
+			<p style="display: inline-block; margin-right: 20px;">
+				Encoder Setpoint <input type="number" name="encoder-setpoint" value="0" />
+			</p>
+			<p class="motor-speed" style="display: inline-block;">
+				Motor Speed: <span></span>
+			</p>
+		</div>
 	</div>
 
 
@@ -40,9 +45,9 @@
 	<!-- <script src="/networktables/utils.js"></script> -->
 
 
-	<script src="/lodash.min.js"></script>
+	<script src="js/lodash.min.js"></script>
 
-	<script language="javascript" type="text/javascript" src="/flot/jquery.flot.min.js"></script>
+	<script language="javascript" type="text/javascript" src="js/flot/jquery.flot.min.js"></script>
 
 
 
@@ -115,7 +120,7 @@
 
 			// listen to the network tables key if one is provided
 			if(ntKey) {
-				NetworkTables.addKeyListener('/SmartDashboard/' + ntKey, function(key, value, isNew) {
+				NetworkTables.addKeyListener(ntKey, function(key, value, isNew) {
 					graph.setNextValue(plot, value);
 				});
 			}
@@ -220,11 +225,11 @@
 		var graph = new Graph('#placeholder', {
 			timeTracked : 30,
 			updateRate : .1,
-			rangeMin : -9000,
+			rangeMin : -10,
 			rangeMax : 9000,
 			plots : [
-				{ plot : 'encoder', label : 'Encoder' , ntKey : 'encoder_speed'},
-				{ plot : 'setpoint', label : 'Setpoint' , ntKey : 'encoder_setpoint'}
+				{ plot : 'encoder', label : 'Encoder' , ntKey : '/components/pitcher/motor_speed'},
+				{ plot : 'setpoint', label : 'Setpoint' , ntKey : '/components/pitcher/pid_speed'}
 			]
 		});
 
@@ -241,7 +246,13 @@
 		$('input[name=encoder-setpoint').on('change', function() {
 			var $el = $(this);
 			var setpoint = parseFloat($el.val());
-			NetworkTables.putValue('/SmartDashboard/encoder_setpoint', setpoint);
+			NetworkTables.putValue('/components/pitcher/pid_speed', setpoint);
+		});
+
+
+		NetworkTables.addKeyListener('/components/pitcher/motor_speed', function(key, value, isNew) {
+			$('.motor-speed span').text(value);
+			//graph.setNextValue(plot, value);
 		});
 	</script>
 

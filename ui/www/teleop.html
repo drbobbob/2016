@@ -6,15 +6,37 @@
 	</title>
 </head>
 <style>
+
 .fire {
-	color: red;
-	font-size: 30px;
+  background-image: url(button_unselected.jpg);
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  height: 240px;
+  width: 240px;
+  border: none;
+}
+
+
+
+
+.fire {
+	color: yellow;
+	font-size: 70px;
 }
 
 .hang {
-	color: green;
+	color: green;    
 	font-size: 30px;
 }
+
+.svgdiagram.ballin .bawl {
+	display: block;
+}
+
+.svgdiagram.ballout .bawl {
+	display: none;
+}
+
 
 .diagram.ballout .ballout-image{
 	display: block;
@@ -42,27 +64,37 @@
 	</p>
 	
 	<p>
-		<input type="button" class="fire" value="FIRE!">
+		<input type="button" name="firer"  class="fire" value="FIRE!">
 	</p>
 	
 	<p>
-		<input type="button" class="hang" value="Hang">
+		<input type="button" name="hango" class="hang" value="Hang">
 	</p>
 	
 	<p>
 		<h3> Ball in?<input type="checkbox" name="ball_sensor" value=(1)><h3>
 	</p>
 	
-	<p class="diagram ballout">
-		<img src="2016robottestdiagram.jpg" class="ballout-image" height="300">
-		<img src="2016robottestdiagramballin.jpg" class="ballin-image" height="300">
-	</p>
+	<!--
+	<svg class="svgdiagram" height="150" width="300">
+		<rect height="100" width="200" x=0 y=0 style="fill:rgb(0,50,100);stroke-width:4;stroke:rgb(0,0,0);fill-opacity:.1" />
+		<circle cx="50" cy="100" r="25" stroke="black" stroke-width="3" fill="red"/> 
+		<circle cx="150" cy="100" r="25" stroke="black" stroke-width="3" fill="red"/> 
+		<circle cx="100" cy="50" r="30" stroke="black" stroke-width="3" fill="gray" class="bawl"/> 
+	</svg>
+	-->
 	
+	
+	<p class="diagram ballout">
+		<img src="images/2016robottestdiagram.jpg" class="ballout-image" height="300">
+		<img src="images/2016robottestdiagramballin.jpg" class="ballin-image" height="300">
+	</p>
+
 	<p>
 		<a href="index.html">Back</a>
 	</p>
-	
-	
+</body>
+</html>
 	<!-- This starts the NetworkTables websocket, it can be accessed from multiple
      pages simultaneously -->
 	<script src="/networktables/networktables.js"></script>
@@ -88,16 +120,28 @@
 	$('[name=act_lenny]').on('click', function() {
 		console.log(getLenny());
 		if (getLenny() == true) {
-			console.log('Lenny Activated');
+			console.log('Lenny Activated');	
 		}
 		else {
 			console.log('Lenny Deactivated');
+		NetworkTables.putValue('/SmartDashboard/actlenny', getLenny())
 		}
 	});
 		
+
+
+	$('[name=firer]').on('click', function() {	
+	console.log('Fired')
+	NetworkTables.putValue('/SmartDashboard/fire', true)
+	});
+	
+	
+	$('[name=hango]').on('click',function() {
+	console.log('hanging')
+	NetworkTables.putValue('/SmartDashboard/hang', true)
+	});
+	
 		
-	
-	
 	function getBallsensor(){
 		var guy = $('[name=ball_sensor]').prop('checked');
 		return guy;
@@ -122,6 +166,7 @@
 		else {
 			$('p').removeClass('ballin');
 			$('p').addClass('ballout');
+		NetworkTables.putValue('/SmartDashboard/ballsensor', getBallsensor())
 		}
 	});
 		
