@@ -29,9 +29,10 @@ class MyRobot(MagicRobot):
         self.pitcher_motor.reverseSensor(True)
         self.pitcher_motor.changeControlMode(wpilib.CANTalon.ControlMode.Speed)
         self.pitcher_motor.setFeedbackDevice(wpilib.CANTalon.FeedbackDevice.QuadEncoder)
-        self.pitcher_motor.setPID(0.3, 0.0, 0.0, 0.12)
-        self.pitcher_motor.enableBrakeMode(False)
-        self.pitcher_motor.setAllowableClosedLoopErr(20)
+        self.pitcher_motor.setPID(0.4, 0.05, 0.0, 0.12, izone=10)
+        self.pitcher_motor.enableBrakeMode(True)
+        self.pitcher_motor.setAllowableClosedLoopErr(10)
+        self.pitcher_motor.configEncoderCodesPerRev(0)
         
         lf_motor = wpilib.CANTalon(4)
         lr_motor = wpilib.CANTalon(5)
