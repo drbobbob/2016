@@ -1,0 +1,409 @@
+/* Field position buttons */
+
+
+
+.left_position_button::after {
+	content: ' ';
+	display: block;
+	width: 40px;
+	height: 40px;
+	background-image: url(button_unselected.jpg);
+}
+
+.left_position_button:checked::after {
+	content: ' ';
+	display: block;
+	width: 40px;
+	height: 40px;
+	background-image: url(button_selected.jpg);
+}
+
+
+
+
+.middle_position_button::after {
+	content: ' ';
+	display: block;
+	width: 40px;
+	height: 40px;
+	background-image: url(button_unselected.jpg);
+}
+
+.middle_position_button:checked::after {
+	content: ' ';
+	display: block;
+	width: 40px;
+	height: 40px;
+	background-image: url(button_selected.jpg);
+}
+
+
+
+.right_position_button::after {
+	content: ' ';
+	display: block;
+	width: 40px;
+	height: 40px;
+	background-image: url(button_unselected.jpg);
+}
+
+.right_position_button:checked::after {
+	content: ' ';
+	display: block;
+	width: 40px;
+	height: 40px;
+	background-image: url(button_selected.jpg);
+}
+
+
+
+/* Field Position Diagram */
+
+.field_position_diagram.default .trial-left, .field_position_diagram.default .trail-mid {
+	display: none;
+}
+
+
+.field_position_diagram.default .trial-left {
+	display: none;
+}
+
+.field_position_diagram.default .trail-mid {
+	display: none;
+}
+.field_position_diagram.default .trail-right, .field_position_diagram.default .straight-left, .field_position_diagram.default .straight-mid,  .field_position_diagram.default .straight-right {
+	display: none;
+}
+
+
+
+.field_position_diagram.left .trail-left {
+	display: block;
+}
+
+.field_position_diagram.left .trail-mid {
+	display: none;
+}
+
+.field_position_diagram.left .trail-right, .field_position_diagram.left .straight-left, .field_position_diagram.left .straight-mid, .field_position_diagram.left .straight-right {
+	display: none;
+}
+
+
+
+.field_position_diagram.mid .trail-left {
+	display: none;
+}
+
+.field_position_diagram.mid .trail-mid {
+	display: block;
+}
+
+.field_position_diagram.mid .trail-right,.field_position_diagram.mid .straight-left, .field_position_diagram.mid .straight-mid, .field_position_diagram.mid .straight-right {
+	display: none;
+}
+
+
+
+.field_position_diagram.right .trail-left {
+	display: none;
+}
+
+.field_position_diagram.right .trail-mid, .field_position_diagram.right .straight-left, .field_position_diagram.right .straight-mid, .field_position_diagram.right .straight-right {
+	display: none;
+}
+
+.field_position_diagram.right .trail-right {
+	display: block;
+}
+
+
+
+.straight_left .trail-left, .straight_left .trail-mid, .straight_left .trail-right, .straight_left .straight-mid, .straight_left .straight-right {
+	display: none;
+}
+
+.straight_left .straight-left {
+	display: block;
+}
+
+.straight_mid .trail-left, .straight_mid .trail-mid, .straight_mid .trail-right, .straight_mid .straight-left, .straight_mid .straight-right {
+	display: none;
+}
+
+.straight_mid .straight-mid {
+	display: block;
+}
+
+.straight_right .trail-left, .straight_right .trail-mid, .straight_right .trail-right, .straight_right .straight-left, .straight_right .straight-mid {
+	display: none;
+}
+
+.straight_right .straight-right {
+	display: block;
+}
+
+
+/* Shooting Goal Diagram */
+
+/* [name=shooting_diagram].middle.high .-left{
+	display: block;
+}
+
+[name=shooting_diagram].left.high .high-left{
+	display: block;
+}
+
+[name=shooting_diagram].left.high .high-left{
+	display: block;
+}
+
+[name=shooting_diagram].left.high .high-left{
+	display: block;
+}
+
+[name=shooting_diagram].left.high .high-left{
+	display: block;
+}
+
+[name=shooting_diagram].left.high .high-left{
+	display: block;
+} */
+
+.height.side .high-left {
+	display: none;
+}
+
+.height.side .high-mid {
+	display: none;
+}
+
+.height.side .high-right {
+	display: none;
+}
+
+.height.side .low-left {
+	display: none;
+}
+
+.height.side .low-right {
+	display: none;
+}
+
+
+
+.nothing.lol .high-left {
+	display: none;
+}
+
+.nothing.lol .high-mid {
+	display: none;
+}	
+
+.nothing.lol .high-right {
+	display: none;
+}
+	
+.nothing.lol .low-left {
+	display: none;
+}
+
+.nothing.lol .low-right {
+	display: none;
+}
+
+
+
+.high.left .high-left {
+	display: block;
+}
+
+.high.left .high-mid {
+	display: none;
+}	
+
+.high.left .high-right {
+	display: none;
+}
+	
+.high.left .low-left {
+	display: none;
+}
+
+.high.left .low-right {
+	display: none;
+}
+
+
+
+.high.mid .high-left {
+	display: none;
+}
+
+.high.mid .high-mid {
+	display: block;
+}
+
+.high.mid .high-right {
+	display: none;
+}
+
+.high.mid .low-left {
+	display: none;
+}
+
+.high.mid .low-right {
+	display: none
+}
+
+
+
+.high.right .high-left {
+	display: none;
+}
+
+.high.right .high-mid {
+	display: none;
+}
+
+.high.right .high-right {
+	display: block;
+}
+
+.high.right .low-left {
+	display: none;
+}
+
+.high.right .low-right {
+	display: none;
+}
+
+
+
+.low.left .high-left {
+	display: none;
+}
+
+.low.left .high-left {
+	display: none;
+}
+
+.low.left .high-mid {
+	display: none;
+}
+
+.low.left .high-right {
+	display: none;
+}
+
+.low.left .low-left {
+	display: block;
+}
+
+.low.left .low-right {
+	display: none;
+}
+
+
+
+.low.right .high-left {
+	display: none;
+}
+
+.low.right .high-mid {
+	display: none;
+}
+
+.low.right .high-right {
+	display: none;
+}
+
+.low.right .low-left {
+	display: none;
+}
+
+.low.right .low-right {
+	display: block;
+}
+
+/* Obsticle Diagram */
+
+.obsticle_type .low-bar, .obsticle_type .portcullis, .obsticle_type .cheval-de-frise, .obsticle_type .moat, .obsticle_type .ramparts, .obsticle_type .drawbridge, .obsticle_type .sally-port, .obsticle_type .rock-wall, .obsticle_type .rough-terrain {
+	display: none;
+} 
+
+.obsticle_type .low-bar, .obsticle_type .portcullis, .obsticle_type .cheval-de-frise, .obsticle_type .moat, .obsticle_type .ramparts, .obsticle_type .drawbridge, .obsticle_type .sally-port, .obsticle_type .rock-wall, .obsticle_type .rough-terrain {
+	display: none;
+} 
+
+.low_bar .portcullis, .low_bar .cheval-de-frise, .low_bar .moat, .low_bar .ramparts, .low_bar .drawbridge, .low_bar .sally-port, .low_bar .rock-wall, .low_bar .rough-terrain {
+	display: none;
+} 
+
+.low_bar .low-bar {
+	display: block;
+}
+
+.portcullis .low-bar, .portcullis .cheval-de-frise, .portcullis .moat, .portcullis .ramparts, .portcullis .drawbridge, .portcullis .sally-port, .portcullis .rock-wall, .portcullis .rough-terrain {
+	display: none;
+}
+
+.portcullis .portcullis {
+	display: block;
+}
+
+.cheval_de_frise .low-bar, .cheval_de_frise .portcullis, .cheval_de_frise .moat, .cheval_de_frise .ramparts, .cheval_de_frise .drawbridge, .cheval_de_frise .sally-port, .cheval_de_frise .rock-wall, .cheval_de_frise .rough-terrain {
+	display: none;
+} 
+
+.cheval_de_frise .cheval-de-frise {
+	display:block;
+}
+
+.moat .low-bar, .moat .portcullis, .moat .cheval-de-frise, .moat .ramparts, .moat .drawbridge, .moat .sally-port, .moat .rock-wall, .moat .rough-terrain {
+	display: none;
+}
+
+.moat .moat {
+	display: block;
+}
+
+.ramparts .low-bar, .ramparts .portcullis,.ramparts .cheval-de-frise, .ramparts .moat, .ramparts .ramparts, .ramparts .drawbridge, .ramparts .sally-port, .ramparts .rock-wall, .ramparts .rough-terrain {
+	display: none;
+}
+
+.ramparts .ramparts {
+	display: block
+}
+
+.drawbridge .low-bar, .drawbridge .portcullis, .drawbridge .cheval-de-frise, .drawbridge .moat, .drawbridge .ramparts, .drawbridge .sally-port, .drawbridge .rock-wall, .drawbridge .rough-terrain {
+	display: none;
+}
+
+.drawbridge .drawbridge {
+	display: block
+}
+
+.sally_port .low-bar, .sally_port .portcullis, .sally_port .cheval-de-frise, .sally_port .moat, .sally_port .ramparts, .sally_port .drawbridge, .sally_port .rock-wall, .sally_port .rough-terrain {
+	display: none;
+}
+
+.sally_port .sally-port {
+	display: block;
+} 
+
+.rock_wall .low-bar, .rock_wall .portcullis, .rock_wall .cheval-de-frise, .rock_wall .moat, .rock_wall .ramparts, .rock_wall .drawbridge, .rock_wall .sally-port, .rock_wall .rough-terrain {
+	display: none;
+} 
+
+.rock_wall .rock-wall {
+	display: block;
+}
+
+.rough_terrain .low-bar, .rough_terrain .portcullis, .rough_terrain .cheval-de-frise, .rough_terrain .moat, .rough_terrain .ramparts, .rough_terrain .drawbridge, .rough_terrain .sally-port, .rough_terrain .rock-wall {
+	display: none;
+} 
+
+.rough_terrain .rough-terrain {
+	display: block;
+} 
