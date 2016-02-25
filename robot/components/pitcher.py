@@ -9,7 +9,7 @@ class Pitcher:
     
     pid_enabled = ntproperty('/components/pitcher/pid_enabled', True)
     pid_speed = ntproperty('/components/pitcher/pid_speed', 8000)
-    pid_ok = ntproperty('/components/pitcher/pid_ok', 50)
+    pid_ok = ntproperty('/components/pitcher/pid_ok', 100)
     
     manual_speed = ntproperty('/components/pitcher/manual_speed', 1)
     motor_speed = ntproperty('/components/pitcher/motor_speed', 0)

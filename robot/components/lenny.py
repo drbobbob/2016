@@ -32,7 +32,9 @@ class Lenny:
     
     def ball_in(self, force=False):
         '''come in at your own risk'''
-        if force or not self.is_ball_detected():
+        if force != False:
+            self.beltvelocity = force
+        elif not self.is_ball_detected():
             self.beltvelocity = self.beltvelocity_in
         else:
             self.beltvelocity = 0

@@ -2,11 +2,11 @@
 
 import wpilib
 from magicbot import MagicRobot
-from robotpy_ext.common_drivers.distance_sensors import SharpIRGP2Y0A41SK0F as Sharp
+from robotpy_ext.common_drivers.distance_sensors import SharpIRGP2Y0A41SK0F, SharpIR2Y0A02
 
 from components.lenny import Lenny
 from components.pitcher import Pitcher
-from components.tape_measure import Tapemeasure
+#from components.tape_measure import Tapemeasure
 from components.drive import Drive
 from components.shooter_control import ShooterControl
 
@@ -22,7 +22,8 @@ class MyRobot(MagicRobot):
     use_arcade_drive = ntproperty('/SmartDashboard/use_arcade', True, True)
     
     def createObjects(self):
-        self.ball_sensor = Sharp(0)
+        self.ball_sensor = SharpIRGP2Y0A41SK0F(0)
+        self.tower_sensor = SharpIR2Y0A02(1)
         
         self.beltmotor = wpilib.CANTalon(6)
         self.pitcher_motor = wpilib.CANTalon(7)
@@ -30,7 +31,7 @@ class MyRobot(MagicRobot):
         self.pitcher_motor.changeControlMode(wpilib.CANTalon.ControlMode.Speed)
         self.pitcher_motor.setFeedbackDevice(wpilib.CANTalon.FeedbackDevice.QuadEncoder)
         self.pitcher_motor.setPID(0.4, 0.05, 0.0, 0.12, izone=10)
-        self.pitcher_motor.enableBrakeMode(True)
+        self.pitcher_motor.enableBrakeMode(False)
         self.pitcher_motor.setAllowableClosedLoopErr(10)
         self.pitcher_motor.configEncoderCodesPerRev(0)
         
@@ -57,7 +58,7 @@ class MyRobot(MagicRobot):
     
     def teleopPeriodic(self):
         if self.use_arcade_drive:
-            self.drive.move(self.left_joystick.getX(), self.left_joystick.getY())
+            self.drive.move(self.left_joystick.getX(), -self.left_joystick.getY())
         else:
             self.drive.tank(self.left_joystick.getY(), self.right_joystick.getY())
         
