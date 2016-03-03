@@ -10,7 +10,7 @@
 <!-- To Do: 
 * Make buttons look cool  
 * Talk to Robot programmers about NetworkTables connectivity
-* Move CSS and Javascript to different file and link it
+
 -->
 
 <body>
@@ -24,7 +24,7 @@
 		Staging Position:
 	</h3>
 <p>
-	<svg name="staging_diagram" class="field_position_diagram default" height="490" width="480">
+	<svg name="staging_diagram" class="no_trail" height="490" width="480">
 		<image xlink:href="2016_field_diagram_default.jpg" height="490" width="480" />
 		<line class="trail-left" x1="80" y1="420" x2="80" y2="200" style="stroke:rgb(0,0,300); stroke-width:4" />
 		<line class="trail-left" x1="80" y1="200" x2="150" y2="145" style="stroke:rgb(0,0,300); stroke-width:4" />
@@ -44,15 +44,15 @@
 	</svg>
 </p>
 <p>
-	 Left Position<input type="radio" class="left_position_button" name="staging_position" value="1">
-	 Middle Position<input type="radio" class="middle_position_button" name="staging_position" value="2">
-	 Right Position<input type="radio" class="right_position_button" name="staging_position" value="3">
+	Left Position: <input height="40px" width="40px" type="radio" class="left_position_button" name="staging_position" value="1">  
+	&nbsp; &nbsp; &nbsp; &nbsp;  Middle Position: <input height="40px" width="40px" type="radio" class="middle_position_button" name="staging_position" value="2"> 
+	&nbsp; &nbsp; &nbsp; &nbsp; Right Position: <input height="40px" width="40px" type="radio" class="right_position_button" name="staging_position" value="3">
 </p>
 <p>	
 	<h3>
 	Shooting Goal:
 	</h3>
-	<svg name="shooting_diagram" class="high left" height="490" width="480">
+	<svg name="shooting_diagram" class="nothing" height="490" width="480">
 		<image xlink:href="2016_robotics_stronghold_shooting_goal_diagram.png" height="490" width="480" />	
 		<circle class=high-left cx=155 cy=120 r=20 stroke=red stroke-width=7 fill=white />
 		<circle class=high-left cx=155 cy=120 r=9 stroke=red stroke-width=5 fill=white />
@@ -73,33 +73,34 @@
 	</svg>
 </p>	
 <p>
-	High Goal: <input type="radio" name="shooting_target" value="1" checked>
-	Low Goal: <input type="radio" name="shooting_target" value="2">
-	No Goal: <input type="radio" name="shooting_target" value="3">
+	High Goal: <input type="radio" class="high_goal" name="shooting_target" value="1">
+	&nbsp; &nbsp; &nbsp; &nbsp; Low Goal: <input type="radio" class="low_goal" name="shooting_target" value="2">
+	&nbsp; &nbsp; &nbsp; &nbsp; No Goal: <input type="radio" class="no_goal" name="shooting_target" value="3">
 </p>
 	<h3>
 		Obsticle Type:
 	</h3>
 <p>
-	Low bar: <input type="radio" name="obsticle_types" name="lol" value="1" checked>
-</p>
-<p>	
-	Portcullis(A): <input type="radio" name="obsticle_types" value="2">
-	Cheval de Frise(A): <input type="radio" name="obsticle_types" value="3">
-</p>
-<p>	
-	Moat(B): <input type="radio" name="obsticle_types" value="4">
-	Ramparts(B): <input type="radio" name="obsticle_types" value="5">
-</p>	
-<p>	
-	Drawbridge(C): <input type="radio" name="obsticle_types" value="6">
-	Sally Port(C): <input type="radio" name="obsticle_types" value="7">
-</p>
+<select name="obsticle_types">
+	 <option name="obsticle_types" value="1"> Low bar </option>
 
-<p>
-	Rock Wall(D): <input type="radio" name="obsticle_types" value="8">
-	Rough Terrain(D): <input type="radio" name="obsticle_types" value="9">
-</p>
+	<option name="obsticle_types" value="2"> Portcullis(A)</option>
+	<option name="obsticle_types" value="3"> Cheval de Frise(A) </option>
+
+
+	<option name="obsticle_types" value="4"> Moat(B) </option>
+	<option name="obsticle_types" value="5"> Ramparts(B) </option>
+	
+
+	<option name="obsticle_types" value="6"> Drawbridge(C) </option>
+	<option name="obsticle_types" value="7"> Sally Port(C) </option>
+
+
+
+	<option name="obsticle_types" value="8" > Rock Wall(D) </option>
+	<option name="obsticle_types" value="9"> Rough Terrain(D) </option>
+</select>
+
 <p>
 
 </p>

@@ -5,6 +5,10 @@
 	2016 Robot Teleop UI
 	</title>
 </head>
+<!-- Ideas
+* Make background green when on target
+
+ -->
 <style>
 
 .fire {
@@ -24,10 +28,6 @@
 	font-size: 70px;
 }
 
-.hang {
-	color: green;    
-	font-size: 30px;
-}
 
 .svgdiagram.ballin .bawl {
 	display: block;
@@ -134,12 +134,7 @@
 	console.log('Fired')
 	NetworkTables.putValue('/SmartDashboard/fire', true)
 	});
-	
-	
-	$('[name=hango]').on('click',function() {
-	console.log('hanging')
-	NetworkTables.putValue('/SmartDashboard/hang', true)
-	});
+
 	
 		
 	function getBallsensor(){

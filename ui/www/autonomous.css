@@ -55,23 +55,63 @@
 	background-image: url(button_selected.jpg);
 }
 
+/* Shooting Target Buttons */
 
+.high_goal::after {
+	content:' ';
+	display: block;
+	width: 40px;
+	height: 40px;
+	background-image: url(button_unselected.jpg);
+}
+
+.high_goal:checked::after {
+	content:' ';
+	display: block;
+	width: 40px;
+	height: 40px;
+	background-image: url(button_selected.jpg);
+}
+
+
+
+.low_goal::after {
+	content:' ';
+	display: block;
+	width: 40px;
+	height: 40px;
+	background-image: url(button_unselected.jpg);
+}
+
+.low_goal:checked::after {
+	content:' ';
+	display: block;
+	width: 40px;
+	height: 40px;
+	background-image: url(button_selected.jpg);
+}
+
+
+
+.no_goal::after {
+	content:' ';
+	display: block;
+	width: 40px;
+	height: 40px;
+	background-image: url(button_unselected.jpg);
+}
+
+.no_goal:checked::after {
+	content:' ';
+	display: block;
+	width: 40px;
+	height: 40px;
+	background-image: url(button_selected.jpg);
+}
 
 /* Field Position Diagram */
 
-.field_position_diagram.default .trial-left, .field_position_diagram.default .trail-mid {
-	display: none;
-}
-
-
-.field_position_diagram.default .trial-left {
-	display: none;
-}
-
-.field_position_diagram.default .trail-mid {
-	display: none;
-}
-.field_position_diagram.default .trail-right, .field_position_diagram.default .straight-left, .field_position_diagram.default .straight-mid,  .field_position_diagram.default .straight-right {
+.no_trail .trail-right, .no_trail .straight-left, .no_trail .straight-mid,  .no_trail  .straight-right, .no_trail .trail-left, .no_trail .trail-mid {
 	display: none;
 }
 
@@ -192,23 +232,23 @@
 
 
 
-.nothing.lol .high-left {
+.nothing .high-left {
 	display: none;
 }
 
-.nothing.lol .high-mid {
+.nothing .high-mid {
 	display: none;
 }	
 
-.nothing.lol .high-right {
+.nothing .high-right {
 	display: none;
 }
 	
-.nothing.lol .low-left {
+.nothing .low-left {
 	display: none;
 }
 
-.nothing.lol .low-right {
+.nothing .low-right {
 	display: none;
 }
 

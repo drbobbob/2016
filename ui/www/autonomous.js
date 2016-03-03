@@ -192,14 +192,14 @@ $('[name=shooting_target]').on('click', function() {
 	getGoal()
 	getStaging()
 	if (getGoal()==3)
-		$('[name=shooting_diagram]').attr('class', 'height side')
+		$('[name=shooting_diagram]').attr('class', 'nothing')
 });
 
 $('[name=shooting_target]').on('click', function() {
 	getGoal()
 	getStaging()
 	if (getGoal()==2 && getStaging()==2)
-		$('[name=shooting_diagram]').attr('class', 'nothing lol')
+		$('[name=shooting_diagram]').attr('class', 'nothing')
 });
 
 
@@ -210,52 +210,39 @@ $('[name=shooting_target]').on('click', function() {
 
 
 $('[name=staging_position]').on('click', function() {
-	getGoal()
-	getStaging()
 	if (getGoal()==1 && getStaging()==1)
 		$('[name=shooting_diagram]').attr('class', 'high left')
 });
 
 $('[name=staging_position]').on('click', function() {
-	getGoal()
-	getStaging()
 	if (getGoal()==1 && getStaging()==2)
 		$('[name=shooting_diagram]').attr('class', 'high mid')
 });
 
 $('[name=staging_position]').on('click', function() {
-	getGoal()
-	getStaging()
 	if (getGoal()==1 && getStaging()==3)
 		$('[name=shooting_diagram]').attr('class', 'high right')
 });
 
 
 $('[name=staging_position]').on('click', function() {
-	getGoal()
-	getStaging()
 	if (getGoal()==2 && getStaging()==1)
 		$('[name=shooting_diagram]').attr('class', 'low left')
 });
 
 $('[name=staging_position]').on('click', function() {
-	getGoal()
-	getStaging()
 	if (getGoal()==2 && getStaging()==3)
 		$('[name=shooting_diagram]').attr('class', 'low right')
 });
 
 $('[name=staging_position]').on('click', function() {
-	getGoal()
 	if (getGoal()==3)
-		$('[name=shooting_diagram]').attr('class', 'height side')
+		$('[name=shooting_diagram]').attr('class', 'nothing')
 });
 
 $('[name=staging_position]').on('click', function() {
-	getGoal()
-	getStaging()
 	if (getGoal()==2 && getStaging()==2)
-		$('[name=shooting_diagram]').attr('class', 'nothing lol')
+		$('[name=shooting_diagram]').attr('class', 'nothing')
 });
 
 //Obsticle pictures
