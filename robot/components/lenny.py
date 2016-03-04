@@ -6,52 +6,50 @@ Created on Jan 27, 2016
 import wpilib
 from robotpy_ext.common_drivers.distance_sensors import SharpIRGP2Y0A41SK0F as Sharp
 
+from networktables.util import ntproperty
+
 class Lenny:
     
     beltmotor = wpilib.CANTalon
     ball_sensor = Sharp
+    
+    ball_detected = ntproperty('/components/lenny/ball_detected', True)
+    ball_detected_distance = ntproperty('/components/lenny/ball_detected_distance', 0)
+    ball_detected_threshold = ntproperty('/components/lenny/ball_detected_threshold', 6.5)
+    beltvelocity_in = ntproperty('/components/lenny/beltvelocity_in', -1)
+    beltvelocity_out = ntproperty('/components/lenny/beltvelocity_out', 1)
     
     '''lenny's matrix self'''
     def __init__(self):
         self.beltvelocity = 0
         self.disabled = False
         
-    def ball_detector (self):
+    def is_ball_detected(self):
         '''I can't tell is it there'''
-        self.distance = self.ball_sensor.getDistance()
-        
-        if self.distance > 5:
-            return False
-        else:
-            return True
+        self.ball_detected_distance = self.ball_sensor.getDistance()
+        self.ball_detected = self.ball_detected_distance < self.ball_detected_threshold
+        return self.ball_detected
     
-    def ball_in(self):
+    def ball_in(self, force=False):
         '''come in at your own risk'''
-        if self.ball_detector() == False:
-            self.beltvelocity = 1
+        if force != False:
+            self.beltvelocity = force
+        elif not self.is_ball_detected():
+            self.beltvelocity = self.beltvelocity_in
         else:
             self.beltvelocity = 0
         
     def ball_out(self):
         '''geet outa town'''
-        self.beltvelocity = -1
-        
-    def fire(self):
-        '''bye bye boulder. let her rip!'''
-        if self.ball_detector() == True:
-            self.beltvelocity = 1
-        else:
-            self.beltvelocity = 0
-        
-    def stop(self):
-        '''stay put. good doggie'''
-        self.beltvelocity = 0
+        self.beltvelocity = self.beltvelocity_out
         
     def disable(self):
         self.disabled = True
             
     def execute(self):
         '''da "boss".'''
+        self.is_ball_detected()
+        
         if self.disabled == False:
             self.beltmotor.set(self.beltvelocity)
         else:
