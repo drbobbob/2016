@@ -302,13 +302,11 @@ $('[name=obsticle_types]').on('click', function () {
 });
 
 $('[name=staging_position]').on('click', function () {
-	getStaging
 	if (getStaging()==1)
 		$('[name=obsticle]').attr('class','low_bar')	
 });
 
 $('[name=staging_position]').on('click', function () {
-	//getStaging
 	if (getStaging()==1)
-		$('[name=obsticle_types][value=1]').prop('checked', true);
+		$('[name=obsticle_types][value=1]').prop('selected', true);
 });
