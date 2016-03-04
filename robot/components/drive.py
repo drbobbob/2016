@@ -1,4 +1,3 @@
-
 import wpilib
 
 from robotpy_ext.common_drivers.navx import AHRS
@@ -57,6 +56,9 @@ class Drive:
         self.speed = speed
         self.turn_controller.setSetpoint(angle)
         self.function_called = Drive.move_at_angle
+        
+    def reset_angle(self):
+        self.ahrs.reset()
 
     def pidWrite(self, output):
         """This function is invoked periodically by the PID Controller,
