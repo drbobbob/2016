@@ -456,37 +456,16 @@
 	position: relative;
 }
 
-.autonomous-mode .step-buttons {
-    position: absolute;
-    bottom: 70px;
-    right: 40px;
-    z-index: 100;
+.autonomous-mode h1 {
+	display: inline-block;
+	margin: 0 25px 0 0;
+	vertical-align: top;
 }
-
-.autonomous-mode .step-buttons button {
-	background: white;
-	margin-right: 5px;
-    width: 75px;
-    height: 25px;
-    border: 1px solid black;
-    text-transform: uppercase;
-    cursor: pointer;
-}
-
-.autonomous-mode .step-buttons button:hover {
-	color: #DAA520;
-	border-color: #DAA520;
-}
-
-.autonomous-mode .step-buttons button:focus {
-	outline: none;
-}
-
-
 
 .autonomous-mode-carousel {
 	width: 1000px;
 	border: 5px solid #ddd;
+	margin-top: 30px;
 }
 
 .autonomous-options {
@@ -508,5 +487,31 @@
 
 .autonomous-options  .choices p input {
 	float: right;
+}
+
+.steps {
+	display: inline-block;
+	float: right;
+	text-align: right;
+}
+
+.steps [data-step] {
+	display: inline-block;
+	margin-right: 10px;
+	font-size: 20px;
+	font-weight: normal;
+	cursor: pointer;
+	width: 150px;
+}
+
+.steps [data-step] span {
+	display: block;
+	cursor: default;
+	font-weight: normal;
+	color: green;
+}
+
+.steps [data-step].active {
+	font-weight: bold;
 }
 

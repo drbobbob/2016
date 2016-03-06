@@ -16,20 +16,16 @@
 
 <body>
 
-	<p>
-		<h1>
-			Autonomous
-		<h1>
-	</p>
-
 	<div class="autonomous-mode">
-		<div class="step-buttons">
-			<button>Back</button>
-			<button>Next</button>
-			<button>Done</button>
+		<h1>Autonomous</h1>
+		<div class="steps">
+			<div data-step="stagingPosition" data-step-value="left">Staging Position</div>
+			<div data-step="shootingGoal" data-step-value="none">Shooting Goal</div>
+			<div data-step="obsticleType" data-step-value="low bar">Obsticle Type</div>
+			<div data-step="passBall" data-step-value="no">Pass Ball</div>
 		</div>
 		<ul class="autonomous-mode-carousel">
-			<li class="autonomous-options staging-positions">
+			<li class="autonomous-options staging-positions" data-step="stagingPosition">
 				<h3>Staging Position:</h3>
 				<svg name="staging_diagram" class="no_trail" height="490" width="480">
 					<image xlink:href="2016_field_diagram_default.jpg" height="490" width="480" />
@@ -62,7 +58,7 @@
 				</div>
 			</li>
 
-			<li class="autonomous-options shooting-goal">
+			<li class="autonomous-options shooting-goal" data-step="shootingGoal">
 				<h3>Shooting Goal:</h3>
 				<svg name="shooting_diagram" class="nothing" height="490" width="480">
 					<image xlink:href="2016_robotics_stronghold_shooting_goal_diagram.png" height="490" width="480" />	
@@ -94,7 +90,7 @@
 				</div>
 			</li>
 
-			<li class="autonomous-options">
+			<li class="autonomous-options obsticle-type" data-step="obsticleType">
 				<h3>
 					Obsticle Type:
 				</h3>
@@ -132,7 +128,7 @@
 						<image class="rough-terrain" xlink:href="2016_robotics_stronghold_rough_terrain.jpg" x="5" y="5" height="290" width="390" />
 				</svg>
 			</li>
-			<li class="autonomous-options">
+			<li class="autonomous-options pass-ball" data-step="passBall">
 				<p>
 					<h3>Passing Ball to Others:</h3>
 					Passing ball to others: <input type="checkbox" name="pass_ball" value="1">
