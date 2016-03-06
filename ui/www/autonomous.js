@@ -312,3 +312,19 @@ $('[name=staging_position]').on('click', function () {
 	if (getStaging()==1)
 		$('[name=obsticle_types][value=1]').prop('checked', true);
 });
+
+
+
+// Initialize autonomous slider
+$('.autonomous-mode-carousel').slick({
+  dots: false,
+  arrows: false,
+  infinite: true,
+  speed: 500,
+  //cssEase: 'linear',
+  fade: true,
+  slide: 'li',
+  slidesToShow: 1,
+  slidesToScroll : 1
+});
+	

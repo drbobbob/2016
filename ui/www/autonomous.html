@@ -6,6 +6,7 @@
 	</title>
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="autonomous.css"/>
+	<link rel="stylesheet" href="css/slick.css"/>
 	</head>
 <!-- To Do: 
 * Make buttons look cool  
@@ -15,122 +16,139 @@
 
 <body>
 
-<p>
-	<h1>
-		Autonomous
-	<h1>
-</p>
-	<h3>
-		Staging Position:
-	</h3>
-<p>
-	<svg name="staging_diagram" class="no_trail" height="490" width="480">
-		<image xlink:href="2016_field_diagram_default.jpg" height="490" width="480" />
-		<line class="trail-left" x1="80" y1="420" x2="80" y2="200" style="stroke:rgb(0,0,300); stroke-width:4" />
-		<line class="trail-left" x1="80" y1="200" x2="150" y2="145" style="stroke:rgb(0,0,300); stroke-width:4" />
-		
-		<line class="trail-mid" x1="200" y1="420" x2="200" y2="280" style="stroke:rgb(0,0,300); stroke-width:4" />
-		<line class="trail-mid" x1="200" y1="280" x2 ="250" y2="240" style="stroke:rgb(0,0,300); stroke-width:4" />
-		<line class="trail-mid" x1 ="250" y1="240" x2="250" y2="180" style="stroke:rgb(0,0,300); stroke-width:4" />
-		
-		<line class="trail-right" x1 ="330" y1="420" x2="330" y2="140" style="stroke:rgb(0,0,300); stroke-width:4" />
-		
-		
-		<line class="straight-left" x1="80" y1="420" x2="80" y2="250" style="stroke:rgb(0,0,300); stroke-width:4" />
-		
-		<line class="straight-mid" x1="200" y1="420" x2="200" y2="250" style="stroke:rgb(0,0,300); stroke-width:4" />
-	
-		<line class="straight-right" x1="330" y1="420" x2="330" y2="250" style="stroke:rgb(0,0,300); stroke-width:4" />
-	</svg>
-</p>
-<p>
-	Left Position: <input height="40px" width="40px" type="radio" class="left_position_button" name="staging_position" value="1">  
-	&nbsp; &nbsp; &nbsp; &nbsp;  Middle Position: <input height="40px" width="40px" type="radio" class="middle_position_button" name="staging_position" value="2"> 
-	&nbsp; &nbsp; &nbsp; &nbsp; Right Position: <input height="40px" width="40px" type="radio" class="right_position_button" name="staging_position" value="3">
-</p>
-<p>	
-	<h3>
-	Shooting Goal:
-	</h3>
-	<svg name="shooting_diagram" class="nothing" height="490" width="480">
-		<image xlink:href="2016_robotics_stronghold_shooting_goal_diagram.png" height="490" width="480" />	
-		<circle class=high-left cx=155 cy=120 r=20 stroke=red stroke-width=7 fill=white />
-		<circle class=high-left cx=155 cy=120 r=9 stroke=red stroke-width=5 fill=white />
-	
-		<circle class=high-mid cx=240 cy=120 r=20 stroke=red stroke-width=7 fill=white />
-		<circle class=high-mid cx=240 cy=120 r=9 stroke=red stroke-width=5 fill=white />
-	
-		<circle class=high-right cx=323 cy=120 r=20 stroke=red stroke-width=7 fill=white />
-		<circle class=high-right cx=323 cy=120 r=9 stroke=red stroke-width=5 fill=white />
-	
-		<circle class=low-left cx=175 cy=400 r=20 stroke=red stroke-width=7 fill=white />
-		<circle class=low-left cx=175 cy=400 r=9 stroke=red stroke-width=5 fill=white />
-	
-		<circle class=low-right cx=303 cy=400 r=20 stroke=red stroke-width=7 fill=white />
-		<circle class=low-right cx=303 cy=400 r=9 stroke=red stroke-width=5 fill=white />
-	
-	
-	</svg>
-</p>	
-<p>
-	High Goal: <input type="radio" class="high_goal" name="shooting_target" value="1">
-	&nbsp; &nbsp; &nbsp; &nbsp; Low Goal: <input type="radio" class="low_goal" name="shooting_target" value="2">
-	&nbsp; &nbsp; &nbsp; &nbsp; No Goal: <input type="radio" class="no_goal" name="shooting_target" value="3">
-</p>
-	<h3>
-		Obsticle Type:
-	</h3>
-<p>
-<select name="obsticle_types">
-	 <option name="obsticle_types" value="1"> Low bar </option>
+	<p>
+		<h1>
+			Autonomous
+		<h1>
+	</p>
 
-	<option name="obsticle_types" value="2"> Portcullis(A)</option>
-	<option name="obsticle_types" value="3"> Cheval de Frise(A) </option>
+	<div class="autonomous-mode">
+		<div class="step-buttons">
+			<button>Back</button>
+			<button>Next</button>
+			<button>Done</button>
+		</div>
+		<ul class="autonomous-mode-carousel">
+			<li class="autonomous-options staging-positions">
+				<h3>Staging Position:</h3>
+				<svg name="staging_diagram" class="no_trail" height="490" width="480">
+					<image xlink:href="2016_field_diagram_default.jpg" height="490" width="480" />
+					<line class="trail-left" x1="80" y1="420" x2="80" y2="200" style="stroke:rgb(0,0,300); stroke-width:4" />
+					<line class="trail-left" x1="80" y1="200" x2="150" y2="145" style="stroke:rgb(0,0,300); stroke-width:4" />
+					
+					<line class="trail-mid" x1="200" y1="420" x2="200" y2="280" style="stroke:rgb(0,0,300); stroke-width:4" />
+					<line class="trail-mid" x1="200" y1="280" x2 ="250" y2="240" style="stroke:rgb(0,0,300); stroke-width:4" />
+					<line class="trail-mid" x1 ="250" y1="240" x2="250" y2="180" style="stroke:rgb(0,0,300); stroke-width:4" />
+					
+					<line class="trail-right" x1 ="330" y1="420" x2="330" y2="140" style="stroke:rgb(0,0,300); stroke-width:4" />
+					
+					
+					<line class="straight-left" x1="80" y1="420" x2="80" y2="250" style="stroke:rgb(0,0,300); stroke-width:4" />
+					
+					<line class="straight-mid" x1="200" y1="420" x2="200" y2="250" style="stroke:rgb(0,0,300); stroke-width:4" />
+				
+					<line class="straight-right" x1="330" y1="420" x2="330" y2="250" style="stroke:rgb(0,0,300); stroke-width:4" />
+				</svg>
+				<div class="choices">
+					<p>
+						Left Position: <input height="40px" width="40px" type="radio" class="left_position_button" name="staging_position" value="1">  
+					</p>
+					<p> 
+						Middle Position: <input height="40px" width="40px" type="radio" class="middle_position_button" name="staging_position" value="2"> 
+					</p>
+					<p>
+						Right Position: <input height="40px" width="40px" type="radio" class="right_position_button" name="staging_position" value="3">
+					</p>
+				</div>
+			</li>
+
+			<li class="autonomous-options shooting-goal">
+				<h3>Shooting Goal:</h3>
+				<svg name="shooting_diagram" class="nothing" height="490" width="480">
+					<image xlink:href="2016_robotics_stronghold_shooting_goal_diagram.png" height="490" width="480" />	
+					<circle class=high-left cx=155 cy=120 r=20 stroke=red stroke-width=7 fill=white />
+					<circle class=high-left cx=155 cy=120 r=9 stroke=red stroke-width=5 fill=white />
+				
+					<circle class=high-mid cx=240 cy=120 r=20 stroke=red stroke-width=7 fill=white />
+					<circle class=high-mid cx=240 cy=120 r=9 stroke=red stroke-width=5 fill=white />
+				
+					<circle class=high-right cx=323 cy=120 r=20 stroke=red stroke-width=7 fill=white />
+					<circle class=high-right cx=323 cy=120 r=9 stroke=red stroke-width=5 fill=white />
+				
+					<circle class=low-left cx=175 cy=400 r=20 stroke=red stroke-width=7 fill=white />
+					<circle class=low-left cx=175 cy=400 r=9 stroke=red stroke-width=5 fill=white />
+				
+					<circle class=low-right cx=303 cy=400 r=20 stroke=red stroke-width=7 fill=white />
+					<circle class=low-right cx=303 cy=400 r=9 stroke=red stroke-width=5 fill=white />
+				</svg>	
+				<div class="choices">
+					<p>
+						High Goal: <input type="radio" class="high_goal" name="shooting_target" value="1">
+					</p>
+					<p>
+						Low Goal: <input type="radio" class="low_goal" name="shooting_target" value="2">
+					</p>
+					<p>
+						No Goal: <input type="radio" class="no_goal" name="shooting_target" value="3">
+					</p>
+				</div>
+			</li>
+
+			<li class="autonomous-options">
+				<h3>
+					Obsticle Type:
+				</h3>
+				<p>
+					<select name="obsticle_types">
+						 <option name="obsticle_types" value="1"> Low bar </option>
+
+						<option name="obsticle_types" value="2"> Portcullis(A)</option>
+						<option name="obsticle_types" value="3"> Cheval de Frise(A) </option>
 
 
-	<option name="obsticle_types" value="4"> Moat(B) </option>
-	<option name="obsticle_types" value="5"> Ramparts(B) </option>
-	
+						<option name="obsticle_types" value="4"> Moat(B) </option>
+						<option name="obsticle_types" value="5"> Ramparts(B) </option>
+						
 
-	<option name="obsticle_types" value="6"> Drawbridge(C) </option>
-	<option name="obsticle_types" value="7"> Sally Port(C) </option>
+						<option name="obsticle_types" value="6"> Drawbridge(C) </option>
+						<option name="obsticle_types" value="7"> Sally Port(C) </option>
 
 
 
-	<option name="obsticle_types" value="8" > Rock Wall(D) </option>
-	<option name="obsticle_types" value="9"> Rough Terrain(D) </option>
-</select>
+						<option name="obsticle_types" value="8" > Rock Wall(D) </option>
+						<option name="obsticle_types" value="9"> Rough Terrain(D) </option>
+					</select>
+				</p>
+				<svg name="obsticle" class="obsticle_type" height="300" width="400">
+						<rect height="300" width="400" style="fill:white;fill-opacity:0.1;stroke:black;stroke-width:5" />
+						<image class="low-bar" xlink:href="2016_robotics_stronghold_low_bar.jpg" x="5" y="5" height="250" width="390"  />
+						<image class="portcullis" xlink:href="2016_robotics_stronghold_portcullis.jpg" x="5" y="5" height="290" width="390" />
+						<image class="cheval-de-frise" xlink:href="2016_robotics_stronghold_cheval_de_frise.jpg" x="5" y="5" height="290" width="390" />
+						<image class="moat" xlink:href="2016_robotics_stronghold_moat.jpg" x="5" y="5" height="290" width="390" />
+						<image class="ramparts" xlink:href="2016_robotics_stronghold_ramparts.jpg" x="5" y="5" height="290" width="390" />
+						<image class="drawbridge" xlink:href="2016_robotics_stronghold_drawbridge.jpg" x="5" y="5" height="290" width="390" />
+						<image class="sally-port" xlink:href="2016_robotics_stronghold_sally_port.jpg" x="5" y="5" height="290" width="390" />
+						<image class="rock-wall" xlink:href="2016_robotics_stronghold_rock_wall.jpg" x="5" y="5" height="290" width="390" />
+						<image class="rough-terrain" xlink:href="2016_robotics_stronghold_rough_terrain.jpg" x="5" y="5" height="290" width="390" />
+				</svg>
+			</li>
+			<li class="autonomous-options">
+				<p>
+					<h3>Passing Ball to Others:</h3>
+					Passing ball to others: <input type="checkbox" name="pass_ball" value="1">
+				</p>
+			</li>
+		</ul>
+	</div>
 
-<p>
-
-</p>
-<svg name="obsticle" class="obsticle_type" height="300" width="400">
-		<rect height="300" width="400" style="fill:white;fill-opacity:0.1;stroke:black;stroke-width:5" />
-		<image class="low-bar" xlink:href="2016_robotics_stronghold_low_bar.jpg" x="5" y="5" height="250" width="390"  />
-		<image class="portcullis" xlink:href="2016_robotics_stronghold_portcullis.jpg" x="5" y="5" height="290" width="390" />
-		<image class="cheval-de-frise" xlink:href="2016_robotics_stronghold_cheval_de_frise.jpg" x="5" y="5" height="290" width="390" />
-		<image class="moat" xlink:href="2016_robotics_stronghold_moat.jpg" x="5" y="5" height="290" width="390" />
-		<image class="ramparts" xlink:href="2016_robotics_stronghold_ramparts.jpg" x="5" y="5" height="290" width="390" />
-		<image class="drawbridge" xlink:href="2016_robotics_stronghold_drawbridge.jpg" x="5" y="5" height="290" width="390" />
-		<image class="sally-port" xlink:href="2016_robotics_stronghold_sally_port.jpg" x="5" y="5" height="290" width="390" />
-		<image class="rock-wall" xlink:href="2016_robotics_stronghold_rock_wall.jpg" x="5" y="5" height="290" width="390" />
-		<image class="rough-terrain" xlink:href="2016_robotics_stronghold_rough_terrain.jpg" x="5" y="5" height="290" width="390" />
-</svg>
-<p>
-<h3>
-	Passing Ball to Others:
-</h3>
-	Passing ball to others: <input type="checkbox" name="pass_ball" value="1">
-</p>
-<p>
-	<a href="index.html">Back</a>
-</p>
+	<p><a href="index.html">Back</a></p>
 
 <!-- This starts the NetworkTables websocket, it can be accessed from multiple
      pages simultaneously -->
 <script src="/networktables/networktables.js"></script>
 
 <script src="jquery-2.1.3.min.js"></script>
+<script src="js/slick.min.js"></script>
 <script src="autonomous.js"></script>
 
 <!-- uncomment this is you want to use included utility functions that
