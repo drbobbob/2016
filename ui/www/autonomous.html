@@ -15,7 +15,6 @@
 -->
 
 <body>
-
 	<div class="autonomous-mode">
 		<h1>Autonomous</h1>
 		<div class="steps">
@@ -26,35 +25,14 @@
 		</div>
 		<ul class="autonomous-mode-carousel">
 			<li class="autonomous-options staging-positions" data-step="stagingPosition">
-				<svg name="staging_diagram" class="no_trail" height="490" width="480">
+				<svg name="staging_diagram" class="field_diagram_default" height="490" width="480">
 					<image xlink:href="2016_field_diagram_default.jpg" height="490" width="480" />
-					<line class="trail-left" x1="80" y1="420" x2="80" y2="200" style="stroke:rgb(0,0,300); stroke-width:4" />
-					<line class="trail-left" x1="80" y1="200" x2="150" y2="145" style="stroke:rgb(0,0,300); stroke-width:4" />
-					
-					<line class="trail-mid" x1="200" y1="420" x2="200" y2="280" style="stroke:rgb(0,0,300); stroke-width:4" />
-					<line class="trail-mid" x1="200" y1="280" x2 ="250" y2="240" style="stroke:rgb(0,0,300); stroke-width:4" />
-					<line class="trail-mid" x1 ="250" y1="240" x2="250" y2="180" style="stroke:rgb(0,0,300); stroke-width:4" />
-					
-					<line class="trail-right" x1 ="330" y1="420" x2="330" y2="140" style="stroke:rgb(0,0,300); stroke-width:4" />
-					
-					
-					<line class="straight-left" x1="80" y1="420" x2="80" y2="250" style="stroke:rgb(0,0,300); stroke-width:4" />
-					
-					<line class="straight-mid" x1="200" y1="420" x2="200" y2="250" style="stroke:rgb(0,0,300); stroke-width:4" />
-				
-					<line class="straight-right" x1="330" y1="420" x2="330" y2="250" style="stroke:rgb(0,0,300); stroke-width:4" />
+					<rect  value="1" class="field_diagram_button" width="59" height="55" x="54" y="307" />
+					<rect  value="2" class="field_diagram_button" width="62" height="55" x="113" y="307" />
+					<rect  value="3" class="field_diagram_button" width="61" height="55" x="175" y="307"  />
+					<rect  value="4" class="field_diagram_button" width="63" height="55" x="236" y="307"  />
+					<rect  value="5" class="field_diagram_button" width="61" height="55" x="300" y="307" />
 				</svg>
-				<div class="choices">
-					<p>
-						Left Position: <input height="40px" width="40px" type="radio" class="left_position_button" name="staging_position" value="1">  
-					</p>
-					<p> 
-						Middle Position: <input height="40px" width="40px" type="radio" class="middle_position_button" name="staging_position" value="2"> 
-					</p>
-					<p>
-						Right Position: <input height="40px" width="40px" type="radio" class="right_position_button" name="staging_position" value="3">
-					</p>
-				</div>
 			</li>
 
 			<li class="autonomous-options shooting-goal" data-step="shootingGoal">
@@ -132,7 +110,6 @@
 	</div>
 
 	<p><a href="index.html">Back</a></p>
-
 <!-- This starts the NetworkTables websocket, it can be accessed from multiple
      pages simultaneously -->
 <script src="/networktables/networktables.js"></script>
