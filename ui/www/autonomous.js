@@ -368,11 +368,31 @@ function Steps($element, $carousel) {
 	$element.trigger('stepInit', [defaults]);
 
 	// set the current step
-	this.setStep(firstStep);
+	this.setFirstStep();
 };
 
 Steps.prototype.setValue = function(step, value) {
 
+};
+
+Steps.prototype.setSteps = function(steps) {
+	_.forEach(this.$steps, function($step, step) {
+		console.log(steps.indexOf(step) >= 0);
+		if(steps.indexOf(step) >= 0) {
+			$step.removeClass('disabled');
+		} else {
+			$step.addClass('disabled');
+		}
+	});
+
+	this.setFirstStep();
+};
+
+Steps.prototype.setFirstStep = function() {
+	var $step = this.$element.find('[data-step]:not(.disabled)').first();
+	if($step.length > 0) {
+		this.setStep($step.data('step'));
+	}
 };
 
 Steps.prototype.setStep = function(step) {
