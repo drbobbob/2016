@@ -1,7 +1,5 @@
 /* Field position buttons */
 
-
-
 .left_position_button::after {
 	content: ' ';
 	display: block;
@@ -54,6 +52,12 @@
 	height: 40px;
 	background-image: url(button_selected.jpg);
 }
+
+
+/* On feild diagram buttons*/
+
+
+
 
 /* Shooting Target Buttons */
 
