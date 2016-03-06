@@ -6,8 +6,8 @@ function getObsticle() {
 }
 
 function getStaging() {
-	var staging = $('[name=staging_position]:checked').val();
-	return staging
+	var staging = $('.field_diagram_button.selected').attr('value');
+	return staging;
 }
 
 function getGoal() {
@@ -59,198 +59,23 @@ $('.field_diagram_button').on('click', function() {
 }); 
 
 
-/*
-$('[name=staging_position]').on('click', function() {
-	getStaging();
-	if (getStaging()==1) {
-		$('[name=staging_diagram]').attr('class', ' field_position_diagram left')
-	} 
-});
-
-$('[name=staging_position]').on('click', function() {
-	getStaging()
-	if (getStaging()==2) {
-		$('[name=staging_diagram]').attr('class', 'field_position_diagram mid')
-	}
-});
-
-$('[name=staging_position]').on('click', function() {
-	getStaging()
-	if (getStaging()==3) {
-		$('[name=staging_diagram]').attr('class', 'field_position_diagram right')
-	}
-});
-
-
-$('[name=shooting_target]').on('click', function() {
-	getStaging();
-	if (getStaging()==1) {
-		$('[name=staging_diagram]').attr('class', ' field_position_diagram left')
-	}
-});
-
-$('[name=shooting_target]').on('click', function() {
-	getStaging()
-	if (getStaging()==2) {
-		$('[name=staging_diagram]').attr('class', 'field_position_diagram mid')
-	}
-});
-
-$('[name=shooting_target]').on('click', function() {
-	getStaging()
-	if (getStaging()==3) {
-		$('[name=staging_diagram]').attr('class', 'field_position_diagram right')
-	}
-});
-
-
-
-$('[name=shooting_target]').on('click', function() {
-	getStaging()
-	getGoal()
-	if (getStaging()==1 && getGoal()==3) {
-		$('[name=staging_diagram]').attr('class', 'straight_left')
-	}
-});
-
-$('[name=shooting_target]').on('click', function() {
-	getStaging()
-	getGoal()
-	if (getStaging()==2 && getGoal()==3) {
-		$('[name=staging_diagram]').attr('class', 'straight_mid')
-	}
-});
-
-$('[name=shooting_target]').on('click', function() {
-	getStaging()
-	getGoal()
-	if (getStaging()==3 && getGoal()==3) {
-		$('[name=staging_diagram]').attr('class', 'straight_right')
-	}
-});
-
-
-$('[name=staging_position]').on('click', function() {
-	getStaging()
-	getGoal()
-	if (getStaging()==1 && getGoal()==3) {
-		$('[name=staging_diagram]').attr('class', 'straight_left')
-	}
-	NetworkTables.putValue('/SmartDashboard/driveforward', $('[name=staging_position]:checked').val());
-});
-
-$('[name=staging_position]').on('click', function() {
-	getStaging()
-	getGoal()
-	if (getStaging()==2 && getGoal()==3) {
-		$('[name=staging_diagram]').attr('class', 'straight_mid')
-	}
-	NetworkTables.putValue('/SmartDashboard/driveforward', $('[name=staging_position]:checked').val());
-});
-
-$('[name=staging_position]').on('click', function() {
-	getStaging()
-	getGoal()
-	if (getStaging()==3 && getGoal()==3) {
-		$('[name=staging_diagram]').attr('class', 'straight_right')
-	}
-	console.log('staging position: ', $('[name=staging_position]:checked').val());
-	NetworkTables.putValue('/SmartDashboard/driveforward', $('[name=staging_position]:checked').val());//getStaging())
-});
-*/
-
 // Shooting Diagram
+$('[name=shooting_target], .field_diagram_button').on('click', function() {
+	var stagingPosition = getStaging();
+	var goal = getGoal();
 
-$('[name=shooting_target]').on('click', function() {
-	getGoal()
-	getStaging()
-	if (getGoal()==1 && getStaging()==1)
-		$('[name=shooting_diagram]').attr('class', 'high left')
-});
+	var classes = [];
+	classes.push(goal);
 
-$('[name=shooting_target]').on('click', function() {
-	getGoal()
-	getStaging()
-	if (getGoal()==1 && getStaging()==2)
-		$('[name=shooting_diagram]').attr('class', 'high mid')
-});
+	if(stagingPosition < 3) {
+		classes.push('left');
+	} else if(stagingPosition == 3) {
+		classes.push('mid');
+	} else {
+		classes.push('right');
+	}
 
-$('[name=shooting_target]').on('click', function() {
-	getGoal()
-	getStaging()
-	if (getGoal()==1 && getStaging()==3)
-		$('[name=shooting_diagram]').attr('class', 'high right')
-});
-
-$('[name=shooting_target]').on('click', function() {
-	getGoal()
-	getStaging()
-	if (getGoal()==2 && getStaging()==1)
-		$('[name=shooting_diagram]').attr('class', 'low left')
-});
-
-$('[name=shooting_target]').on('click', function() {
-	getGoal()
-	getStaging()
-	if (getGoal()==2 && getStaging()==3)
-		$('[name=shooting_diagram]').attr('class', 'low right')
-});
-
-$('[name=shooting_target]').on('click', function() {
-	getGoal()
-	getStaging()
-	if (getGoal()==3)
-		$('[name=shooting_diagram]').attr('class', 'nothing')
-});
-
-$('[name=shooting_target]').on('click', function() {
-	getGoal()
-	getStaging()
-	if (getGoal()==2 && getStaging()==2)
-		$('[name=shooting_diagram]').attr('class', 'nothing')
-});
-
-
-
-
-
-
-
-
-$('[name=staging_position]').on('click', function() {
-	if (getGoal()==1 && getStaging()==1)
-		$('[name=shooting_diagram]').attr('class', 'high left')
-});
-
-$('[name=staging_position]').on('click', function() {
-	if (getGoal()==1 && getStaging()==2)
-		$('[name=shooting_diagram]').attr('class', 'high mid')
-});
-
-$('[name=staging_position]').on('click', function() {
-	if (getGoal()==1 && getStaging()==3)
-		$('[name=shooting_diagram]').attr('class', 'high right')
-});
-
-
-$('[name=staging_position]').on('click', function() {
-	if (getGoal()==2 && getStaging()==1)
-		$('[name=shooting_diagram]').attr('class', 'low left')
-});
-
-$('[name=staging_position]').on('click', function() {
-	if (getGoal()==2 && getStaging()==3)
-		$('[name=shooting_diagram]').attr('class', 'low right')
-});
-
-$('[name=staging_position]').on('click', function() {
-	if (getGoal()==3)
-		$('[name=shooting_diagram]').attr('class', 'nothing')
-});
-
-$('[name=staging_position]').on('click', function() {
-	if (getGoal()==2 && getStaging()==2)
-		$('[name=shooting_diagram]').attr('class', 'nothing')
+	$('[name=shooting_diagram]').attr('class', classes.join(' '));
 });
 
 //Obsticle pictures
