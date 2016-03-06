@@ -318,3 +318,76 @@ $('[name=staging_position]').on('click', function () {
 	if (getStaging()==1)
 		$('[name=obsticle_types][value=1]').prop('selected', true);
 });
+
+
+
+// Initialize autonomous slider
+$('.autonomous-mode-carousel').slick({
+  dots: false,
+  arrows: false,
+  infinite: true,
+  speed: 500,
+  //cssEase: 'linear',
+  fade: true,
+  slide: 'li',
+  slidesToShow: 1,
+  slidesToScroll : 1
+});
+
+
+
+
+function Steps($element, $carousel) {
+	this.$element = $element;
+	this.$steps = {};
+	this.$carousel = $carousel;
+
+	// initialize the steps and get the defaults
+	var that = this;
+	var defaults = {};
+	var firstStep = null;
+	$element.find('[data-step]').each(function() {
+		var $step = $(this),
+			step = $step.data('step'),
+			defaultValue = $step.data('step-value');
+		
+		firstStep = firstStep || step;
+
+		that.$steps[step] = $step;
+		defaults[step] = defaultValue;	
+
+		$step.text($step.text());
+		$('<span class="value">' + defaultValue + '</span>').appendTo($step);
+
+		// When step is clicked on, go to that step
+		$step.on('click', function() {
+			that.setStep(step);
+		});
+	});
+ 
+	$element.trigger('stepInit', [defaults]);
+
+	// set the current step
+	this.setStep(firstStep);
+};
+
+Steps.prototype.setValue = function(step, value) {
+
+};
+
+Steps.prototype.setStep = function(step) {
+
+	var $step = this.$steps[step];
+
+	// set to active step in dom
+	this.$element.find('[data-step]').removeClass('active');
+	$step.addClass('active');
+
+	// set the carousel slide
+	var $slide = this.$carousel.find('[data-step=' + step + ']');
+	this.$carousel.slick('slickGoTo', $slide.index());
+};
+
+
+var steps = new Steps($('.steps'), $('.autonomous-mode-carousel'));
+	

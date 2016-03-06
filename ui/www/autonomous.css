@@ -499,3 +499,71 @@
 .rough_terrain .rough-terrain {
 	display: block;
 } 
+
+
+/* Style autonomous carousel */
+
+.autonomous-mode {
+	display: inline-block;
+	position: relative;
+}
+
+.autonomous-mode h1 {
+	display: inline-block;
+	margin: 0 25px 0 0;
+	vertical-align: top;
+}
+
+.autonomous-mode-carousel {
+	width: 1000px;
+	border: 5px solid #ddd;
+	margin-top: 30px;
+}
+
+.autonomous-options {
+	width: 1000px;
+}
+
+.autonomous-options .choices {
+	display: inline-block;
+	text-align: right;
+    vertical-align: top;
+}
+
+.autonomous-options  .choices p {
+	display: block;
+	width: 260px;
+	text-align: left;
+	margin-left: 50px;
+}
+
+.autonomous-options  .choices p input {
+	float: right;
+}
+
+.steps {
+	display: inline-block;
+	float: right;
+	text-align: right;
+}
+
+.steps [data-step] {
+	display: inline-block;
+	margin-right: 10px;
+	font-size: 20px;
+	font-weight: normal;
+	cursor: pointer;
+	width: 150px;
+}
+
+.steps [data-step] span {
+	display: block;
+	cursor: default;
+	font-weight: normal;
+	color: green;
+}
+
+.steps [data-step].active {
+	font-weight: bold;
+}
+
