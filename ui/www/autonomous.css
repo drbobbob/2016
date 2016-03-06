@@ -504,6 +504,10 @@
 	width: 150px;
 }
 
+.steps [data-step].disabled {
+	display: none;
+}
+
 .steps [data-step] span {
 	display: block;
 	cursor: default;
