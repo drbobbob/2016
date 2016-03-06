@@ -35,7 +35,7 @@ $('[name=obsticle_types]').on('click', function() {
 $('[name=shooting_target]').on('click', function() {
 	console.log(getGoal()) 
 	console.log('shooting goal changed'); 
-	NetworkTables.putValue('/SmartDashboard/shootingtarget', getGoal())
+	NetworkTables.putValue('/SmartDashboard/shootingtarget', getGoal());
 });
 
 $('[name=pass_ball]').on('click', function() {
@@ -45,14 +45,21 @@ $('[name=pass_ball]').on('click', function() {
 	else {
 		console.log('Not passing ball')
 	}
-	NetworkTables.putValue('/SmartDashboard/passball', passingBall())
+	NetworkTables.putValue('/SmartDashboard/passball', passingBall());
 });
 
 
 // Staging Position Diagram
 
+$('.field_diagram_button').on('click', function() {
+	$('.field_diagram_button').attr('class', 'field_diagram_button');
+	$(this).attr('class', 'field_diagram_button selected');
+	var position = $(this).attr('value');
+	NetworkTables.putValue('/SmartDashboard/position', position);
+}); 
 
 
+/*
 $('[name=staging_position]').on('click', function() {
 	getStaging();
 	if (getStaging()==1) {
@@ -150,6 +157,7 @@ $('[name=staging_position]').on('click', function() {
 	console.log('staging position: ', $('[name=staging_position]:checked').val());
 	NetworkTables.putValue('/SmartDashboard/driveforward', $('[name=staging_position]:checked').val());//getStaging())
 });
+*/
 
 // Shooting Diagram
 
