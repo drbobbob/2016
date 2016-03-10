@@ -75,7 +75,7 @@ $('[name=shooting_target], .field_diagram_button').on('click', function() {
 
 	if(stagingPosition < 3) {
 		classes.push('left');
-	} else if(stagingPosition == 3) {
+	} else if(stagingPosition == 3||4) {
 		classes.push('mid');
 	} else {
 		classes.push('right');
@@ -83,6 +83,8 @@ $('[name=shooting_target], .field_diagram_button').on('click', function() {
 
 	$('[name=shooting_diagram]').attr('class', classes.join(' '));
 });
+
+$('[name=shooting_target], .field_diagram_button[value=1]').click();
 
 //Obsticle pictures
 
