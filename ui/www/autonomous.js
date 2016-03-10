@@ -240,5 +240,40 @@ Steps.prototype.setStep = function(step) {
 };
 
 
+function AutoChooser($element, steps) {
+	this.$element = $element;
+	this.steps = steps;
+	this.modes = {};
+
+	var that = this;
+
+	// Create the mode
+	this.$element.find('option').each(function(e) {
+		that.modes[$(this).val()] = {
+			$element : $(this),
+			steps : $(this).data('steps')
+		};
+	});
+
+	// set the current mode
+	this._setMode($element.find('option:selected').val());
+
+	// when select changes set the mode
+	$element.on('change', function(e) {
+		that._setMode($element.find('option:selected').val());
+	});
+}
+
+
+AutoChooser.prototype._setMode = function(mode) {
+	var mode = this.modes[mode];
+	this.steps.setSteps(mode.steps);
+};
+
+
+
 var steps = new Steps($('.steps'), $('.autonomous-mode-carousel'));
+var autoChooser = new AutoChooser($('.autonomous-chooser'), steps);
+
+
 	

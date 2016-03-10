@@ -23,6 +23,11 @@
 			<div data-step="obsticleType" data-step-value="low bar">Obsticle Type</div>
 			<div data-step="passBall" data-step-value="no">Pass Ball</div>
 		</div>
+		<select class="autonomous-chooser">
+			<option value="crossAndShoot" data-steps="[stagingPosition, obsticleType, shootingGoal]">Cross and Shoot</option>
+			<option value="passBall" data-steps="[passBall]">Pass Ball</option>
+			<option value="breachDefense" data-steps="[stagingPosition, obsticleType]">Breach Defense</option>
+		</select>
 		<ul class="autonomous-mode-carousel">
 			<li class="autonomous-options staging-positions" data-step="stagingPosition">
 				<svg name="staging_diagram" class="field_diagram_default" height="490" width="480">
