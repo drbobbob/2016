@@ -273,6 +273,7 @@
 	display: block;
 } */
 
+
 .height.side .high-left {
 	display: none;
 }
@@ -404,6 +405,32 @@
 }
 
 .low.left .low-right {
+	display: none;
+}
+
+
+
+.low.mid .high-left {
+	display: none;
+}
+
+.low.mid .high-left {
+	display: none;
+}
+
+.low.mid .high-mid {
+	display: none;
+}
+
+.low.mid .high-right {
+	display: none;
+}
+
+.low.mid .low-left {
+	display: none;
+}
+
+.low.mid .low-right {
 	display: none;
 }
 
