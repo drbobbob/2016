@@ -1,4 +1,5 @@
 
+import hal
 import wpilib
 
 from robotpy_ext.common_drivers.navx import AHRS
@@ -10,7 +11,11 @@ class Drive:
     
     robot_drive = wpilib.RobotDrive
 
-    kP = 0.5
+    if hal.HALIsSimulation():
+        kP = 0.3
+    else:
+        kP = 0.3
+        
     kI = 0.00
     kD = 0.00
     kF = 0.00
