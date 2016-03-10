@@ -64,9 +64,20 @@
 }
 
 [name=staging_diagram] .field_diagram_button.selected {
+	display:block;
 	fill:rgb(0,0,100);
 	fill-opacity:0.3; 
 }
+
+
+[name=staging_diagram] .field_trail {
+	display:none;
+} 
+
+[name=staging_diagram] .field_trail.selected {
+	display:block; 
+} 
+
 
 /*.field_diagram_button_1_selected  .field_diagram_button_2_selected, .field_diagram_button_1_selected  .field_diagram_button_3_selected, .field_diagram_button_1_selected .field_diagram_button_4_selected  , .field_diagram_button_1_selected  .field_diagram_button_5_selected {
 	display: none;

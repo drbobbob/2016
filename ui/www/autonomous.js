@@ -58,6 +58,12 @@ $('.field_diagram_button').on('click', function() {
 	NetworkTables.putValue('/SmartDashboard/position', position);
 }); 
 
+$('.field_diagram_button').on('click', function() {
+	var value = $(this).attr('value');
+	$('.field_trail').attr('class', 'field_trail');
+	$('.field_trail[value=' + value + ']').attr('class', 'field_trail selected');
+	var trail = $('.field_trail').attr('value');
+}); 
 
 /*
 $('[name=staging_position]').on('click', function() {
@@ -255,55 +261,55 @@ $('[name=staging_position]').on('click', function() {
 
 //Obsticle pictures
 
-$('[name=obsticle_types]').on('click', function () {
+$('[name=obsticle_types]').on('change', function () {
 	getObsticle()
 	if (getObsticle()==1)
 		$('[name=obsticle]').attr('class','low_bar')	
 });
 
-$('[name=obsticle_types]').on('click', function () {
+$('[name=obsticle_types]').on('change', function () {
 	getObsticle()
 	if (getObsticle()==2)
 		$('[name=obsticle]').attr('class','portcullis')	
 });
 
-$('[name=obsticle_types]').on('click', function () {
+$('[name=obsticle_types]').on('change', function () {
 	getObsticle()
 	if (getObsticle()==3)
 		$('[name=obsticle]').attr('class','cheval_de_frise')	
 });
 
-$('[name=obsticle_types]').on('click', function () {
+$('[name=obsticle_types]').on('change', function () {
 	getObsticle()
 	if (getObsticle()==4)
 		$('[name=obsticle]').attr('class','moat')	
 });
 
-$('[name=obsticle_types]').on('click', function () {
+$('[name=obsticle_types]').on('change', function () {
 	getObsticle()
 	if (getObsticle()==5)
 		$('[name=obsticle]').attr('class','ramparts')	
 });
 
-$('[name=obsticle_types]').on('click', function () {
+$('[name=obsticle_types]').on('change', function () {
 	getObsticle()
 	if (getObsticle()==6)
 		$('[name=obsticle]').attr('class','drawbridge')	
 });
 
-$('[name=obsticle_types]').on('click', function () {
+$('[name=obsticle_types]').on('change', function () {
 	getObsticle()
 	if (getObsticle()==7)
 		$('[name=obsticle]').attr('class','sally_port')	
 });
 
-$('[name=obsticle_types]').on('click', function () {
+$('[name=obsticle_types]').on('change', function () {
 	getObsticle()
 	if (getObsticle()==8)
 		$('[name=obsticle]').attr('class','rock_wall')	
 });
 
-$('[name=obsticle_types]').on('click', function () {
+$('[name=obsticle_types]').on('change', function () {
 	getObsticle()
 	if (getObsticle()==9)
 		$('[name=obsticle]').attr('class','rough_terrain')	
