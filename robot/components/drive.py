@@ -10,7 +10,7 @@ class Drive:
     
     robot_drive = wpilib.RobotDrive
 
-    kP = 0.03
+    kP = 0.5
     kI = 0.00
     kD = 0.00
     kF = 0.00
@@ -50,6 +50,10 @@ class Drive:
         self.y1 = y1
         self.y2 = y2 
         self.function_called = Drive.tank
+        
+    def get_angle(self):
+        """Returns the robot's current heading"""
+        return self.ahrs.getYaw()
         
     def move_at_angle(self, speed, angle):
         """Moves the robot and turns it to a specified direction"""
