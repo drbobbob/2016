@@ -10,8 +10,13 @@ class AutoAim:
     
     drive = Drive
     
+    # Variables from camera
     present = ntproperty('/components/autoaim/present', False)
     #target_angle = ntproperty('/components/autoaim/target_angle', 0)
+    
+    # Variables to driver station
+    autoaim_enabled = ntproperty('/components/autoaim/enabled', False)
+    autoaim_on_target = ntproperty('/components/autoaim/on_target', False)
     
     
     def __init__(self):
@@ -32,7 +37,13 @@ class AutoAim:
     
     def execute(self):
         
-        if self.aim_speed is None:
+        autoaim_enabled = self.aim_speed is not None
+        
+        if self.autoaim_enabled != autoaim_enabled:
+            self.autoaim_enabled = autoaim_enabled
+        
+        if not autoaim_enabled:
+            self.autoaim_on_target = False
             self.aimed_at_angle = None
             return
         
@@ -41,13 +52,13 @@ class AutoAim:
             current_angle = self.drive.get_angle()
             
             if self.target_angle is not None:
-                print("Changed to", current_angle, self.target_angle)
                 self.aimed_at_angle = current_angle + self.target_angle
                 self.target_angle = None
             
             if self.aimed_at_angle is not None:
-                print("Going to", current_angle, self.aimed_at_angle)
                 self.drive.move_at_angle(self.aim_speed, self.aimed_at_angle)
+        
+        self.autoaim_on_target = self.drive.is_at_angle()
         
         # reset
         self.aim_speed = None

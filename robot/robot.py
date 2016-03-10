@@ -61,7 +61,7 @@ class MyRobot(MagicRobot):
     
     def teleopPeriodic(self):
         if self.use_arcade_drive:
-            self.drive.move(self.left_joystick.getX(), -self.left_joystick.getY())
+            self.drive.move(self.right_joystick.getX(), -self.right_joystick.getY())
         else:
             self.drive.tank(self.left_joystick.getY(), self.right_joystick.getY())
         
@@ -83,8 +83,8 @@ class MyRobot(MagicRobot):
             self.lenny.ball_out()
             
             
-        if self.left_joystick.getRawButton(6):
-            self.auto_aim.aim(-self.left_joystick.getY())
+        if self.left_joystick.getTrigger():
+            self.auto_aim.aim(-self.right_joystick.getY())
             
             
         # Tapemeasure controls

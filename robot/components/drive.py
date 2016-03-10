@@ -2,6 +2,8 @@
 import hal
 import wpilib
 
+from networktables.util import ntproperty
+
 from robotpy_ext.common_drivers.navx import AHRS
 
 class Drive:
@@ -10,6 +12,10 @@ class Drive:
     """
     
     robot_drive = wpilib.RobotDrive
+    
+    # Variables to driver station
+    robot_angle = ntproperty('/components/drive/angle', 0)
+    robot_setpoint = ntproperty('/components/drive/setpoint', 0)
 
     if hal.HALIsSimulation():
         kP = 0.3
@@ -64,8 +70,18 @@ class Drive:
         """Moves the robot and turns it to a specified direction"""
         
         self.speed = speed
-        self.turn_controller.setSetpoint(angle)
+        if abs(angle - self.robot_setpoint) > 0.001:
+            self.turn_controller.setSetpoint(angle)
+            self.robot_setpoint = angle
+        
         self.function_called = Drive.move_at_angle
+        
+    def is_at_angle(self):
+        """
+            Returns True if robot is pointing at specified angle. Always
+            returns False when move_at_angle is not being called.
+        """
+        return self.turn_controller.isEnable() and self.turn_controller.onTarget()
 
     def pidWrite(self, output):
         """This function is invoked periodically by the PID Controller,
@@ -87,6 +103,9 @@ class Drive:
 
             else:
                 self.robot_drive.arcadeDrive(-self.y, self.x)
+        
+        # send this to the DS
+        self.robot_angle = self.get_angle()
         
         self.x = 0
         self.y = 0
