@@ -1,6 +1,6 @@
 .project
 .pydevproject
-
+.deploy_cfg
 *.py[cod]
 __pycache__
 .cache
