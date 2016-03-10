@@ -1,159 +1,5 @@
 //"use strict"; 
 
-function getObsticle() {
-	var obsticle = $('[name=obsticle_types]:checked').val();
-	return obsticle
-}
-
-function getStaging() {
-	var staging = $('.field_diagram_button.selected').attr('value');
-	return staging;
-}
-
-function getGoal() {
-	var goal = $('[name=shooting_target]:checked').val();
-	return goal
-}
-
-function passingBall() {
-	var passing_ball = $('[name=pass_ball]:checked').prop('checked');
-	return passing_ball
-}
-
-$('[name=staging_position]').on('click', function() {
-	console.log(getStaging()) 
-	console.log('staging position changed'); 
-	NetworkTables.putValue('/SmartDashboard/stagingposition', getStaging());
-	});
-
-$('[name=obsticle_types]').on('click', function() {
-	console.log(getObsticle()) 
-	console.log('obsticle type changed'); 
-	NetworkTables.putValue('/SmartDashboard/obsticletypes', getObsticle());
-	});
-
-$('[name=shooting_target]').on('click', function() {
-	console.log(getGoal()) 
-	console.log('shooting goal changed'); 
-	NetworkTables.putValue('/SmartDashboard/shootingtarget', getGoal());
-});
-
-$('[name=pass_ball]').on('click', function() {
-	if (passingBall()== true) {
-		console.log('Passing ball');
-	}
-	else {
-		console.log('Not passing ball')
-	}
-	NetworkTables.putValue('/SmartDashboard/passball', passingBall());
-});
-
-
-// Staging Position Diagram
-
-$('.field_diagram_button').on('click', function() {
-	$('.field_diagram_button').attr('class', 'field_diagram_button');
-	$(this).attr('class', 'field_diagram_button selected');
-	var position = $(this).attr('value');
-	NetworkTables.putValue('/SmartDashboard/position', position);
-}); 
-
-$('.field_diagram_button').on('click', function() {
-	var value = $(this).attr('value');
-	$('.field_trail').attr('class', 'field_trail');
-	$('.field_trail[value=' + value + ']').attr('class', 'field_trail selected');
-	var trail = $('.field_trail').attr('value');
-}); 
-
-// Shooting Diagram
-$('[name=shooting_target], .field_diagram_button').on('click', function() {
-	var stagingPosition = getStaging();
-	var goal = getGoal();
-
-	var classes = [];
-	classes.push(goal);
-
-	if(stagingPosition < 3) {
-		classes.push('left');
-	} else if(stagingPosition == 3||4) {
-		classes.push('mid');
-	} else {
-		classes.push('right');
-	}
-
-	$('[name=shooting_diagram]').attr('class', classes.join(' '));
-});
-
-$('[name=shooting_target], .field_diagram_button[value=1]').click();
-
-//Obsticle pictures
-
-$('[name=obsticle_types]').on('change', function () {
-	getObsticle()
-	if (getObsticle()==1)
-		$('[name=obsticle]').attr('class','low_bar')	
-});
-
-$('[name=obsticle_types]').on('change', function () {
-	getObsticle()
-	if (getObsticle()==2)
-		$('[name=obsticle]').attr('class','portcullis')	
-});
-
-$('[name=obsticle_types]').on('change', function () {
-	getObsticle()
-	if (getObsticle()==3)
-		$('[name=obsticle]').attr('class','cheval_de_frise')	
-});
-
-$('[name=obsticle_types]').on('change', function () {
-	getObsticle()
-	if (getObsticle()==4)
-		$('[name=obsticle]').attr('class','moat')	
-});
-
-$('[name=obsticle_types]').on('change', function () {
-	getObsticle()
-	if (getObsticle()==5)
-		$('[name=obsticle]').attr('class','ramparts')	
-});
-
-$('[name=obsticle_types]').on('change', function () {
-	getObsticle()
-	if (getObsticle()==6)
-		$('[name=obsticle]').attr('class','drawbridge')	
-});
-
-$('[name=obsticle_types]').on('change', function () {
-	getObsticle()
-	if (getObsticle()==7)
-		$('[name=obsticle]').attr('class','sally_port')	
-});
-
-$('[name=obsticle_types]').on('change', function () {
-	getObsticle()
-	if (getObsticle()==8)
-		$('[name=obsticle]').attr('class','rock_wall')	
-});
-
-$('[name=obsticle_types]').on('change', function () {
-	getObsticle()
-	if (getObsticle()==9)
-		$('[name=obsticle]').attr('class','rough_terrain')	
-});
-
-$('[name=staging_position]').on('click', function () {
-	if (getStaging()==1)
-		$('[name=obsticle]').attr('class','low_bar')	
-});
-
-$('[name=staging_position]').on('click', function () {
-	if (getStaging()==1)
-		$('[name=obsticle_types][value=1]').prop('selected', true);
-});
-
-
-
 // Initialize autonomous slider
 $('.autonomous-mode-carousel').slick({
   dots: false,
@@ -166,7 +12,6 @@ $('.autonomous-mode-carousel').slick({
   slidesToShow: 1,
   slidesToScroll : 1
 });
-
 
 
 
@@ -205,7 +50,7 @@ function Steps($element, $carousel) {
 };
 
 Steps.prototype.setValue = function(step, value) {
-
+	this.$steps[step].find('.value').text(value);
 };
 
 Steps.prototype.setSteps = function(steps) {
@@ -276,6 +121,133 @@ AutoChooser.prototype._setMode = function(mode) {
 
 var steps = new Steps($('.steps'), $('.autonomous-mode-carousel'));
 var autoChooser = new AutoChooser($('.autonomous-chooser'), steps);
+
+
+
+
+
+
+function getObsticle() {
+	var obsticle = $('[name=obsticle_types]:checked').val();
+	return obsticle
+}
+
+function getStaging() {
+	var staging = $('.field_diagram_button.selected').attr('value');
+	return staging;
+}
+
+function getGoal() {
+	var goal = $('[name=shooting_target]:checked').val();
+	return goal
+}
+
+function passingBall() {
+	var passing_ball = $('[name=pass_ball]:checked').prop('checked');
+	return passing_ball;
+}
+
+
+$('[name=obsticle_types]').on('click', function() {
+	console.log(getObsticle()) 
+	console.log('obsticle type changed'); 
+	NetworkTables.putValue('/SmartDashboard/obsticletypes', getObsticle());
+	});
+
+$('[name=shooting_target]').on('click', function() {
+	console.log(getGoal()) 
+	console.log('shooting goal changed'); 
+	NetworkTables.putValue('/SmartDashboard/shootingtarget', getGoal());
+});
+
+$('[name=pass_ball]').on('click', function() {
+	var passing = passingBall();
+	if (passing) {
+		console.log('Passing ball');
+	} else {
+		console.log('Not passing ball')
+	}
+
+	// Set value in in steps
+	steps.setValue('passBall', passing ? 'yes' : 'no');
+
+	// Set value in Networktables
+	NetworkTables.putValue('/SmartDashboard/passball', passingBall());
+});
+
+
+// Staging Position Diagram
+$('.field_diagram_button').on('click', function() {
+
+	var value = $(this).attr('value');
+	var position = $(this).attr('value');
+
+	// select the staging position
+	$('.field_diagram_button').attr('class', 'field_diagram_button');
+	$(this).attr('class', 'field_diagram_button selected');
+	
+	// show the field trail	for the selected staging position
+	$('.field_trail').attr('class', 'field_trail');
+	$('.field_trail[value=' + value + ']').attr('class', 'field_trail selected');
+
+	// Set the value in steps
+	steps.setValue('stagingPosition', value);
+
+	// Set staging position in NetworkTables
+	NetworkTables.putValue('/SmartDashboard/position', position);
+
+}); 
+
+//  Set the goal in the diagram when staging position or goal values change
+$('[name=shooting_target], .field_diagram_button').on('click', function() {
+	var stagingPosition = getStaging();
+	var goal = getGoal();
+
+	var classes = [];
+	classes.push(goal);
+
+	if(stagingPosition < 3) {
+		classes.push('left');
+	} else if(stagingPosition == 3||4) {
+		classes.push('mid');
+	} else {
+		classes.push('right');
+	}
+
+	$('[name=shooting_diagram]').attr('class', classes.join(' '));
+});
+
+$('[name=shooting_target], .field_diagram_button[value=1]').click();
+
+// Set the value of the shooting goal step when selected
+steps.setValue('shootingGoal', $('[name=shooting_target]:checked').val());
+$('[name=shooting_target]').on('click', function(e) {
+	var value = $(this).val();
+	steps.setValue('shootingGoal', value);
+});
+
+//Obsticle pictures
+$('[name=obsticle]').attr('class', getObsticle());
+$('[name=obsticle_types]').on('change', function () {
+	var obsticle = $(this).val();
+	var obsticleTitle = $(this).find('option:selected').text();
+	$('[name=obsticle]').attr('class', obsticle);
+	steps.setValue('obsticleType', obsticleTitle);
+});
+
+$('[name=staging_position]').on('click', function () {
+	if (getStaging()==1)
+		$('[name=obsticle]').attr('class','low_bar')	
+});
+
+$('[name=staging_position]').on('click', function () {
+	if (getStaging()==1)
+		$('[name=obsticle_types][value=1]').prop('selected', true);
+});
+
+
+
+
 
 
 	
