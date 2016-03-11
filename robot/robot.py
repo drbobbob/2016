@@ -22,8 +22,10 @@ class MyRobot(MagicRobot):
     #tapemeasure = Tapemeasure
     drive = Drive
     
-    use_arcade_drive = ntproperty('/SmartDashboard/use_arcade', True, True)
-    
+    use_arcade_drive = ntproperty('/SmartDashboard/use_arcade', True, True) 
+	fire_toggled = ntproperty('/teleop/fire_toggle', False, True)
+	lenny_toggled = ntproperty('/teleop/lenny_toggle', False, True) 
+		
     def createObjects(self):
         self.ball_sensor = SharpIRGP2Y0A41SK0F(0)
         self.tower_sensor = SharpIR2Y0A02(1)
@@ -75,9 +77,9 @@ class MyRobot(MagicRobot):
             self.pitcher_enabled = False
             
         # Lenny controls
-        if self.right_joystick.getTrigger():
+        if self.right_joystick.getTrigger() or fire_toggled:
             self.shooter_control.fire()
-        elif self.left_joystick.getRawButton(2):
+        elif self.left_joystick.getRawButton(2) or lenny_toggled:
             self.lenny.ball_in()
         elif self.left_joystick.getRawButton(3):
             self.lenny.ball_out()

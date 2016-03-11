@@ -12,7 +12,7 @@
 		}
 		else {
 			console.log('Lenny Deactivated');
-		NetworkTables.putValue('/SmartDashboard/actlenny', getLenny())
+		NetworkTables.putValue(ntkeys.lenny, getLenny())
 		}
 	});
 		
@@ -20,7 +20,7 @@
 
 	$('[name=firer]').on('click', function() {	
 	console.log('Fired')
-	NetworkTables.putValue('/SmartDashboard/fire', true)
+	NetworkTables.putValue(ntkeys.fire', true)
 	});
 
 	
@@ -49,7 +49,7 @@
 		else {
 			$('p').removeClass('ballin');
 			$('p').addClass('ballout');
-		NetworkTables.putValue('/SmartDashboard/ballsensor', getBallsensor())
+		NetworkTables.putValue(ntkeys.ballSensor, getBallsensor())
 		}
 	});
 		
