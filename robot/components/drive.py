@@ -83,6 +83,9 @@ class Drive:
         """
         return self.turn_controller.isEnable() and self.turn_controller.onTarget()
 
+    def reset_angle(self):
+        self.ahrs.reset()
+
     def pidWrite(self, output):
         """This function is invoked periodically by the PID Controller,
         based upon navX MXP yaw angle input and PID Coefficients.
