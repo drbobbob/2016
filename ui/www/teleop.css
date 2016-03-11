@@ -1,0 +1,43 @@
+/*
+.fire {
+  background-image: url(button_unselected.jpg);
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  height: 240px;
+  width: 240px;
+  border: none;
+}
+*/
+
+
+
+.fire {
+	color: yellow;
+	font-size: 70px;
+}
+
+
+.svgdiagram.ballin .bawl {
+	display: block;
+}
+
+.svgdiagram.ballout .bawl {
+	display: none;
+}
+
+
+.diagram.ballout .ballout-image{
+	display: block;
+}
+
+.diagram.ballout .ballin-image{
+	display: none;
+}
+
+.diagram.ballin .ballout-image{
+	display: none;
+}
+
+.diagram.ballin .ballin-image{
+	display: block;
+} 
