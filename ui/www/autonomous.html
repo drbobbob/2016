@@ -23,6 +23,11 @@
 			<div data-step="obsticleType" data-step-value="low bar">Obsticle Type</div>
 			<div data-step="passBall" data-step-value="no">Pass Ball</div>
 		</div>
+		<select class="autonomous-chooser">
+			<option value="crossAndShoot" data-steps="[stagingPosition, obsticleType, shootingGoal]">Cross and Shoot</option>
+			<option value="passBall" data-steps="[passBall]">Pass Ball</option>
+			<option value="breachDefense" data-steps="[stagingPosition, obsticleType]">Breach Defense</option>
+		</select>
 		<ul class="autonomous-mode-carousel">
 			<li class="autonomous-options staging-positions" data-step="stagingPosition">
 				<svg name="staging_diagram" class="field_diagram_default" height="490" width="480">
@@ -91,23 +96,23 @@
 			<li class="autonomous-options obsticle-type" data-step="obsticleType">
 				<p>
 					<select name="obsticle_types">
-						 <option name="obsticle_types" value="1"> Low bar </option>
+						 <option name="obsticle_types" value="low_bar"> Low bar </option>
 
-						<option name="obsticle_types" value="2"> Portcullis(A)</option>
-						<option name="obsticle_types" value="3"> Cheval de Frise(A) </option>
+						<option name="obsticle_types" value="portcullis"> Portcullis(A)</option>
+						<option name="obsticle_types" value="cheval_de_frise"> Cheval de Frise(A) </option>
 
 
-						<option name="obsticle_types" value="4"> Moat(B) </option>
-						<option name="obsticle_types" value="5"> Ramparts(B) </option>
+						<option name="obsticle_types" value="moat"> Moat(B) </option>
+						<option name="obsticle_types" value="ramparts"> Ramparts(B) </option>
 						
 
-						<option name="obsticle_types" value="6"> Drawbridge(C) </option>
-						<option name="obsticle_types" value="7"> Sally Port(C) </option>
+						<option name="obsticle_types" value="drawbridge"> Drawbridge(C) </option>
+						<option name="obsticle_types" value="sally_port"> Sally Port(C) </option>
 
 
 
-						<option name="obsticle_types" value="8" > Rock Wall(D) </option>
-						<option name="obsticle_types" value="9"> Rough Terrain(D) </option>
+						<option name="obsticle_types" value="rock_wall" > Rock Wall(D) </option>
+						<option name="obsticle_types" value="rough_terrain"> Rough Terrain(D) </option>
 					</select>
 				</p>
 				<svg name="obsticle" class="obsticle_type" height="300" width="400">
