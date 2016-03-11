@@ -15,6 +15,7 @@ class AutoAim:
     #target_angle = ntproperty('/components/autoaim/target_angle', 0)
     
     # Variables to driver station
+    camera_enabled = ntproperty('/camera/enabled', False)
     autoaim_enabled = ntproperty('/components/autoaim/enabled', False)
     autoaim_on_target = ntproperty('/components/autoaim/on_target', False)
     
@@ -39,8 +40,11 @@ class AutoAim:
         
         autoaim_enabled = self.aim_speed is not None
         
+        # Only change camera_enabled on transition, that way the UI can set it
+        # True if desired
         if self.autoaim_enabled != autoaim_enabled:
             self.autoaim_enabled = autoaim_enabled
+            self.camera_enabled = autoaim_enabled
         
         if not autoaim_enabled:
             self.autoaim_on_target = False
