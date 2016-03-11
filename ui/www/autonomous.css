@@ -609,3 +609,8 @@
 	font-weight: bold;
 }
 
+.autonomous-chooser {
+	display: block;
+	margin-top: 5px;
+}
+
