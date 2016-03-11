@@ -4,6 +4,7 @@ import wpilib
 from magicbot import MagicRobot
 from robotpy_ext.common_drivers.distance_sensors import SharpIRGP2Y0A41SK0F, SharpIR2Y0A02
 
+from components.autoaim import AutoAim
 from components.lenny import Lenny
 from components.pitcher import Pitcher
 #from components.tape_measure import Tapemeasure
@@ -13,9 +14,11 @@ from components.shooter_control import ShooterControl
 from networktables.util import ntproperty
 
 class MyRobot(MagicRobot):
+    
+    auto_aim = AutoAim
     shooter_control = ShooterControl
     lenny = Lenny
-    pitcher = Pitcher 
+    pitcher = Pitcher
     #tapemeasure = Tapemeasure
     drive = Drive
     
@@ -58,7 +61,7 @@ class MyRobot(MagicRobot):
     
     def teleopPeriodic(self):
         if self.use_arcade_drive:
-            self.drive.move(self.left_joystick.getX(), -self.left_joystick.getY())
+            self.drive.move(self.right_joystick.getX(), -self.right_joystick.getY())
         else:
             self.drive.tank(self.left_joystick.getY(), self.right_joystick.getY())
         
@@ -78,6 +81,11 @@ class MyRobot(MagicRobot):
             self.lenny.ball_in()
         elif self.left_joystick.getRawButton(3):
             self.lenny.ball_out()
+            
+            
+        if self.left_joystick.getTrigger():
+            self.auto_aim.aim(-self.right_joystick.getY())
+            
             
         # Tapemeasure controls
         #if self.left_joystick.getRawButton(6):
