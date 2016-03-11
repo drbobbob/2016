@@ -1,3 +1,4 @@
+
 from robotpy_ext.autonomous import timed_state, StatefulAutonomous
 from networktables.util import ntproperty
 from components.drive import Drive
@@ -22,11 +23,13 @@ class GallopAndLaunch(StatefulAutonomous):
     def drive_wait(self):
         pass
 
-    @timed_state(duration=3, next_state='shoot_ball')
+    @timed_state(duration=3, next_state='drive_turn')
     def drive_forward(self):
         self.drive.move_at_angle(self.forward_speed, 0)
         
-    def drive_turn
+    @timed_state(duration=3, next_state='shoot_ball')    
+    def drive_turn(self):
+        pass
         
     @timed_state(duration=4)    
     def shoot_ball(self):
