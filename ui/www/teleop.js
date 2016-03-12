@@ -1,5 +1,15 @@
 	"use strict";
 	
+var ntkeys= {
+	obsticleTypes : "/autonomous/obsticletypes", 
+	shootingTarget : "/autonomous/shootingtarget",
+	passBall : "/autonomous/passball",
+	stagingPosition : "/autonomous/stagingposition",
+	fireToggle: "/teleop/fire_toggle",
+	lennyToggle: "/teleop/lenny_toggle",
+	ballSensor : "/components/lenny/ball_detected",
+}
+	
 	function getLenny(){
 		var activated = $('[name=act_lenny]').prop('checked');
 		return activated;
@@ -12,17 +22,19 @@
 		}
 		else {
 			console.log('Lenny Deactivated');
-		NetworkTables.putValue('/SmartDashboard/actlenny', getLenny())
+		NetworkTables.putValue(ntkeys.lennyToggle, getLenny())
 		}
 	});
 		
 
-
-	$('[name=firer]').on('click', function() {	
-	console.log('Fired')
-	NetworkTables.putValue('/SmartDashboard/fire', true)
-	});
-
+	function fireBall() {
+		var firing = $('[name=firer]:checked').prop('checked');
+		return firing;
+	}
+	
+$('[name=firer]').on('click', function() {
+	NetworkTables.putValue(ntkeys.fireToggle, fireBall())
+}
 	
 		
 	function getBallsensor(){
@@ -49,7 +61,7 @@
 		else {
 			$('p').removeClass('ballin');
 			$('p').addClass('ballout');
-		NetworkTables.putValue('/SmartDashboard/ballsensor', getBallsensor())
+		NetworkTables.putValue(ntkeys.ballSensor, getBallsensor())
 		}
 	});
 		

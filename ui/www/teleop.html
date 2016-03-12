@@ -10,22 +10,28 @@
 
  -->
 <style>
-
-.fire {
-  background-image: url(button_unselected.jpg);
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  height: 240px;
-  width: 240px;
-  border: none;
+[name=firer] {
+	display: none;
 }
 
+[name=firer] + label {
+  background-image: url(fire_button_unselected.png);
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  height: 200px;
+  width: 200px;
+  border: none;
+  display: block;
+}
 
-
-
-.fire {
-	color: yellow;
-	font-size: 70px;
+[name=firer]:checked + label {
+  background-image: url(fire_button_selected.png);
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  height: 200px;
+  width: 200px;
+  border: none;
+  display:block;
 }
 
 
@@ -52,7 +58,6 @@
 
 .diagram.ballin .ballin-image{
 	display: block;
-}
 </style>
 <body>
 	<p>
@@ -64,26 +69,13 @@
 	</p>
 	
 	<p>
-		<input type="button" name="firer"  class="fire" value="FIRE!">
-	</p>
-	
-	<p>
-		<input type="button" name="hango" class="hang" value="Hang">
+		<input type="checkbox" name="firer"  class="fire" id="firin"><label for="firin"></label>
 	</p>
 	
 	<p>
 		<h3> Ball in?<input type="checkbox" name="ball_sensor" value=(1)><h3>
 	</p>
-	
-	<!--
-	<svg class="svgdiagram" height="150" width="300">
-		<rect height="100" width="200" x=0 y=0 style="fill:rgb(0,50,100);stroke-width:4;stroke:rgb(0,0,0);fill-opacity:.1" />
-		<circle cx="50" cy="100" r="25" stroke="black" stroke-width="3" fill="red"/> 
-		<circle cx="150" cy="100" r="25" stroke="black" stroke-width="3" fill="red"/> 
-		<circle cx="100" cy="50" r="30" stroke="black" stroke-width="3" fill="gray" class="bawl"/> 
-	</svg>
-	-->
-	
+		
 	
 	<p class="diagram ballout">
 		<img src="images/2016robottestdiagram.jpg" class="ballout-image" height="300">
@@ -98,73 +90,8 @@
 	<!-- This starts the NetworkTables websocket, it can be accessed from multiple
      pages simultaneously -->
 	<script src="/networktables/networktables.js"></script>
-
-	<!-- Obviously, you will want to copy this file locally in a real 
-		 dashboard, as the Driver Station won't have internet access -->
-	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
-
-	<!-- uncomment this is you want to use included utility functions that
-		 implement common functionality that you might find useful. Requires
-		 that d3.js and jQuery are included first -->
-	<!-- <script src="/networktables/utils.js"></script> -->
-
-
-	<script type="text/javascript">
-	"use strict";
-	
-	function getLenny(){
-		var activated = $('[name=act_lenny]').prop('checked');
-		return activated;
-	}
-
-	$('[name=act_lenny]').on('click', function() {
-		console.log(getLenny());
-		if (getLenny() == true) {
-			console.log('Lenny Activated');	
-		}
-		else {
-			console.log('Lenny Deactivated');
-		NetworkTables.putValue('/SmartDashboard/actlenny', getLenny())
-		}
-	});
-		
-
-
-	$('[name=firer]').on('click', function() {	
-	console.log('Fired')
-	NetworkTables.putValue('/SmartDashboard/fire', true)
-	});
-
-	
-		
-	function getBallsensor(){
-		var guy = $('[name=ball_sensor]').prop('checked');
-		return guy;
-	}
-	
-	$('[name=ball_sensor]').on('click',function() {
-		console.log(getBallsensor());
-		if(getBallsensor() == true) {
-			console.log('Ball in');
-		}
-		else {
-			console.log('ball out');
-		}
-	});
-	
-	$('[name=ball_sensor]').on('click', function() {
-		getBallsensor();
-		if(getBallsensor()==true) {
-			$('p').removeClass('ballout');
-			$('p').addClass('ballin');
-		}
-		else {
-			$('p').removeClass('ballin');
-			$('p').addClass('ballout');
-		NetworkTables.putValue('/SmartDashboard/ballsensor', getBallsensor())
-		}
-	});
-		
+	<script src="jquery-2.1.3.min.js"></script>
+	<script src="teleop.js">
 	</script>
 </body>
 </html>

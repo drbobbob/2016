@@ -1,5 +1,15 @@
 //"use strict"; 
 
+var ntkeys= {
+	obsticleTypes : "/autonomous/obsticletypes", 
+	shootingTarget : "/autonomous/shootingtarget",
+	passBall : "/autonomous/passball",
+	stagingPosition : "/autonomous/stagingposition",
+	fireToggle : "/teleop/fire_toggle",
+	lennyToggle : "/teleop/lenny_toggle",
+	ballSensor : "/components/lenny/ball_detected",
+}
+
 // Initialize autonomous slider
 $('.autonomous-mode-carousel').slick({
   dots: false,
@@ -151,13 +161,13 @@ function passingBall() {
 $('[name=obsticle_types]').on('click', function() {
 	console.log(getObsticle()) 
 	console.log('obsticle type changed'); 
-	NetworkTables.putValue('/SmartDashboard/obsticletypes', getObsticle());
+	NetworkTables.putValue(ntkeys.obsticleTypes, getObsticle());
 	});
 
 $('[name=shooting_target]').on('click', function() {
 	console.log(getGoal()) 
 	console.log('shooting goal changed'); 
-	NetworkTables.putValue('/SmartDashboard/shootingtarget', getGoal());
+	NetworkTables.putValue(ntkeys.shootingTarget, getGoal());
 });
 
 $('[name=pass_ball]').on('click', function() {
@@ -172,7 +182,7 @@ $('[name=pass_ball]').on('click', function() {
 	steps.setValue('passBall', passing ? 'yes' : 'no');
 
 	// Set value in Networktables
-	NetworkTables.putValue('/SmartDashboard/passball', passingBall());
+	NetworkTables.putValue(ntkeys.passBall, passingBall());
 });
 
 
@@ -194,7 +204,7 @@ $('.field_diagram_button').on('click', function() {
 	steps.setValue('stagingPosition', value);
 
 	// Set staging position in NetworkTables
-	NetworkTables.putValue('/SmartDashboard/position', position);
+	NetworkTables.putValue(ntkeys.stagingPosition, position);
 
 }); 
 
