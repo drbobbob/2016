@@ -26,6 +26,7 @@
 $('[name=firer]').on('click', function() {
 	NetworkTables.putValue(ntkeys.fireToggle, fireBall())
 });
+
 	
 		
 	function getBallsensor(){
