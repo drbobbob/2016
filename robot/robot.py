@@ -3,7 +3,6 @@
 import wpilib
 from magicbot import MagicRobot
 from robotpy_ext.common_drivers.distance_sensors import SharpIRGP2Y0A41SK0F, SharpIR2Y0A02
-
 from components.autoaim import AutoAim
 from components.lenny import Lenny
 from components.pitcher import Pitcher
@@ -69,7 +68,10 @@ class MyRobot(MagicRobot):
         # NOTE: minimum stationary turn power is ~0.7
         
         #if self.use_arcade_drive:
-        self.drive.move(self.right_joystick.getX(), -self.right_joystick.getY())
+        if self.right_joystick.getRawButton(7):
+            self.drive.move_at_angle(-self.right_joystick.getY(), 0)
+        else:
+            self.drive.move(self.right_joystick.getX(), -self.right_joystick.getY())
         #else:
         #    self.drive.tank(self.left_joystick.getY(), self.right_joystick.getY())
         
@@ -89,8 +91,8 @@ class MyRobot(MagicRobot):
             self.lenny.ball_in()
         elif self.right_joystick.getRawButton(3):
             self.lenny.ball_out()
-            
-            
+
+
         if self.right_joystick.getRawButton(6):
             self.auto_aim.aim(-self.right_joystick.getY())
         
