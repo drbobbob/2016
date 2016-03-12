@@ -58,8 +58,8 @@ class MyRobot(MagicRobot):
         #self.tape_motor = wpilib.CANTalon(6)
         #self.winch_motor = wpilib.CANTalon(7)
         
-        self.left_joystick = wpilib.Joystick(0)
-        self.right_joystick = wpilib.Joystick(1)
+        #self.left_joystick = wpilib.Joystick(0)
+        self.right_joystick = wpilib.Joystick(0)
     
     def teleopInit(self):
         self.pitcher_enabled = False
@@ -68,10 +68,10 @@ class MyRobot(MagicRobot):
         
         # NOTE: minimum stationary turn power is ~0.7
         
-        if self.use_arcade_drive:
-            self.drive.move(self.right_joystick.getX(), -self.right_joystick.getY())
-        else:
-            self.drive.tank(self.left_joystick.getY(), self.right_joystick.getY())
+        #if self.use_arcade_drive:
+        self.drive.move(self.right_joystick.getX(), -self.right_joystick.getY())
+        #else:
+        #    self.drive.tank(self.left_joystick.getY(), self.right_joystick.getY())
         
         # Pitcher controls
         if self.right_joystick.getRawButton(4):
@@ -91,14 +91,8 @@ class MyRobot(MagicRobot):
             self.lenny.ball_out()
             
             
-        if self.left_joystick.getTrigger():
+        if self.right_joystick.getRawButton(6):
             self.auto_aim.aim(-self.right_joystick.getY())
-        
-        # TODO: This needs to be controlled by the autoaim class, or via networktables
-        if self.right_joystick.getRawButton(9):
-            self.camera_light.set(wpilib.Relay.Value.kOn)
-        else:
-            self.camera_light.set(wpilib.Relay.Value.kOff)
         
         # Tapemeasure controls
         #if self.left_joystick.getRawButton(6):
