@@ -24,7 +24,8 @@
 	}
 	
 $('[name=firer]').on('click', function() {
-	NetworkTables.putValue(ntkeys.fireToggle, fireBall())
+	var fireBall = NetworkTables.getValue(ntkeys.fireToggle);
+	NetworkTables.putValue(ntkeys.fireToggle, fireBall);
 });
 
 	

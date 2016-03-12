@@ -1,4 +1,23 @@
 
+
+.robot-image {
+	display: block;
+	width: 500px;
+	float: right;
+}
+
+.robot-image img {
+	width: 100%;
+}
+
+.robot-image.offline .online-image {
+	display: none;
+}
+
+.robot-image.online .offline-image{
+	display: none;
+}
+
 .fire {
   background-image: url(fire_button_unselected.png);
   background-repeat: no-repeat;
