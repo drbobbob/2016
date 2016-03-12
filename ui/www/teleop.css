@@ -1,14 +1,12 @@
-/*
+
 .fire {
-  background-image: url(button_unselected.jpg);
+  background-image: url(fire_button_unselected.png);
   background-repeat: no-repeat;
   background-position: 50% 50%;
-  height: 240px;
-  width: 240px;
+  height: 200px;
+  width: 200px;
   border: none;
 }
-*/
-
 
 
 .fire {

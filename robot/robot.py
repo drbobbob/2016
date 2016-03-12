@@ -22,10 +22,10 @@ class MyRobot(MagicRobot):
     #tapemeasure = Tapemeasure
     drive = Drive
     
-    use_arcade_drive = ntproperty('/SmartDashboard/use_arcade', True, True) 
-	fire_toggled = ntproperty('/teleop/fire_toggle', False, True)
-	lenny_toggled = ntproperty('/teleop/lenny_toggle', False, True) 
-		
+    use_arcade_drive = ntproperty('/SmartDashboard/use_arcade', True, True)
+    fire_toggled = ntproperty('/teleop/fire_toggle', False, True)
+    lenny_toggled = ntproperty('/teleop/lenny_toggle', False, True) 
+
     def createObjects(self):
         self.ball_sensor = SharpIRGP2Y0A41SK0F(0)
         self.tower_sensor = SharpIR2Y0A02(1)
