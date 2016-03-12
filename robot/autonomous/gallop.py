@@ -6,6 +6,7 @@ from components.drive import Drive
 class DriveForward(StatefulAutonomous):
 
     MODE_NAME = 'Drive Forward'
+    DEFAULT = True
 
 
     drive = Drive
@@ -23,4 +24,4 @@ class DriveForward(StatefulAutonomous):
 
     @timed_state(duration=3)
     def drive_forward(self):
-        self.drive.move_at_angle(0.5, 0)
+        self.drive.move_at_angle(0.85, 0)
