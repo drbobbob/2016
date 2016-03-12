@@ -1,3 +1,9 @@
+'''
+    Can run this on the roborio by executing mjpg-streamer like so:
+
+    mjpg_streamer -i 'input_opencv.so -r 320x240 --fps 15 --quality 30 --filter /usr/local/lib/mjpg-streamer/cvfilter_py.so --fargs /home/admin/TargetFinder.py'
+'''
+
 import cv2
 import numpy as np
 import os
@@ -115,6 +121,15 @@ def init_filter():
     NetworkTable.setIPAddress('127.0.0.1')
     NetworkTable.setClientMode()
     NetworkTable.initialize()
+
+    # requires v4l-utils installed on roborio
+    try:
+        import sh
+
+        getattr(sh, 'v4l2-ctl')('-c', 'exposure_auto=1',
+                                '-c', 'exposure_absolute=10')
+    except:
+        pass
     
     filter = TargetFinder()
-    return filter.process
+    return filter.quad_normals
