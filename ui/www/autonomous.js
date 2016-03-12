@@ -90,6 +90,21 @@ Steps.prototype.setStep = function(step) {
 
 function AutoChooser($element, steps) {
 
+
+	NetworkTables.addRobotConnectionListener(function(connected) {
+		if(connected) {
+			NetworkTables.putValue(ntkeys.autonomousChooser, $element.val());
+			// Add autonomous modes if they don't exist
+			var autoModes = NetworkTables.getValue(ntkeys.autonomousModes);
+			autoModes.forEach(function(mode) {
+				if($element.find('option[value="' + mode + '"]').length == 0) {
+					var $option = $('<option value="' + mode + '" data-steps="[]">' + mode + '</option>').prependTo($element);
+				}
+			});
+		}
+	}, true);
+
+
 	this.$element = $element;
 	this.steps = steps;
 	this.modes = {};

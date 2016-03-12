@@ -6,5 +6,6 @@ var ntkeys= {
 	fireToggle: "/teleop/fire_toggle",
 	lennyToggle: "/teleop/lenny_toggle",
 	ballSensor:"/components/lenny/ball_detected",
-	autonomousChooser: "/SmartDashboard/Autonomous Mode/selected"
+	autonomousChooser: "/SmartDashboard/Autonomous Mode/selected",
+	autonomousModes: "/SmartDashboard/Autonomous Mode/options"
 };
