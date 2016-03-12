@@ -89,6 +89,7 @@ Steps.prototype.setStep = function(step) {
 
 
 function AutoChooser($element, steps) {
+
 	this.$element = $element;
 	this.steps = steps;
 	this.modes = {};
@@ -107,10 +108,21 @@ function AutoChooser($element, steps) {
 	this._setMode($element.find('option:selected').val());
 
 	// when select changes set the mode
+	NetworkTables.putValue(ntkeys.autonomousChooser, $element.val());
+
 	$element.on('change', function(e) {
 		that._setMode($element.find('option:selected').val());
+		NetworkTables.putValue(ntkeys.autonomousChooser, $element.val());
 	});
+
+
 }
+
+NetworkTables.addGlobalListener(function() {
+	console.log('argumnets: ', arguments);
+}, true);
+
+
 
 
 AutoChooser.prototype._setMode = function(mode) {

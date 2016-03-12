@@ -23,9 +23,12 @@
 		return firing;
 	}
 	
+var fireBall = false;
 $('[name=firer]').on('click', function() {
-	NetworkTables.putValue(ntkeys.fireToggle, fireBall())
+	fireBall = !fireBall;
+	NetworkTables.putValue(ntkeys.fireToggle, fireBall);
 });
+
 	
 		
 	function getBallsensor(){
@@ -55,4 +58,16 @@ $('[name=firer]').on('click', function() {
 		NetworkTables.putValue(ntkeys.ballSensor, getBallsensor())
 		}
 	});
+
+
+
+	NetworkTables.addRobotConnectionListener(function(connected) {
+		if(connected) {
+			$('.robot-image').removeClass('offline');
+			$('.robot-image').addClass('online');
+		} else {
+			$('.robot-image').addClass('offline');
+			$('.robot-image').removeClass('online');
+		}
+	}, true);
 		
