@@ -83,9 +83,9 @@ class MyRobot(MagicRobot):
             self.pitcher_enabled = False
             
         # Lenny controls
-        if self.right_joystick.getTrigger() or fire_toggled:
+        if self.right_joystick.getTrigger() or self.fire_toggled:
             self.shooter_control.fire()
-        elif self.left_joystick.getRawButton(2) or lenny_toggled:
+        elif self.left_joystick.getRawButton(2) or self.lenny_toggled:
             self.lenny.ball_in()
         elif self.right_joystick.getRawButton(3):
             self.lenny.ball_out()
