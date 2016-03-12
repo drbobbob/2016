@@ -5,5 +5,5 @@ var ntkeys= {
 	stagingPosition : "/autonomous/stagingposition",
 	fireToggle: "/teleop/fire_toggle",
 	lennyToggle: "/teleop/lenny_toggle",
-	ballSensor "/components/lenny/ball_detected",
-}
+	ballSensor:"/components/lenny/ball_detected",
+};
