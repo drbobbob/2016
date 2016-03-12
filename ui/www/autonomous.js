@@ -90,6 +90,22 @@ Steps.prototype.setStep = function(step) {
 
 function AutoChooser($element, steps) {
 
+
+	NetworkTables.addRobotConnectionListener(function(connected) {
+		if(connected) {
+			NetworkTables.putValue(ntkeys.autonomousChooser, $element.val());
+			// Add autonomous modes if they don't exist
+			var autoModes = NetworkTables.getValue(ntkeys.autonomousModes);
+			autoModes.forEach(function(mode) {
+				if($element.find('option[value="' + mode + '"]').length == 0) {
+					var $option = $('<option value="' + mode + '" data-steps="[]">' + mode + '</option>').prependTo($element);
+				}
+			});
+		}
+	}, true);
+
+
+
 	this.$element = $element;
 	this.steps = steps;
 	this.modes = {};
@@ -109,6 +125,12 @@ function AutoChooser($element, steps) {
 
 	// when select changes set the mode
 	NetworkTables.putValue(ntkeys.autonomousChooser, $element.val());
+
+	// When key changes
+	NetworkTables.addKeyListener(ntkeys.autonomousChooser, function(key, value) {
+		$element.val(value);
+		that._setMode(value);
+	}, true);
 
 	$element.on('change', function(e) {
 		that._setMode($element.find('option:selected').val());
