@@ -50,10 +50,10 @@ class AutoAim:
             self.autoaim_enabled = autoaim_enabled
             self.camera_enabled = autoaim_enabled
             
-        if autoaim_enabled or self.camera_enabled:
-            self.camera_light.set(self.LIGHT_ON)
-        else:
-            self.camera_light.set(self.LIGHT_OFF)
+        #if autoaim_enabled or self.camera_enabled:
+        self.camera_light.set(self.LIGHT_ON)
+        #else:
+        #self.camera_light.set(self.LIGHT_OFF)
         
         if not autoaim_enabled:
             self.autoaim_on_target = False
