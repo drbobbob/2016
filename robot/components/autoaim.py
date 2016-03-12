@@ -8,7 +8,11 @@ from networktables.util import ntproperty
 
 class AutoAim:
     
+    LIGHT_ON = wpilib.Relay.Value.kOn
+    LIGHT_OFF = wpilib.Relay.Value.kOff
+    
     drive = Drive
+    camera_light = wpilib.Relay
     
     # Variables from camera
     present = ntproperty('/components/autoaim/present', False)
@@ -45,6 +49,11 @@ class AutoAim:
         if self.autoaim_enabled != autoaim_enabled:
             self.autoaim_enabled = autoaim_enabled
             self.camera_enabled = autoaim_enabled
+            
+        if autoaim_enabled or self.camera_enabled:
+            self.camera_light.set(self.LIGHT_ON)
+        else:
+            self.camera_light.set(self.LIGHT_OFF)
         
         if not autoaim_enabled:
             self.autoaim_on_target = False

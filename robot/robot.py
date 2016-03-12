@@ -92,12 +92,6 @@ class MyRobot(MagicRobot):
         if self.left_joystick.getTrigger():
             self.auto_aim.aim(-self.right_joystick.getY())
         
-        # TODO: This needs to be controlled by the autoaim class, or via networktables
-        if self.right_joystick.getRawButton(9):
-            self.camera_light.set(wpilib.Relay.Value.kOn)
-        else:
-            self.camera_light.set(wpilib.Relay.Value.kOff)
-        
         # Tapemeasure controls
         #if self.left_joystick.getRawButton(6):
             #self.tapemeasure.extend()
