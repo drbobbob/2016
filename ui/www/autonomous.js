@@ -105,6 +105,7 @@ function AutoChooser($element, steps) {
 	}, true);
 
 
+
 	this.$element = $element;
 	this.steps = steps;
 	this.modes = {};
@@ -124,6 +125,12 @@ function AutoChooser($element, steps) {
 
 	// when select changes set the mode
 	NetworkTables.putValue(ntkeys.autonomousChooser, $element.val());
+
+	// When key changes
+	NetworkTables.addKeyListener(ntkeys.autonomousChooser, function(key, value) {
+		$element.val(value);
+		that._setMode(value);
+	}, true);
 
 	$element.on('change', function(e) {
 		that._setMode($element.find('option:selected').val());
