@@ -16,6 +16,8 @@ class Drive:
     # Variables to driver station
     robot_angle = ntproperty('/components/drive/angle', 0)
     robot_setpoint = ntproperty('/components/drive/setpoint', 0)
+    
+    max_turn = ntproperty('/components/drive/max_turn', 0.85)
 
     if hal.HALIsSimulation():
         kP = 0.3
@@ -97,7 +99,7 @@ class Drive:
         
         if self.function_called == Drive.move_at_angle:
             self.turn_controller.enable()
-            self.robot_drive.arcadeDrive(-self.speed, self.rotateToAngleRate)
+            self.robot_drive.arcadeDrive(-self.speed, max(min(self.rotateToAngleRate, self.max_turn), -self.max_turn))
         else:
             self.turn_controller.disable()
 
@@ -105,7 +107,7 @@ class Drive:
                 self.robot_drive.tankDrive(self.y1, self.y2)
 
             else:
-                self.robot_drive.arcadeDrive(-self.y, self.x)
+                self.robot_drive.arcadeDrive(-self.y, max(min(self.x, self.max_turn), -self.max_turn))
         
         # send this to the DS
         self.robot_angle = self.get_angle()
