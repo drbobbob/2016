@@ -3,7 +3,10 @@
 .robot-image {
 	display: block;
 	width: 500px;
-	float: right;
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 20px;
 }
 
 .robot-image img {

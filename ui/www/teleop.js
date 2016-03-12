@@ -23,8 +23,9 @@
 		return firing;
 	}
 	
+var fireBall = false;
 $('[name=firer]').on('click', function() {
-	var fireBall = NetworkTables.getValue(ntkeys.fireToggle);
+	fireBall = !fireBall;
 	NetworkTables.putValue(ntkeys.fireToggle, fireBall);
 });
 
@@ -57,4 +58,16 @@ $('[name=firer]').on('click', function() {
 		NetworkTables.putValue(ntkeys.ballSensor, getBallsensor())
 		}
 	});
+
+
+
+	NetworkTables.addRobotConnectionListener(function(connected) {
+		if(connected) {
+			$('.robot-image').removeClass('offline');
+			$('.robot-image').addClass('online');
+		} else {
+			$('.robot-image').addClass('offline');
+			$('.robot-image').removeClass('online');
+		}
+	}, true);
 		
