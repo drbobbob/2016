@@ -20,7 +20,7 @@ class Drive:
     if hal.HALIsSimulation():
         kP = 0.3
     else:
-        kP = 0.3
+        kP = 0.05
         
     kI = 0.00
     kD = 0.00
@@ -82,6 +82,9 @@ class Drive:
             returns False when move_at_angle is not being called.
         """
         return self.turn_controller.isEnable() and self.turn_controller.onTarget()
+
+    def reset_angle(self):
+        self.ahrs.reset()
 
     def pidWrite(self, output):
         """This function is invoked periodically by the PID Controller,
