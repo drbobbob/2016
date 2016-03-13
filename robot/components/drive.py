@@ -20,7 +20,7 @@ class Drive:
     if hal.HALIsSimulation():
         kP = 0.3
     else:
-        kP = 0.05
+        kP = 0.1
         
     kI = 0.00
     kD = 0.00

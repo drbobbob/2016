@@ -24,4 +24,4 @@ class DriveForward(StatefulAutonomous):
 
     @timed_state(duration=7)
     def drive_forward(self):
-        self.drive.move_at_angle(0.8, 0)
+        self.drive.move_at_angle(1, 0)

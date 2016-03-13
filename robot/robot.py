@@ -29,7 +29,7 @@ class MyRobot(MagicRobot):
         self.ball_sensor = SharpIRGP2Y0A41SK0F(0)
         self.tower_sensor = SharpIR2Y0A02(1)
         
-        self.camera_light = wpilib.Relay(0)
+        self.camera_light = wpilib.Relay(1)
         
         self.beltmotor = wpilib.CANTalon(6)
         self.pitcher_motor = wpilib.CANTalon(7)
