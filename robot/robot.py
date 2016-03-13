@@ -24,8 +24,6 @@ class MyRobot(MagicRobot):
     use_arcade_drive = ntproperty('/SmartDashboard/use_arcade', True, True)
     fire_toggled = ntproperty('/teleop/fire_toggle', False, True)
     lenny_toggled = ntproperty('/teleop/lenny_toggle', False, True) 
-    
-    teleop_x = ntproperty('/teleop/x', 0) 
 
     def createObjects(self):
         self.ball_sensor = SharpIRGP2Y0A41SK0F(0)
@@ -67,8 +65,7 @@ class MyRobot(MagicRobot):
     
     def teleopPeriodic(self):
         
-        # NOTE: minimum stationary turn power is ~0.7 on school carpet
-        self.teleop_x = self.right_joystick.getX()
+        # NOTE: minimum stationary turn power is ~0.7
         
         #if self.use_arcade_drive:
         if self.right_joystick.getRawButton(7):
