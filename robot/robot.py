@@ -23,7 +23,11 @@ class MyRobot(MagicRobot):
     
     use_arcade_drive = ntproperty('/SmartDashboard/use_arcade', True, True)
     fire_toggled = ntproperty('/teleop/fire_toggle', False, True)
-    lenny_toggled = ntproperty('/teleop/lenny_toggle', False, True) 
+    lenny_toggled = ntproperty('/teleop/lenny_toggle', False, True)
+    
+    # For debugging only
+    target_angle = ntproperty('/components/autoaim/target_angle', 0)
+    target_height = ntproperty('/components/autoaim/target_height', 0)
 
     def createObjects(self):
         self.ball_sensor = SharpIRGP2Y0A41SK0F(0)
@@ -62,6 +66,8 @@ class MyRobot(MagicRobot):
     
     def teleopInit(self):
         self.pitcher_enabled = False
+        self.timer = wpilib.Timer()
+        self.timer.start()
     
     def teleopPeriodic(self):
         
@@ -95,6 +101,12 @@ class MyRobot(MagicRobot):
 
         if self.right_joystick.getRawButton(6):
             self.auto_aim.aim(-self.right_joystick.getY())
+            
+        if self.timer.hasPeriodPassed(0.5):
+            print("has_target: %s, angle: %3.2f, height: %3.2f" % (
+                    self.auto_aim.present,
+                    self.target_angle,
+                    self.target_height))
         
         # Tapemeasure controls
         #if self.left_joystick.getRawButton(6):
