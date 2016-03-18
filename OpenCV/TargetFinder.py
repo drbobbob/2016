@@ -30,6 +30,7 @@ class TargetFinder:
     
     target_present = ntproperty('/components/autoaim/present', False)
     target_angle = ntproperty('/components/autoaim/target_angle', 0)
+    target_height = ntproperty('/components/autoaim/target_height', 0)
 
     def __init__(self):
         self.size = None
@@ -108,6 +109,7 @@ class TargetFinder:
         
             self.target_present = True
             self.target_angle = target['ah']
+            self.target_height = target['av']
         else:
             self.target_present = False
             # don't set angle
