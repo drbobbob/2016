@@ -53,28 +53,18 @@
    "joysticks": {
       "0": {
       	"axes": {
-      	  "Y": "Left" 
-      	},
-      
-        "buttons": {
-          "1": "Align",
-          "2": "Intake",
-          "3": "Outtake",
-          "6": "Extend",
-          "7": "Winch"
-        }
-      },
-      
-      "1": {
-        "axes": {
-      	  "Y": "Right" 
+      	  "X": "Left/Right",
+      	  "Y": "Back/Forth" 
       	},
       
         "buttons": {
           "1": "Fire",
-          "4": "Prime On",
-          "5": "Prime Off"
-          
+          "2": "Intake",
+          "3": "Outtake",
+          "4": "enable pitcher",
+          "5": "disable pitcher",
+          "6": "autoaim",
+          "7": "Move to zero"
         }
       }
     }

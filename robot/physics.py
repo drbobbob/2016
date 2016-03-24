@@ -41,7 +41,7 @@ class PhysicsEngine(object):
                                        to communicate simulation effects to
         '''
         
-        if LooseVersion(__version__) < LooseVersion('2016.2.9'):
+        if LooseVersion(__version__) < LooseVersion('2016.2.5'):
             raise ValueError("ERROR: must have pyfrc 2016.2.5 or greater installed!")
         
         self.physics_controller = physics_controller

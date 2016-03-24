@@ -18,7 +18,7 @@ class Drive:
     robot_setpoint = ntproperty('/components/drive/setpoint', 0)
 
     if hal.HALIsSimulation():
-        kP = 0.3
+        kP = 0.1
     else:
         kP = 0.1
         
