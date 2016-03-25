@@ -45,6 +45,13 @@ class Drive:
         turn_controller.setAbsoluteTolerance(self.kToleranceDegrees)
         turn_controller.setContinuous(True)
         self.turn_controller = turn_controller
+        
+        distance_controller = wpilib.PIDController(self.kP, self.kI, self.kD, self.kF, self.ahrs, output=self)
+        distance_controller.setInputRange(-100,  100)
+        distance_controller.setOutputRange(80, 85)
+        distance_controller.setAbsoluteTolerance(self.kToleranceDegrees)
+        distance_controller.setContinuous(True)
+        self.distance_controller = turn_controller
 
     def move(self, x, y):
         """Moves the robot
