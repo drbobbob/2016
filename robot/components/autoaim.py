@@ -31,9 +31,9 @@ class AutoAim:
         # target angle stuff
         self.target_angle = None
         nt = NetworkTable.getTable('/components/autoaim')
-        nt.addTableListener(self._on_update, True, 'target_angle')
+        nt.addTableListener(self._on_target_angle_update, True, 'target_angle')
     
-    def _on_update(self, source, key, value, isNew):
+    def _on_target_angle_update(self, source, key, value, isNew):
         self.target_angle = value
     
     def aim(self, speed=0):
@@ -69,9 +69,11 @@ class AutoAim:
                 self.target_angle = None
             
             if self.aimed_at_angle is not None:
-                self.drive.move_at_angle(self.aim_speed, self.aimed_at_angle)
+                self.drive.move_to_target(self.aimed_at_angle)
+            else:
+                self.drive.move_to_target(0)
         
-        self.autoaim_on_target = self.drive.is_at_angle()
+        self.autoaim_on_target = self.drive.is_at_angle() and self.drive.is_at_target_height()
         
         # reset
         self.aim_speed = None
