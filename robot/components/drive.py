@@ -46,12 +46,7 @@ class Drive:
         turn_controller.setContinuous(True)
         self.turn_controller = turn_controller
         
-        distance_controller = wpilib.PIDController(self.kP, self.kI, self.kD, self.kF, self.ahrs, output=self)
-        distance_controller.setInputRange(-100,  100)
-        distance_controller.setOutputRange(80, 85)
-        distance_controller.setAbsoluteTolerance(self.kToleranceDegrees)
-        distance_controller.setContinuous(True)
-        self.distance_controller = turn_controller
+    
 
     def move(self, x, y):
         """Moves the robot
@@ -68,7 +63,8 @@ class Drive:
         self.y1 = y1
         self.y2 = y2 
         self.function_called = Drive.tank
-        
+    
+          
     def get_angle(self):
         """Returns the robot's current heading"""
         return self.ahrs.getYaw()
