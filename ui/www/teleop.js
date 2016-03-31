@@ -5,22 +5,15 @@
 		var activated = $('[name=act_lenny]').prop('checked');
 		return activated;
 	}
-
-	$('[name=act_lenny]').on('click', function() {
-		console.log(getLenny());
-		if (getLenny() == true) {
-			console.log('Lenny Activated');	
-		}
-		else {
-			console.log('Lenny Deactivated');
-		NetworkTables.putValue(ntkeys.lennyToggle, getLenny())
-		}
-	});
 		
 
 	function fireBall() {
 		var firing = $('[name=firer]:checked').prop('checked');
 		return firing;
+	}
+
+	function aim() {
+		var aiming = $('[name=aim_guy]:checked').prop('checked');
 	}
 	
 var fireBall = false;
@@ -30,7 +23,14 @@ $('[name=firer]').on('click', function() {
 });
 
 	
-		
+$('[name=ball_toggle]').on('click',function(){
+	NetworkTables.putValue(ntkeys.lettyToggle, getLenny)
+});
+
+$('[name=aim_guy]').on('click',function(){
+	NetworkTables.putValue(ntkeys.?, aim)
+});
+	
 	function getBallsensor(){
 		var guy = $('[name=ball_sensor]').prop('checked');
 		return guy;
@@ -43,19 +43,6 @@ $('[name=firer]').on('click', function() {
 		}
 		else {
 			console.log('ball out');
-		}
-	});
-	
-	$('[name=ball_sensor]').on('click', function() {
-		getBallsensor();
-		if(getBallsensor()==true) {
-			$('p').removeClass('ballout');
-			$('p').addClass('ballin');
-		}
-		else {
-			$('p').removeClass('ballin');
-			$('p').addClass('ballout');
-		NetworkTables.putValue(ntkeys.ballSensor, getBallsensor())
 		}
 	});
 
