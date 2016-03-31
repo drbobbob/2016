@@ -2,6 +2,7 @@ import hal
 import wpilib
 
 from .drive import Drive
+from .exposure_control import ExposureControl
 
 from networktables import NetworkTable
 from networktables.util import ntproperty
@@ -38,6 +39,12 @@ class AutoAim:
     def __init__(self):
         self.aim_speed = None
         self.aimed_at_angle = None
+        
+        self.exposure_control = ExposureControl()
+        
+        # By default, ensure the operator can see through both cameras
+        self.exposure_control.set_auto_exposure(device=0)
+        self.exposure_control.set_auto_exposure(device=1)
         
         # target angle stuff
         self.target_angle = None
@@ -78,7 +85,11 @@ class AutoAim:
             if autoaim_enabled:
                 self.distance_controller.setSetpoint(6)
                 self.distance_controller.enable()
+                
+                # Tracking only works when exposure is turned down
+                self.exposure_control.set_dark_exposure(device=0)
             else:
+                self.exposure_control.set_auto_exposure(device=0)
                 self.distance_controller.disable()
             
         #if autoaim_enabled or self.camera_enabled:
