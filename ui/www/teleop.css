@@ -91,30 +91,54 @@
 }
 
 
-[name=balltoggle] {
+[name=toggle] {
 	position: Absolute;
-	width: 150px;
+	width: 200px;
 	height: 150px;
+	top: 50px;
+	left: 550px;
 	-webkit-appearance: none;
 }
 
-[name=balltoggle]::after {
-	background-image: url(in_out_toggle_button_in.png);
-	background-repeat: no-repeat;
-	background-position: 50% 50%;
-	background-size: 150px 150px;
-	border: none;
-	display: inline-block;
+
+.toggle  .left {
+	fill: gray;
+	stroke: black;
+	stroke-width: 5;
 }
 
-[name=balltoggle]:checked::after {
-	background-image: url(in_out_toggle_button_out.png);
-	background-repeat: no-repeat;
-	background-position: 50% 50%;
-	background-size: 150px 150px;
-	border: none;
-	display: inline-block;
+.toggle .right {
+	fill: gray;
+	stroke: black;
+	stroke-width: 5;
 }
+
+.toggled-on .left{
+	fill: green;
+	stroke: black;
+	stroke-width: 5;
+}
+
+
+.toggled-on .right {
+	fill: gray;
+	stroke: black;
+	stroke-width: 5;
+}
+
+.toggled-off .left {
+	fill: gray;
+	stroke: black;
+	stroke-width: 5;
+}
+
+.toggled-off .right {
+	fill: red;
+	stroke: black;
+	stroke-width: 5;
+}
+
+
 
 [name=robot_diagram] {
 	position: absolute;
@@ -125,6 +149,7 @@
 	-webkit-appearance: none;
 	display: inline-block;
 }
+
 
 
 
@@ -145,6 +170,6 @@
 	display: block;
 }
 
-html {
+body {
 	background-color:green ;
 }

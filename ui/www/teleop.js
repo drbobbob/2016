@@ -1,7 +1,6 @@
 	"use strict";
-
 	
-	function getLenny(){
+	function lennyToggle(){
 		var activated = $('[name=act_lenny]').prop('checked');
 		return activated;
 	}
@@ -22,9 +21,9 @@ $('[name=firer]').on('click', function() {
 	NetworkTables.putValue(ntkeys.fireToggle, fireBall);
 });
 
-	
+		
 $('[name=ball_toggle]').on('click',function(){
-	NetworkTables.putValue(ntkeys.lettyToggle, getLenny)
+	NetworkTables.putValue(ntkeys.lettyToggle, getLenny);
 });
 
 $('[name=aim_guy]').on('click',function(){
@@ -46,7 +45,13 @@ $('[name=aim_guy]').on('click',function(){
 		}
 	});
 
+	$('[.left_toggle]').on('click',function() {
+		$('[.left_toggle]').css('fill', 'green');
+	});
 
+	
+	
+	
 
 	NetworkTables.addRobotConnectionListener(function(connected) {
 		if(connected) {
