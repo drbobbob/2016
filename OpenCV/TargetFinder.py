@@ -123,15 +123,6 @@ def init_filter():
     NetworkTable.setIPAddress('127.0.0.1')
     NetworkTable.setClientMode()
     NetworkTable.initialize()
-
-    # requires v4l-utils installed on roborio
-    try:
-        import sh
-
-        getattr(sh, 'v4l2-ctl')('-c', 'exposure_auto=1',
-                                '-c', 'exposure_absolute=10')
-    except:
-        pass
     
     filter = TargetFinder()
     return filter.quad_normals
