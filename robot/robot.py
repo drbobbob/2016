@@ -24,6 +24,7 @@ class MyRobot(MagicRobot):
     use_arcade_drive = ntproperty('/SmartDashboard/use_arcade', True, True)
     fire_toggled = ntproperty('/teleop/fire_toggle', False, True)
     lenny_toggled = ntproperty('/teleop/lenny_toggle', False, True)
+    autoaim_toggled = ntproperty('/teleop/auto_aim_toggle', False, True)
     
     # For debugging only
     target_angle = ntproperty('/components/autoaim/target_angle', 0)
@@ -99,7 +100,7 @@ class MyRobot(MagicRobot):
             self.lenny.ball_out()
 
 
-        if self.right_joystick.getRawButton(6):
+        if self.right_joystick.getRawButton(6) or self.autoaim_toggled:
             self.auto_aim.aim(-self.right_joystick.getY())
             
         if self.timer.hasPeriodPassed(0.5):
