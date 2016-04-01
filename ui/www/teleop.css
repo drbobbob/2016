@@ -1,34 +1,69 @@
 
+body {
+	background-image: url("images/bg.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+}
 
+.robocam img, .robocam svg {
+	border: 10px solid transparent;
+	border-image: url('images/border.jpg') 10% round;
+}
 
-.robot-image {
-	display: block;
-	width: 500px;
+#left_camera {
 	position: absolute;
-	top: 0;
-	right: 0;
-	margin: 20px;
+	top: 15px;
+	left: 15px;
 }
 
-.robot-image img {
-	width: 100%;
+#right_camera {
+	position: absolute;
+	top: 15px;
+	left: 820px;
 }
 
-.robot-image.offline .online-image {
-	display: none;
+#robot {
+	position: absolute;
+	top: 15px;
+	left: 470px;
 }
 
-.robot-image.online .offline-image{
-	display: none;
+#robot svg {
+	background-color: white;
+	border: 5px solid black;
+}
+
+#connected {
+	position: absolute;
+	top: 375px;
+	left: 520px;
+}
+
+#ball_control {
+	position: absolute;
+	top: 220px;
+	left: 480px;
+}
+
+#ball_in {
+	display: inline-block;
+	background-color: gray;
+	border: 2px solid black;
+}
+
+#ball_out {
+	display: inline-block;
+	background-color: gray;
+	border: 2px solid black;
 }
 
 [name=firer] {
 	
 	position: relative;
-	width: 150px;
-	height: 150px;
+	width: 100px;
+	height: 100px;
 	top: 320px;
-	left: 1000px;
+	left: 250px;
 	-webkit-appearance: none;
 }
 
@@ -38,7 +73,7 @@
 	background-image: url(fire_button_unselected.png);
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
-	background-size: 150px 150px;
+	background-size: 100px 100px;
 	border: none;
 	width:100%;
 	height:100%;
@@ -50,19 +85,19 @@
 	background-image: url(fire_button_selected.png);
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
-	background-size: 150px 150px;
-	width:150px;
-	height:150px;
+	background-size: 100px 100px;
+	width:100%;
+	height:100%;
 	border: none;
 	display: inline-block;
 }
 
 [name=aim_guy] {
 	position: absolute;
-	height: 180px;
-	width: 190px;
-	top: 390px;
-	left: 800px;
+	height: 100px;
+	width: 100px;
+	top: 330px;
+	left: 80px;
 	-webkit-appearance: none;
 }
 
@@ -71,7 +106,7 @@
 	background-image: url(aim_button.png);
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
-	background-size: 195px 195px;
+	background-size: 100px 100px;
 	border: none;
 	width:100%;
 	height:100%;
@@ -83,93 +118,10 @@
 	background-image: url(aim_button_selected.png);
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
-	background-size: 195px 195px;
+	background-size: 100px 100px;
 	border: none;
 	width:100%;
 	height:100%;
 	display: inline-block;
 }
 
-
-[name=toggle] {
-	position: Absolute;
-	width: 200px;
-	height: 100px;
-	top: 50px;
-	left: 550px;
-	-webkit-appearance: none;
-}
-
-
-.toggle  .left {
-	fill: gray;
-	stroke: black;
-	stroke-width: 5;
-}
-
-.toggle .right {
-	fill: gray;
-	stroke: black;
-	stroke-width: 5;
-}
-
-.toggled-in .left{
-	fill: green;
-	stroke: black;
-	stroke-width: 5;
-}
-
-
-.toggled-in .right {
-	fill: gray;
-	stroke: black;
-	stroke-width: 5;
-}
-
-.toggled-out .left {
-	fill: gray;
-	stroke: black;
-	stroke-width: 5;
-}
-
-.toggled-out .right {
-	fill: red;
-	stroke: black;
-	stroke-width: 5;
-}
-
-
-
-[name=robot_diagram] {
-	position: absolute;
-	width: 250px;
-	height: 250px;
-	top: 180px;
-	left: 500px;
-	-webkit-appearance: none;
-	display: inline-block;
-}
-
-
-
-
-
-.diagram.ballout .ballout-image{
-	display: block;
-}
-
-.diagram.ballout .ballin-image{
-	display: none;
-}
-
-.diagram.ballin .ballout-image{
-	display: none;
-}
-
-.diagram.ballin .ballin-image{
-	display: block;
-}
-
-body {
-	background-color:green ;
-}

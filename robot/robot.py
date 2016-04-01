@@ -21,10 +21,13 @@ class MyRobot(MagicRobot):
     #tapemeasure = Tapemeasure
     drive = Drive
     
-    use_arcade_drive = ntproperty('/SmartDashboard/use_arcade', True, True)
-    fire_toggled = ntproperty('/teleop/fire_toggle', False, True)
-    lenny_toggled = ntproperty('/teleop/lenny_toggle', False, True)
-    autoaim_toggled = ntproperty('/teleop/auto_aim_toggle', False, True)
+    use_arcade_drive = ntproperty('/SmartDashboard/use_arcade', True)
+    fire_toggled = ntproperty('/teleop/fire_toggle', False)
+    autoaim_toggled = ntproperty('/teleop/auto_aim_toggle', False)
+    
+    
+    ds_ball_in = ntproperty('/teleop/ball_in', False)
+    ds_ball_out = ntproperty('/teleop/ball_out', False)
     
     # For debugging only
     target_angle = ntproperty('/components/autoaim/target_angle', 0)
@@ -94,20 +97,20 @@ class MyRobot(MagicRobot):
         # Lenny controls
         if self.right_joystick.getTrigger() or self.fire_toggled:
             self.shooter_control.fire()
-        elif self.right_joystick.getRawButton(2) or self.lenny_toggled:
+        elif self.right_joystick.getRawButton(2) or self.ds_ball_in:
             self.lenny.ball_in()
-        elif self.right_joystick.getRawButton(3):
+        elif self.right_joystick.getRawButton(3) or self.ds_ball_out:
             self.lenny.ball_out()
 
 
         if self.right_joystick.getRawButton(6) or self.autoaim_toggled:
             self.auto_aim.aim(-self.right_joystick.getY())
             
-        if self.timer.hasPeriodPassed(0.5):
-            print("has_target: %s, angle: %3.2f, height: %3.2f" % (
-                    self.auto_aim.present,
-                    self.target_angle,
-                    self.target_height))
+        #if self.timer.hasPeriodPassed(0.5):
+        #    print("has_target: %s, angle: %3.2f, height: %3.2f" % (
+        #            self.auto_aim.present,
+        #            self.target_angle,
+        #            self.target_height))
         
         # Tapemeasure controls
         #if self.left_joystick.getRawButton(6):

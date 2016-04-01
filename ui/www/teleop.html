@@ -1,23 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>
-	2016 Robot Teleop UI
-	</title>
+	<title>Teleop</title>
 	<link rel="stylesheet" href="teleop.css"/>
+	
+	
+	<script src="/js/jquery-2.2.2.min.js"></script>
+	<script src="/js/d3.v3.min.js"></script>
+	<script src="/networktables/networktables.js"></script>
+	<script src="/networktables/camera.js"></script>
+	<script src="/networktables/utils.js"></script>
+	
+	<script src="/js/ntkeys.js"></script>
 </head>
 <!-- Ideas
 * Make background green when on target
 
  -->
 <body>
-	<p>
-		<h1>Teleop</h1>
-	</p>
 	
-	<div class="robot-image offline">
-		<img class="offline-image" src="CamFeedOffline.png"/>
-		<img class="online-image" src="http://roborio-2423-frc.local:5800/?action=stream"/>
+	<div class="robocam" id="left_camera"></div>
+	<div class="robocam" id="right_camera"></div>
+	
+	<div id="robot">
+		<svg width="300" height="176">
+			<circle id="robot_ball" cx="120" cy="80" r="35" style="fill: lime; stroke: black; stroke-width: 2; opacity: 0" />
+			<image xlink:href="images/robot_2016_02.png" width="300" height="176" />
+		</svg>
+	</div>
+	
+	<div id="connected">
+	</div>
+	
+	<div id="ball_control">
+		<img id="ball_in" src="images/in.png"/>
+		<img id="ball_out" src="images/out.png"/>
 	</div>
 	
 	<div>
@@ -28,33 +45,6 @@
 		<input type="checkbox" name="aim_guy" class="aim" id="aimer"><label for="aimer">
 	</div>
 	
-	<div>
-	<svg name="toggle" class="toggle" height="100" width="200">
-	<rect name="toggle-left" class="left" height="100" width="100" />
-	<rect name="toggle-right" class="right" height="100" width="100" x="100" />>
-	<text x="20" y="65" font-family="monospace" font-size="50px" fill="white">IN</text>
-	<text x="110" y="65" font-family="monospace" font-size="50px" fill="white">OUT</text>
-	</svg>
-	</div>
-	
-	<p name="robot_diagram">
-		<svg class="robot_diagram" height="300" width="300">
-		<image xlink:href="robot_diagram_default.png" height="300" width="300" />
-		<circle class="diagram_ball" cx="200" cy="175" r="35" style="fill:gray" />
-		<circle class="ball_animation_2" cx="140" cy="115" r="35" style="fill:gray" />
-		<circle class="ball_animation_3"cx="70" cy="55" r="35" style="fill:gray" />
-		</svg>
-	</p>
-
-	<p>
-		<a href="index.html">Back</a>
-	</p>
-</body>
-</html>
-    <script src="/js/ntkeys.js"></script> 
-	<script src="/networktables/networktables.js"></script>
-	<script src="jquery-2.1.3.min.js"></script>
-	<script src="teleop.js">
-	</script>
+	<script src="teleop.js"></script>
 </body>
 </html>

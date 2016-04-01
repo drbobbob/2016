@@ -1,77 +1,108 @@
-	"use strict";
+"use strict";
 
-		
+function fireBall() {
+	var firing = $('[name=firer]:checked').prop('checked');
+	return firing ? true : false;
+}
 
-	function fireBall() {
-		var firing = $('[name=firer]:checked').prop('checked');
-		return firing;
-	}
+function aim() {
+	var aiming = $('[name=aim_guy]:checked').prop('checked');
+	return aiming ? true : false;
+}
 
-	function aim() {
-		var aiming = $('[name=aim_guy]:checked').prop('checked');
-	}
-	
-var fireBall = false;
 $('[name=firer]').on('click', function() {
-	fireBall = !fireBall;
-	NetworkTables.putValue(ntkeys.fireToggle, fireBall);
-});
-
-		
-$('[name=ball_toggle]').on('click',function(){
-	NetworkTables.putValue(ntkeys.lettyToggle, getLenny);
+	NetworkTables.putValue(ntkeys.fireToggle, fireBall());
 });
 
 $('[name=aim_guy]').on('click',function(){
-	NetworkTables.putValue(ntkeys.?, aim)
+	NetworkTables.putValue(ntkeys.autoAimToggle, aim());
 });
-	
-	function getBallsensor(){
-		var guy = $('[name=ball_sensor]').prop('checked');
-		return guy;
-	}
-	
-	$('[name=ball_sensor]').on('click',function() {
-		console.log(getBallsensor());
-		if(getBallsensor() == true) {
-			console.log('Ball in');
-		}
-		else {
-			console.log('ball out');
-		}
-	});
 
-// toggle switch
-$('[name=toggle_left]').on('click', function {
-	if($('[name="toggle"]').hasClass(toggled_in)) {
-		$('[name="toggle"]').attr('class', toggle);
-		$('[name="toggle"]').val(1);
-	}
-	else {
-		$('[name="toggle"]').attr('class', toggled_in);
-		$('[name="toggle"]').val(2);
-	}
-});
+/**
+	Useful jquery extension:
 	
-$('[name=toggle_right]').on('click', function {
-	if($('[name="toggle"]').hasClass(toggled_out)) {
-		$('[name="toggle"]').attr('class', toggle);
-		$('[name="toggle"]').val(1);
-	}
-	else {
-		$('[name="toggle"]').attr('class', toggled_out);
-		$('[name="toggle"]').val(3);
-	}
-});
+	$.nt_toggle(key, function)
 	
-
-	NetworkTables.addRobotConnectionListener(function(connected) {
-		if(connected) {
-			$('.robot-image').removeClass('offline');
-			$('.robot-image').addClass('online');
-		} else {
-			$('.robot-image').addClass('offline');
-			$('.robot-image').removeClass('online');
-		}
-	}, true);
+	- When a networktables variable changes, the function will be called with 
+	  the value of the variable. 
+	
+*/
+$.fn.extend({
+	nt_toggle: function(k, fn) {
 		
+		fn = fn.bind(this);
+		
+		// only call the function when the key changes -- not when the user 
+		// clicks it (this allows simultaneous pages to function correctly)
+		NetworkTables.addKeyListener(k, function(k, v) {
+			fn(v);
+		}, true);
+		
+		return this.each(function() {
+			$(this).on('click', function() {
+				NetworkTables.setValue(k, NetworkTables.getValue(k) ? false : true);
+			});
+		});
+	}
+});
+
+$('#ball_in').nt_toggle(ntkeys.ball_in, function(v){
+	if (v) {
+		NetworkTables.putValue(ntkeys.ball_out, false);
+	}
+	this.css('background-color', v ? 'green' : 'gray');
+});
+
+$('#ball_out').nt_toggle(ntkeys.ball_out, function(v){
+	if (v) {
+		NetworkTables.putValue(ntkeys.ball_in, false);
+	}
+	this.css('background-color', v ? 'green' : 'gray');
+});
+
+
+$(document).ready(function(){
+	
+	//
+	// Set up the cameras
+	//
+	
+    loadCameraOnConnect({
+        container: '#left_camera', // where to put the img tag
+        proto: null,                    // optional, defaults to http://
+        host: null,                     // optional, if null will use robot's autodetected IP address
+        port: 5800,                     // webserver port
+        image_url: '/?action=stream',   // mjpg stream of camera
+        data_url: '/program.json',      // used to test if connection is up
+        wait_img: null,                 // optional img to show when not connected, can use SVG instead
+        error_img: null,                // optional img to show when error connecting, can use SVG instead
+        attrs: {                        // optional: attributes set on svg or img element
+            width: 400,                     // optional, stretches image to this width
+            height: 300,                    // optional, stretches image to this width
+        }
+    });
+	
+    loadCameraOnConnect({
+        container: '#right_camera', // where to put the img tag
+        proto: null,                    // optional, defaults to http://
+        host: null,                     // optional, if null will use robot's autodetected IP address
+        port: 5801,                     // webserver port
+        image_url: '/?action=stream',   // mjpg stream of camera
+        data_url: '/program.json',      // used to test if connection is up
+        wait_img: null,                 // optional img to show when not connected, can use SVG instead
+        error_img: null,                // optional img to show when error connecting, can use SVG instead
+        attrs: {                        // optional: attributes set on svg or img element
+            width: 500,                     // optional, stretches image to this width
+            height: 375,                    // optional, stretches image to this width
+        }
+    });
+	
+	// connection indicator for debugging
+	attachRobotConnectionIndicator('#connected', 20);
+	
+	// ball indicator
+	NetworkTables.addKeyListener(ntkeys.ballSensor, function(k, v) {
+		$('#robot_ball').fadeTo(250, v ? 1 : 0);
+	}, true);
+	
+});
