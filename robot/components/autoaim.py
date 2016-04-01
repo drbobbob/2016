@@ -4,6 +4,9 @@ import wpilib
 from .drive import Drive
 from .exposure_control import ExposureControl
 
+from components.pitcher import Pitcher
+from components.shooter_control import ShooterControl
+
 from networktables import NetworkTable
 from networktables.util import ntproperty
 
@@ -13,6 +16,8 @@ class AutoAim:
     LIGHT_OFF = wpilib.Relay.Value.kOff
     
     drive = Drive
+    pitcher = Pitcher
+    shooter_control = ShooterControl
     camera_light = wpilib.Relay 
     
     # Variables from camera
@@ -24,9 +29,10 @@ class AutoAim:
     autoaim_enabled = ntproperty('/components/autoaim/enabled', False)
     autoaim_on_target = ntproperty('/components/autoaim/on_target', False)
     target_height = ntproperty('/components/autoaim/target_height', 0)
+    height_setpoint = ntproperty('/components/autoaim/height_setpoint', 11)
 
     if hal.HALIsSimulation():
-        kP = 0.1
+        kP = 0.2
     else:
         kP = 0.1
         
@@ -53,7 +59,7 @@ class AutoAim:
         
         self.move_to_target_height_output = 0
         distance_controller = wpilib.PIDController(self.kP, self.kI, self.kD, self.kF, self.get_camera_height, output=self.move_to_target_height)
-        distance_controller.setInputRange(0,  7)
+        distance_controller.setInputRange(-18,  18)
         distance_controller.setOutputRange(-1.0, 1.0)
         distance_controller.setAbsoluteTolerance(self.kToleranceHeight)
         self.distance_controller = distance_controller
@@ -64,6 +70,10 @@ class AutoAim:
     
     def move_to_target_height(self, output):
         self.move_to_target_height_output = output
+        
+    def is_at_height(self):
+        
+        return self.distance_controller.isEnable() and self.distance_controller.onTarget()
     
     def _on_update(self, source, key, value, isNew):
         self.target_angle = value
@@ -74,7 +84,7 @@ class AutoAim:
     
     def execute(self):
         
-        autoaim_enabled = self.aim_speed is not 0
+        autoaim_enabled = self.aim_speed is not None
         
         # Only change camera_enabled on transition, that way the UI can set it
         # True if desired
@@ -83,7 +93,7 @@ class AutoAim:
             self.camera_enabled = autoaim_enabled
             
             if autoaim_enabled:
-                self.distance_controller.setSetpoint(6)
+                self.distance_controller.setSetpoint(self.height_setpoint)
                 self.distance_controller.enable()
                 
                 # Tracking only works when exposure is turned down
@@ -102,6 +112,7 @@ class AutoAim:
             self.aimed_at_angle = None
             return
         
+        self.pitcher.enable()
         # work goes here
         if self.present == True:
             current_angle = self.drive.get_angle()
@@ -113,7 +124,9 @@ class AutoAim:
             if self.aimed_at_angle is not None:
                 self.drive.move_at_angle(self.move_to_target_height_output, self.aimed_at_angle)
         
-        self.autoaim_on_target = self.drive.is_at_angle()
+        self.autoaim_on_target = self.drive.is_at_angle() and self.is_at_height()
+        if self.autoaim_on_target == True:
+            self.shooter_control.fire()
         
         # reset
         self.aim_speed = None
