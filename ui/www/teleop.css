@@ -94,7 +94,7 @@
 [name=toggle] {
 	position: Absolute;
 	width: 200px;
-	height: 150px;
+	height: 100px;
 	top: 50px;
 	left: 550px;
 	-webkit-appearance: none;
@@ -113,26 +113,26 @@
 	stroke-width: 5;
 }
 
-.toggled-on .left{
+.toggled-in .left{
 	fill: green;
 	stroke: black;
 	stroke-width: 5;
 }
 
 
-.toggled-on .right {
+.toggled-in .right {
 	fill: gray;
 	stroke: black;
 	stroke-width: 5;
 }
 
-.toggled-off .left {
+.toggled-out .left {
 	fill: gray;
 	stroke: black;
 	stroke-width: 5;
 }
 
-.toggled-off .right {
+.toggled-out .right {
 	fill: red;
 	stroke: black;
 	stroke-width: 5;

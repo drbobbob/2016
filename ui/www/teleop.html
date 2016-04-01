@@ -28,15 +28,17 @@
 		<input type="checkbox" name="aim_guy" class="aim" id="aimer"><label for="aimer">
 	</div>
 	
-	<div name="toggle">
-	<svg class="toggle" height="125" width="200">
-	<rect class="left" height="100" width="100" />
-	<rect class="right" height="100" width="100" x="100" />>
+	<div>
+	<svg name="toggle" class="toggle" height="100" width="200">
+	<rect name="toggle-left" class="left" height="100" width="100" />
+	<rect name="toggle-right" class="right" height="100" width="100" x="100" />>
+	<text x="20" y="65" font-family="monospace" font-size="50px" fill="white">IN</text>
+	<text x="110" y="65" font-family="monospace" font-size="50px" fill="white">OUT</text>
 	</svg>
 	</div>
 	
 	<p name="robot_diagram">
-		<svg class="toggle" height="300" width="300">
+		<svg class="robot_diagram" height="300" width="300">
 		<image xlink:href="robot_diagram_default.png" height="300" width="300" />
 		<circle class="diagram_ball" cx="200" cy="175" r="35" style="fill:gray" />
 		<circle class="ball_animation_2" cx="140" cy="115" r="35" style="fill:gray" />
