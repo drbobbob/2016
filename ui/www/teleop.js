@@ -92,8 +92,8 @@ $(document).ready(function(){
         wait_img: null,                 // optional img to show when not connected, can use SVG instead
         error_img: null,                // optional img to show when error connecting, can use SVG instead
         attrs: {                        // optional: attributes set on svg or img element
-            width: 500,                     // optional, stretches image to this width
-            height: 375,                    // optional, stretches image to this width
+            width: 400,                     // optional, stretches image to this width
+            height: 300,                    // optional, stretches image to this width
         }
     });
 	
