@@ -1,9 +1,5 @@
 	"use strict";
-	
-	function lennyToggle(){
-		var activated = $('[name=act_lenny]').prop('checked');
-		return activated;
-	}
+
 		
 
 	function fireBall() {
@@ -45,12 +41,28 @@ $('[name=aim_guy]').on('click',function(){
 		}
 	});
 
-	$('[.left_toggle]').on('click',function() {
-		$('[.left_toggle]').css('fill', 'green');
-	});
-
+// toggle switch
+$('[name=toggle_left]').on('click', function {
+	if($('[name="toggle"]').hasClass(toggled_in)) {
+		$('[name="toggle"]').attr('class', toggle);
+		$('[name="toggle"]').val(1);
+	}
+	else {
+		$('[name="toggle"]').attr('class', toggled_in);
+		$('[name="toggle"]').val(2);
+	}
+});
 	
-	
+$('[name=toggle_right]').on('click', function {
+	if($('[name="toggle"]').hasClass(toggled_out)) {
+		$('[name="toggle"]').attr('class', toggle);
+		$('[name="toggle"]').val(1);
+	}
+	else {
+		$('[name="toggle"]').attr('class', toggled_out);
+		$('[name="toggle"]').val(3);
+	}
+});
 	
 
 	NetworkTables.addRobotConnectionListener(function(connected) {
