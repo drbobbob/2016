@@ -1,5 +1,6 @@
 
 
+
 .robot-image {
 	display: block;
 	width: 500px;
@@ -21,29 +22,136 @@
 	display: none;
 }
 
-.fire {
-  background-image: url(fire_button_unselected.png);
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  height: 200px;
-  width: 200px;
-  border: none;
+[name=firer] {
+	
+	position: relative;
+	width: 150px;
+	height: 150px;
+	top: 320px;
+	left: 1000px;
+	-webkit-appearance: none;
 }
 
 
-.fire {
-	color: yellow;
-	font-size: 70px;
+[name=firer]::after {
+	content: " ";
+	background-image: url(fire_button_unselected.png);
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	background-size: 150px 150px;
+	border: none;
+	width:100%;
+	height:100%;
+	display: inline-block;
+}
+
+[name=firer]:checked::after {
+	content: " ";
+	background-image: url(fire_button_selected.png);
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	background-size: 150px 150px;
+	width:150px;
+	height:150px;
+	border: none;
+	display: inline-block;
+}
+
+[name=aim_guy] {
+	position: absolute;
+	height: 180px;
+	width: 190px;
+	top: 390px;
+	left: 800px;
+	-webkit-appearance: none;
+}
+
+[name=aim_guy]::after {
+	content: " ";
+	background-image: url(aim_button.png);
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	background-size: 195px 195px;
+	border: none;
+	width:100%;
+	height:100%;
+	display: inline-block;
+}
+
+[name=aim_guy]:checked::after {
+	content: " ";
+	background-image: url(aim_button_selected.png);
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	background-size: 195px 195px;
+	border: none;
+	width:100%;
+	height:100%;
+	display: inline-block;
 }
 
 
-.svgdiagram.ballin .bawl {
-	display: block;
+[name=toggle] {
+	position: Absolute;
+	width: 200px;
+	height: 150px;
+	top: 50px;
+	left: 550px;
+	-webkit-appearance: none;
 }
 
-.svgdiagram.ballout .bawl {
-	display: none;
+
+.toggle  .left {
+	fill: gray;
+	stroke: black;
+	stroke-width: 5;
 }
+
+.toggle .right {
+	fill: gray;
+	stroke: black;
+	stroke-width: 5;
+}
+
+.toggled-on .left{
+	fill: green;
+	stroke: black;
+	stroke-width: 5;
+}
+
+
+.toggled-on .right {
+	fill: gray;
+	stroke: black;
+	stroke-width: 5;
+}
+
+.toggled-off .left {
+	fill: gray;
+	stroke: black;
+	stroke-width: 5;
+}
+
+.toggled-off .right {
+	fill: red;
+	stroke: black;
+	stroke-width: 5;
+}
+
+
+
+[name=robot_diagram] {
+	position: absolute;
+	width: 250px;
+	height: 250px;
+	top: 180px;
+	left: 500px;
+	-webkit-appearance: none;
+	display: inline-block;
+}
+
+
+
 
 
 .diagram.ballout .ballout-image{
@@ -60,4 +168,8 @@
 
 .diagram.ballin .ballin-image{
 	display: block;
-} 
+}
+
+body {
+	background-color:green ;
+}
