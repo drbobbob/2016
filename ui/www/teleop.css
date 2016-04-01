@@ -43,6 +43,7 @@ body {
 	position: absolute;
 	top: 220px;
 	left: 480px;
+	opacity: 0.8;
 }
 
 #ball_in {
@@ -55,6 +56,12 @@ body {
 	display: inline-block;
 	background-color: gray;
 	border: 2px solid black;
+}
+
+#logo {
+	position: absolute;
+	top: 160px;
+	left: 490px;
 }
 
 [name=firer] {
