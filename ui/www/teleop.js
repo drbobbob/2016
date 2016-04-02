@@ -46,11 +46,17 @@ $.fn.extend({
 	}
 });
 
+
+
 $('#ball_in').nt_toggle(ntkeys.ball_in, function(v){
 	if (v) {
 		NetworkTables.putValue(ntkeys.ball_out, false);
 	}
 	this.css('background-color', v ? 'green' : 'gray');
+
+	if(v) {
+		animate.load();
+	}
 });
 
 $('#ball_out').nt_toggle(ntkeys.ball_out, function(v){
@@ -58,7 +64,17 @@ $('#ball_out').nt_toggle(ntkeys.ball_out, function(v){
 		NetworkTables.putValue(ntkeys.ball_in, false);
 	}
 	this.css('background-color', v ? 'green' : 'gray');
+
+	if(v) {
+		animate.unload();
+	}
 });
+
+NetworkTables.addKeyListener(ntkeys.shooting, function(k, v) {
+	if(v) {
+		animate.shoot();
+	}
+}, true);
 
 
 $(document).ready(function(){
@@ -109,7 +125,7 @@ $(document).ready(function(){
 
 // Animations for ball
 var animate = (function() {
-
+	var animateTimeoutId = null;
 	var $robotBall = $('#robot_ball');
 	var animations = [
 		{ state : 'unload', time : 2 },
@@ -140,11 +156,17 @@ var animate = (function() {
 	}
 
 	function animate(state) {
+
+		clearTimeout(animateTimeoutId);
+
 		var curAnimationIndex = getAnimationIndex(getAnimation());
 		var targetAnimationIndex = getAnimationIndex(state);
 		var indexDiff = targetAnimationIndex - curAnimationIndex;
 		
 		if(indexDiff == 0) {
+			if(animations[targetAnimationIndex].state == 'shoot') {
+				reset();
+			}
 			return;
 		}
 
@@ -154,7 +176,7 @@ var animate = (function() {
 		$robotBall.css('transition', transition);
 		$robotBall.attr('class', nextAnimation.state);
 
-		setTimeout(function() {
+		animateTimeoutId = setTimeout(function() {
 			animate(state);
 		}, 1000 * nextAnimation.time);
 	} 

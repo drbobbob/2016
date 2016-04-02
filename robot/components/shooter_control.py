@@ -11,8 +11,9 @@ class ShooterControl:
     
     fire_period = ntproperty('/components/shooter_control/fire_period', 1)
     ball_threshold = ntproperty('/components/shooter_control/ball_threshold', 6.7)
-    
+
     ball_in_speed = ntproperty('/components/shooter_control/ball_in_speed', -0.25)
+    shooting = ntproperty('/components/shooter_control/shooting', False)
     
     def __init__(self):
         self.fire_is_happening = False
@@ -42,4 +43,9 @@ class ShooterControl:
             
             self.pitcher.enable()
             if self.fire_timer.hasPeriodPassed(self.fire_period): 
+                self.shooting = True
                 self.fire_is_happening = False
+            else:
+                self.shooting = False
+        else:
+            self.shooting = False
