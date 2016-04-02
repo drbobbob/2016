@@ -40,6 +40,14 @@ class MyRobot(MagicRobot):
         self.camera_light = wpilib.Relay(1)
         
         self.beltmotor = wpilib.CANTalon(6)
+        self.beltmotor.reverseSensor(True)
+        self.beltmotor.changeControlMode(wpilib.CANTalon.ControlMode.Speed)
+        self.beltmotor.setFeedbackDevice(wpilib.CANTalon.FeedbackDevice.QuadEncoder)
+        self.beltmotor.setPID(0.4, 0.05, 0.0, 0.12, izone=10)
+        self.beltmotor.enableBrakeMode(False)
+        self.beltmotor.setAllowableClosedLoopErr(10)
+        self.beltmotor.configEncoderCodesPerRev(0)
+
         self.pitcher_motor = wpilib.CANTalon(7)
         self.pitcher_motor.reverseSensor(True)
         self.pitcher_motor.changeControlMode(wpilib.CANTalon.ControlMode.Speed)
