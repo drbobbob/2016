@@ -106,3 +106,65 @@ $(document).ready(function(){
 	}, true);
 	
 });
+
+// Animations for ball
+var animate = (function() {
+
+	var $robotBall = $('#robot_ball');
+	var animations = [
+		{ state : 'unload', time : 2 },
+		{ state : 'load', time : 2 },
+		{ state : 'load-shooter', time : 1 },
+		{ state : 'shoot', time : .1 }
+	];
+
+	function getAnimationIndex(state) {
+		return _.findIndex(animations, function(o) { return o.state == state });
+	}
+
+	function getAnimation() {
+		return $('#robot_ball').attr('class') ? $('#robot_ball').attr('class') : 'load';
+	}
+
+	function reset() {
+		$robotBall.css('transition', 'none');
+
+		requestAnimationFrame(function() {
+			$robotBall.attr('class', 'reset unload');
+
+			requestAnimationFrame(function() {
+				$robotBall.css('transition', 'opacity 2s');
+				$robotBall.attr('class', 'unload');
+			});
+		});
+	}
+
+	function animate(state) {
+		var curAnimationIndex = getAnimationIndex(getAnimation());
+		var targetAnimationIndex = getAnimationIndex(state);
+		var indexDiff = targetAnimationIndex - curAnimationIndex;
+		
+		if(indexDiff == 0) {
+			return;
+		}
+
+		var nextAnimationIndex = curAnimationIndex + (indexDiff < 0 ? -1 : 1);
+		var nextAnimation = animations[nextAnimationIndex];
+		var transition = 'transform ' + nextAnimation.time + 's linear';
+		$robotBall.css('transition', transition);
+		$robotBall.attr('class', nextAnimation.state);
+
+		setTimeout(function() {
+			animate(state);
+		}, 1000 * nextAnimation.time);
+	} 
+
+	return {
+		reset : reset,
+		unload : function() { animate('unload'); },
+		load : function() { animate('load'); },
+		loadShooter : function() { animate('load-shooter'); },
+		shoot : function() { animate('shoot'); }
+	};
+
+})();

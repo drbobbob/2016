@@ -132,3 +132,32 @@ body {
 	display: inline-block;
 }
 
+#robot_ball {
+	fill: lime; 
+	stroke: black; 
+	stroke-width: 2; 
+	opacity: 1;
+}
+
+#robot_ball.reset {
+	opacity: 0;
+}
+
+
+#robot_ball.unload {
+	transform: translate3d(-100px, 50px, 0);
+}
+
+#robot_ball.load {
+	transform: translate3d(0, 0, 0);
+}
+
+#robot_ball.load-shooter {
+	transform: translate3d(25px, -25px, 0);
+}
+
+#robot_ball.shoot {
+	transform: translate3d(50px, -130px, 0);
+}
+
+
