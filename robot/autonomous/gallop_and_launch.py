@@ -36,7 +36,7 @@ class GallopAndLaunch(StatefulAutonomous):
     def drive_more(self):
         self.drive.move_at_angle(self.forward_speed, self.angle)
 
-    @timed_state(duration=0, next_state='shoot_ball')
+    @timed_state(duration=6, next_state='shoot_ball')
     def aim(self):
         self.autoaim.aim()
     @timed_state(duration=4)    
