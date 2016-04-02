@@ -1,5 +1,6 @@
 
 import os
+from os.path import exists
 import shutil
 import threading
 
@@ -8,6 +9,8 @@ import wpilib
 
 import logging
 logger = logging.getLogger('exposure_control')
+
+from networktables import NetworkTable
 
 class CommandNotFound(Exception):
     pass
@@ -22,7 +25,7 @@ class ExposureControl:
     
     # These are settings that work for the LifeCam HD-3000
     auto_args = '-c exposure_auto=3'
-    dark_args = '-c exposure_auto=1 -c exposure_absolute=10'
+    dark_args = '-c exposure_auto=1 -c exposure_absolute=5' # tried 10, was too bright.. 
     
     def __init__(self):
         
@@ -40,6 +43,9 @@ class ExposureControl:
         self.thread = threading.Thread(target=self._thread, daemon=True)
         self.thread.start()
         
+        self.nt = NetworkTable.getTable('/camera/exposure')
+        self.nt.addTableListener(self._on_nt_change, False)
+        
         wpilib.Resource._add_global_resource(self)
     
     def free(self):
@@ -50,6 +56,14 @@ class ExposureControl:
                 self.lock.notify()
                 
             self.thread.join()
+            
+    def _on_nt_change(self, s, k, v, n):
+        try:
+            device = int(k)
+        except ValueError:
+            pass
+        else:
+            self._set_exposure(device, v)
     
     def _thread(self):
         
@@ -71,23 +85,34 @@ class ExposureControl:
                 if v == settings.get(k):
                     continue
                 
-                logger.info("Device %s: %s", k, v)
-                if self._v4l_path:
-                    os.system('%s -d %s %s' % (self._v4l_path, k, v))
+                vv = getattr(self, '%s_args' % v, None)
+                
+                if vv is None:
+                    logger.warn("Device %s: Invalid exposure setting %s", k, v)
+                else:
+                    logger.info("Device %s: %s", k, vv)
+                    if self._v4l_path:
+                        
+                        fname = '/dev/video%d' % k
+                        if exists(fname):
+                            os.system('%s -d %s %s' % (self._v4l_path, k, vv))
+                        else:
+                            logger.warn("Camera not found at %s", fname)
                     
                 settings[k] = v
+                self.nt.putString(str(k), v)
     
-    def _set_exposure(self, device, args):
+    def _set_exposure(self, device, typ):
         with self.lock:
-            self.settings[device] = args
+            self.settings[device] = typ
             self.lock.notify()     
     
     def set_auto_exposure(self, device=0):
         '''Tells a camera to go into auto exposure mode'''
-        self._set_exposure(device, self.auto_args)
+        self._set_exposure(device, 'auto')
     
     def set_dark_exposure(self, device=0):
         '''Tells a camera to go into dark exposure mode'''
-        self._set_exposure(device, self.dark_args)
+        self._set_exposure(device, 'dark')
 
         
