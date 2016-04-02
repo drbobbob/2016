@@ -33,7 +33,7 @@ class ShooterControl:
         if self.fire_is_happening: 
             ball_out = self.lenny.ball_sensor.getDistance() > self.ball_threshold
             #if not self.seen_ball or not ball_out: 
-            self.lenny.ball_in(force=self.ball_in_speed)
+            self.lenny.ball_in(force=self.ball_in_speed, pid=True)
             #else:
             #    self.lenny.ball_out()
                 
