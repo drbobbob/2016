@@ -57,7 +57,7 @@ class AutoAim:
         nt = NetworkTable.getTable('/components/autoaim')
         nt.addTableListener(self._on_update, True, 'target_angle')
         
-        self.move_to_target_height_output = 0
+        self.move_to_target_height_output = None
         distance_controller = wpilib.PIDController(self.kP, self.kI, self.kD, self.kF, self.get_camera_height, output=self.move_to_target_height)
         distance_controller.setInputRange(-18,  18)
         distance_controller.setOutputRange(-1.0, 1.0)
@@ -94,13 +94,13 @@ class AutoAim:
             
             if autoaim_enabled:
                 self.distance_controller.setSetpoint(self.height_setpoint)
-                self.distance_controller.enable()
                 
                 # Tracking only works when exposure is turned down
                 self.exposure_control.set_dark_exposure(device=0)
             else:
                 self.exposure_control.set_auto_exposure(device=0)
                 self.distance_controller.disable()
+                self.move_to_target_height_output = None
             
         #if autoaim_enabled or self.camera_enabled:
         self.camera_light.set(self.LIGHT_ON)
@@ -122,7 +122,16 @@ class AutoAim:
                 self.target_angle = None
             
             if self.aimed_at_angle is not None:
-                self.drive.move_at_angle(self.move_to_target_height_output, self.aimed_at_angle)
+                speed = self.move_to_target_height_output
+                if speed is None:
+                    speed = self.aim_speed
+                self.drive.move_at_angle(speed, self.aimed_at_angle)
+        
+            self.distance_controller.enable()
+        else:
+            self.distance_controller.disable()
+            self.move_to_target_height_output = None
+        
         
         self.autoaim_on_target = self.drive.is_at_angle() and self.is_at_height()
         if self.autoaim_on_target == True:
