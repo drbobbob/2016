@@ -86,10 +86,12 @@ class MyRobot(MagicRobot):
         # NOTE: minimum stationary turn power is ~0.7
         
         #if self.use_arcade_drive:
-        if self.right_joystick.getRawButton(7):
+        if self.right_joystick.getRawButton(11):
             self.drive.move_at_angle(-self.right_joystick.getY(), 0)
+        elif self.right_joystick.getRawButton(10):
+            self.drive.move_at_angle(-self.right_joystick.getY(), 180)
         else:
-            self.drive.move(self.right_joystick.getX(), -self.right_joystick.getY())
+            self.drive.move(self.right_joystick.getX(), -self.right_joystick.getY(), True)
         #else:
         #    self.drive.tank(self.left_joystick.getY(), self.right_joystick.getY())
         
