@@ -18,35 +18,36 @@
 
  -->
 <body>
-	
-	<div class="robocam" id="left_camera"></div>
-	<div class="robocam" id="right_camera"></div>
+	<div class="layer">
+		<div class="robocam" id="left_camera"></div>
+		<div class="robocam" id="right_camera"></div>
 
-	<img id="logo" src="images/logo.png" />
-	
-	<div id="robot">
-		<svg width="300" height="176">
-			<circle id="robot_ball" cx="120" cy="80" r="35" style="fill: lime; stroke: black; stroke-width: 2; opacity: 0" />
-			<image xlink:href="images/robot_2016_02.png" width="300" height="176" />
-		</svg>
+		<img id="logo" src="images/logo.png" />
+		
+		<div id="robot">
+			<svg width="300" height="180">
+				<circle id="robot_ball" cx="1" cy="175" r="34" style="fill: lime; stroke: black; stroke-width: 2"  />
+				<image xlink:href="images/robot_2016_02.png" width="300" height="176" />
+			</svg>
+		</div>
+		
+		<div id="connected">
+		</div>
+		
+		<div id="ball_control">
+			<img id="ball_in" src="images/in.png"/>
+			<img id="ball_out" src="images/out.png"/>
+		</div>
+		
+		<div>
+			<input type="checkbox" name="firer" class="fire" id="firin"><label for="firin">
+		</div>
+		
+		<div>
+			<input type="checkbox" name="aim_guy" class="aim" id="aimer"><label for="aimer">
+		</div>
+		
+		<script src="teleop.js"></script>
 	</div>
-	
-	<div id="connected">
-	</div>
-	
-	<div id="ball_control">
-		<img id="ball_in" src="images/in.png"/>
-		<img id="ball_out" src="images/out.png"/>
-	</div>
-	
-	<div>
-		<input type="checkbox" name="firer" class="fire" id="firin"><label for="firin">
-	</div>
-	
-	<div>
-		<input type="checkbox" name="aim_guy" class="aim" id="aimer"><label for="aimer">
-	</div>
-	
-	<script src="teleop.js"></script>
 </body>
 </html>

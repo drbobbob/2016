@@ -46,6 +46,8 @@ $.fn.extend({
 	}
 });
 
+
+
 $('#ball_in').nt_toggle(ntkeys.ball_in, function(v){
 	if (v) {
 		NetworkTables.putValue(ntkeys.ball_out, false);
@@ -59,6 +61,9 @@ $('#ball_out').nt_toggle(ntkeys.ball_out, function(v){
 	}
 	this.css('background-color', v ? 'green' : 'gray');
 });
+
+
+
 
 
 $(document).ready(function(){
@@ -106,3 +111,15 @@ $(document).ready(function(){
 	}, true);
 	
 });
+
+
+$('#layer').nt_toggle(ntkeys.aimedTarget, function() {
+	if (NetworkTables.getValue(ntkeys.aimedTarget)==true)
+	$(this).attr('class', 'green_layer');
+});
+
+
+
+
+
+
