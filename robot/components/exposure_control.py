@@ -25,7 +25,7 @@ class ExposureControl:
     
     # These are settings that work for the LifeCam HD-3000
     auto_args = '-c exposure_auto=3'
-    dark_args = '-c exposure_auto=1 -c exposure_absolute=5' # tried 10, was too bright.. 
+    dark_args = '-c exposure_auto=1 -c exposure_absolute=10' # tried 10, was too bright.. 
     
     def __init__(self):
         

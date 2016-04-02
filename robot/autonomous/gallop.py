@@ -18,10 +18,6 @@ class DriveForward(StatefulAutonomous):
         StatefulAutonomous.on_enable(self)
         self.drive.reset_angle()
 
-    @timed_state(duration=0.5, next_state='drive_forward', first=True)
-    def drive_wait(self):
-        pass
-
-    @timed_state(duration=7)
+    @timed_state(duration=2.5, first=True)
     def drive_forward(self):
         self.drive.move_at_angle(1, 0)

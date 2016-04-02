@@ -34,6 +34,7 @@ class Drive:
         self.y1 = 0
         self.y2 = 0
         self.speed = 0
+        self.squared = False
         self.rotateToAngleRate = 0
         self.function_called = None
 
@@ -48,7 +49,7 @@ class Drive:
         
     
 
-    def move(self, x, y):
+    def move(self, x, y, squared=False):
         """Moves the robot
 
         :param x: -1 is left, 1 is right
@@ -57,6 +58,7 @@ class Drive:
         """
         self.x = x
         self.y = y
+        self.squared = squared
         self.function_called = Drive.move
         
     def tank(self, y1, y2): 
@@ -73,6 +75,7 @@ class Drive:
         """Moves the robot and turns it to a specified direction"""
         
         self.speed = speed
+        self.squared = False
         if abs(angle - self.robot_setpoint) > 0.001:
             self.turn_controller.setSetpoint(angle)
             self.robot_setpoint = angle
@@ -108,7 +111,7 @@ class Drive:
                 self.robot_drive.tankDrive(self.y1, self.y2)
 
             else:
-                self.robot_drive.arcadeDrive(-self.y, self.x)
+                self.robot_drive.arcadeDrive(-self.y, self.x, self.squared)
         
         # send this to the DS
         self.robot_angle = self.get_angle()
@@ -119,3 +122,4 @@ class Drive:
         self.y2 = 0
         self.function_called = None
         self.speed = 0
+        self.squared = False

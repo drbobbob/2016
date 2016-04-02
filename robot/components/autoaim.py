@@ -112,7 +112,7 @@ class AutoAim:
             self.aimed_at_angle = None
             return
         
-        self.pitcher.enable()
+        #self.pitcher.enable()
         # work goes here
         if self.present == True:
             current_angle = self.drive.get_angle()

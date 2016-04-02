@@ -15,7 +15,7 @@ class Lenny:
     
     ball_detected = ntproperty('/components/lenny/ball_detected', False)
     ball_detected_distance = ntproperty('/components/lenny/ball_detected_distance', 0)
-    ball_detected_threshold = ntproperty('/components/lenny/ball_detected_threshold', 8)
+    ball_detected_threshold = ntproperty('/components/lenny/ball_detected_threshold', 11.5)
     beltvelocity_in = ntproperty('/components/lenny/beltvelocity_in', -1)
     beltvelocity_out = ntproperty('/components/lenny/beltvelocity_out', 1)
     
