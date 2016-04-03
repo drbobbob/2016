@@ -12,6 +12,8 @@ var ntkeys= {
 	autoAimToggle: "/teleop/auto_aim_toggle",
 	
 	autonomousChooser: "/SmartDashboard/Autonomous Mode/selected",
-	autonomousModes: "/SmartDashboard/Autonomous Mode/options"
+	autonomousModes: "/SmartDashboard/Autonomous Mode/options",
+
+	shooting : '/components/shooter_control/shooting'
 	
 };
