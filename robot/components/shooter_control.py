@@ -12,7 +12,7 @@ class ShooterControl:
     fire_period = ntproperty('/components/shooter_control/fire_period', 1)
     ball_threshold = ntproperty('/components/shooter_control/ball_threshold', 6.7)
     
-    ball_in_speed = ntproperty('/components/shooter_control/ball_in_speed', -0.25)
+    ball_in_speed = ntproperty('/components/shooter_control/ball_in_speed', -500)
     
     def __init__(self):
         self.fire_is_happening = False

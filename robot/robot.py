@@ -40,10 +40,10 @@ class MyRobot(MagicRobot):
         self.camera_light = wpilib.Relay(1)
         
         self.beltmotor = wpilib.CANTalon(6)
-        self.beltmotor.reverseSensor(True)
+        #self.beltmotor.reverseSensor(True)
         self.beltmotor.changeControlMode(wpilib.CANTalon.ControlMode.Speed)
         self.beltmotor.setFeedbackDevice(wpilib.CANTalon.FeedbackDevice.QuadEncoder)
-        self.beltmotor.setPID(0.4, 0, 0.0, 0.8525, izone=10)
+        self.beltmotor.setPID(0.8, 0.05, 0.0, 0.8525, izone=10)
         self.beltmotor.enableBrakeMode(False)
         self.beltmotor.setAllowableClosedLoopErr(10)
         self.beltmotor.configEncoderCodesPerRev(0)
@@ -111,6 +111,9 @@ class MyRobot(MagicRobot):
             self.lenny.ball_in()
         elif self.right_joystick.getRawButton(3) or self.ds_ball_out:
             self.lenny.ball_out()
+            
+        if self.right_joystick.getRawButton(9):
+            self.lenny.ball_in(-500, pid=True)
 
 
         if self.right_joystick.getRawButton(6) or self.autoaim_toggled:

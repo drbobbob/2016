@@ -15,11 +15,13 @@ class Lenny:
     
     ball_detected = ntproperty('/components/lenny/ball_detected', False)
     ball_detected_distance = ntproperty('/components/lenny/ball_detected_distance', 0)
-    ball_detected_threshold = ntproperty('/components/lenny/ball_detected_threshold', 11.5)
+    ball_detected_threshold = ntproperty('/components/lenny/ball_detected_threshold', 18)
     beltvelocity_in = ntproperty('/components/lenny/beltvelocity_in', -1)
     beltvelocity_out = ntproperty('/components/lenny/beltvelocity_out', 1)
+    
+    beltvelocity_enc = ntproperty('/components/lenny/beltvelocity_enc', 0)
 
-   # start of extra variables#
+    # start of extra variables#
     pid_enabled = ntproperty('/components/lenny/pid_enabled', True)
     pid_speed = ntproperty('/components/lenny/pid_speed', 8000)
     manual_speed = ntproperty('/components/lenny/manual_speed', 1)
@@ -66,6 +68,8 @@ class Lenny:
     def execute(self):
         #da "boss"
         self.is_ball_detected()
+        
+        self.beltvelocity_enc = self.beltmotor.getEncVelocity()
         
         if self.disabled == False:
             mode = self.PID_MODE if self.pid_enabled else self.MANUAL_MODE
