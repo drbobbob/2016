@@ -24,15 +24,18 @@ class TargetFinder:
     
     colorspace = cv2.COLOR_BGR2HSV
     
-    enabled = ntproperty('/camera/enabled', True)
+    enabled = ntproperty('/camera/enabled', False)
     
     min_width = ntproperty('/camera/min_width', 25)
-    intensity_threshold = ntproperty('/camera/intensity_threshold', 75)
-    draw = ntproperty('/camera/draw', True)
+    #intensity_threshold = ntproperty('/camera/intensity_threshold', 75)
     
     target_present = ntproperty('/components/autoaim/present', False)
     target_angle = ntproperty('/components/autoaim/target_angle', 0)
     target_height = ntproperty('/components/autoaim/target_height', 0)
+
+    # boston 2013: 30 75 188 255 16 255
+    # virginia 2014: ?
+    # test image:  43 100 0 255 57 255
 
     thresh_hue_p = ntproperty('/camera/thresholds/hue_p', 30)
     thresh_hue_n = ntproperty('/camera/thresholds/hue_n', 75)
@@ -40,6 +43,12 @@ class TargetFinder:
     thresh_sat_n = ntproperty('/camera/thresholds/sat_n', 255)
     thresh_val_p = ntproperty('/camera/thresholds/val_p', 16)
     thresh_val_n = ntproperty('/camera/thresholds/val_n', 255)
+    
+    draw = ntproperty('/camera/draw_targets', True)
+    draw_thresh = ntproperty('/camera/draw_thresh', False)
+    draw_hue = ntproperty('/camera/draw_hue', False)
+    draw_sat = ntproperty('/camera/draw_sat', False)
+    draw_val = ntproperty('/camera/draw_val', False)
     
     def __init__(self):
         self.size = None
@@ -54,7 +63,6 @@ class TargetFinder:
             self.thresh = np.empty((h, w, 1), dtype=np.uint8)
             self.out = np.empty((h, w, 3), dtype=np.uint8)
             
-            # these are preallocated so we aren't allocating all the time
             self.bin = np.empty((h, w, 1), dtype=np.uint8)
             self.hsv = np.empty((h, w, 3), dtype=np.uint8)
             self.hue = np.empty((h, w, 1), dtype=np.uint8)
@@ -63,6 +71,7 @@ class TargetFinder:
             
             # for overlays
             self.zeros = np.zeros((h, w, 1), dtype=np.bool)
+            self.black = np.zeros((h, w, 3), dtype=np.uint8)
             
             if True:
                 k = 2
@@ -90,51 +99,32 @@ class TargetFinder:
         
         # Threshold each component separately
         
-        
         # Hue
         cv2.threshold(self.hue, self.thresh_hue_p, 255, type=cv2.THRESH_BINARY, dst=self.bin)
         cv2.threshold(self.hue, self.thresh_hue_n, 255, type=cv2.THRESH_BINARY_INV, dst=self.hue)
-        
-        #cv2.imshow('h1', self.bin)
-        #cv2.imshow('h2', self.hue)
-        
         cv2.bitwise_and(self.hue, self.bin, self.hue)
         
-        
-        
-        #if self.show_hue:
+        if self.draw_hue:
         #    # overlay green where the hue threshold is non-zero
-        img[np.dstack((self.zeros, self.hue != 0, self.zeros))] = 255
+            self.out[np.dstack((self.zeros, self.hue != 0, self.zeros))] = 255
         
         # Saturation
         cv2.threshold(self.sat, self.thresh_sat_p, 255, type=cv2.THRESH_BINARY, dst=self.bin)
         cv2.threshold(self.sat, self.thresh_sat_n, 255, type=cv2.THRESH_BINARY_INV, dst=self.sat)
-        
-        #cv2.imshow('s1', self.bin)
-        #cv2.imshow('s2', self.sat)
-        
         cv2.bitwise_and(self.sat, self.bin, self.sat)
         
-        #cv2.imshow('s', self.sat)
-        
-        #if self.show_sat:
+        if self.draw_sat:
             # overlay blue where the sat threshold is non-zero
-        img[np.dstack((self.sat != 0, self.zeros, self.zeros))] = 255
+            self.out[np.dstack((self.sat != 0, self.zeros, self.zeros))] = 255
         
         # Value
         cv2.threshold(self.val, self.thresh_val_p, 255, type=cv2.THRESH_BINARY, dst=self.bin)
         cv2.threshold(self.val, self.thresh_val_n, 255, type=cv2.THRESH_BINARY_INV, dst=self.val)
-        
-        #cv2.imshow('v1', self.bin)
-        #cv2.imshow('v2', self.val)
-        
         cv2.bitwise_and(self.val, self.bin, self.val)
         
-        #cv2.imshow('v', self.val)
-        
-        #if self.show_val:
-        #    # overlay red where the val threshold is non-zero
-        img[np.dstack((self.zeros, self.zeros, self.val != 0))] = 255
+        if self.draw_val:
+            # overlay red where the val threshold is non-zero
+            self.out[np.dstack((self.zeros, self.zeros, self.val != 0))] = 255
         
         # Combine the results to obtain our binary image which should for the most
         # part only contain pixels that we care about        
@@ -144,6 +134,12 @@ class TargetFinder:
         # Fill in any gaps using binary morphology
         cv2.morphologyEx(self.bin, cv2.MORPH_CLOSE, self.morphKernel, dst=self.bin, iterations=self.kHoleClosingIterations)
     
+        if self.draw_thresh:
+            b = (self.bin != 0)
+            cv2.copyMakeBorder(self.black, 0, 0, 0, 0, cv2.BORDER_CONSTANT, value=self.RED, dst=self.out)
+            self.out[np.dstack((b, b, b))] = 255
+        
+        #
         return self.bin
     
     #def threshold
@@ -155,9 +151,7 @@ class TargetFinder:
         
         thresh_img = self.threshold(img)
         
-        cv2.imshow('moo', thresh_img)
-        
-        _, contours, h = cv2.findContours(thresh_img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+        _, contours, _ = cv2.findContours(thresh_img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
         result = []
         for cnt in contours:
             approx = cv2.approxPolyDP(cnt,0.01*cv2.arcLength(cnt,True),True)
