@@ -7,11 +7,80 @@
 import cv2
 import numpy as np
 import os
+import os.path
+import shutil
 import sys
+import threading
+import time
 
 from networktables import NetworkTable
 from networktables.util import ntproperty
 
+
+class Storage:
+    
+    location = '/media/sda1/camera'
+    
+    logging_error = ntproperty('/camera/logging_error', False, writeDefault=True)
+    
+    def __init__(self):
+        self.has_image = False
+        self.size = None
+        self.lock = threading.Condition()
+        self._thread = threading.Thread(target=self._run, daemon=True)
+        self._thread.start()
+    
+    def set_image(self, img):
+        
+        if self.logging_error:
+            return
+        
+        if self.size is None or self.size[0] != img.shape[0] or self.size[1] != img.shape[1]:
+            h, w = img.shape[:2]
+            self.size = (h, w)
+            
+            self.out1 = np.empty((h, w, 3), dtype=np.uint8)
+            self.out2 = np.empty((h, w, 3), dtype=np.uint8)
+        
+        with self.lock:
+            cv2.copyMakeBorder(img, 0, 0, 0, 0, cv2.BORDER_CONSTANT, value=(0,0,255), dst=self.out1)
+            self.has_image = True
+            self.lock.notify()
+            
+    
+    def _run(self):
+        
+        last = time.time()
+        
+        print("Thread started")
+        
+        if not os.path.exists(self.location):
+            print("Oops")
+            self.logging_error = True
+            return
+        
+        self.logging_error = False
+        
+        self.location = self.location + '/%s' % time.strftime('%Y-%m-%d %H.%M.%S')
+        os.makedirs(self.location, exist_ok=True)
+        
+        while True:
+            with self.lock:
+                now = time.time()
+                while (not self.has_image) or (now - last) < 1:
+                    self.lock.wait()
+                    now = time.time()
+                    
+                self.out2, self.out1 = self.out1, self.out2
+                self.has_image = False
+            
+            
+            fname = '%s/%.2f.jpg' % (self.location, now)
+            #print("Writing", fname)
+            cv2.imwrite(fname, self.out2)
+            
+            last = now
+    
 class TargetFinder:
     
     # Values for the lifecam-3000
@@ -25,6 +94,7 @@ class TargetFinder:
     colorspace = cv2.COLOR_BGR2HSV
     
     enabled = ntproperty('/camera/enabled', False)
+    logging_enabled = ntproperty('/camera/logging_enabled', False)
     
     min_width = ntproperty('/camera/min_width', 25)
     #intensity_threshold = ntproperty('/camera/intensity_threshold', 75)
@@ -37,11 +107,11 @@ class TargetFinder:
     # virginia 2014: ?
     # test image:  43 100 0 255 57 255
 
-    thresh_hue_p = ntproperty('/camera/thresholds/hue_p', 30)
-    thresh_hue_n = ntproperty('/camera/thresholds/hue_n', 75)
-    thresh_sat_p = ntproperty('/camera/thresholds/sat_p', 188)
+    thresh_hue_p = ntproperty('/camera/thresholds/hue_p', 0)
+    thresh_hue_n = ntproperty('/camera/thresholds/hue_n', 255)
+    thresh_sat_p = ntproperty('/camera/thresholds/sat_p', 145)
     thresh_sat_n = ntproperty('/camera/thresholds/sat_n', 255)
-    thresh_val_p = ntproperty('/camera/thresholds/val_p', 16)
+    thresh_val_p = ntproperty('/camera/thresholds/val_p', 80)
     thresh_val_n = ntproperty('/camera/thresholds/val_n', 255)
     
     draw = ntproperty('/camera/draw_targets', True)
@@ -52,6 +122,7 @@ class TargetFinder:
     
     def __init__(self):
         self.size = None
+        self.storage = Storage()
         
     def preallocate(self, img):
         if self.size is None or self.size[0] != img.shape[0] or self.size[1] != img.shape[1]:
@@ -180,6 +251,9 @@ class TargetFinder:
             self.target_present = False
             return img
         
+        if self.logging_enabled:
+            self.storage.set_image(img)
+        
         self.preallocate(img)
         
         cnt = self.find_contours(img)
@@ -223,6 +297,9 @@ def init_filter():
     NetworkTable.setIPAddress('127.0.0.1')
     NetworkTable.setClientMode()
     NetworkTable.initialize()
+    
+    os.system("v4l2-ctl -d /dev/video1 -c exposure_auto=1 -c exposure_absolute=20")
+    os.system("v4l2-ctl -d /dev/video2 -c exposure_auto=1 -c exposure_absolute=10")
     
     filter = TargetFinder()
     return filter.quad_normals
