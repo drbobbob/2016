@@ -90,13 +90,14 @@ class TargetFinder:
     RED = (0, 0, 255)
     YELLOW = (0, 255, 255)
     BLUE = (255, 0, 0)
+    MOO = (255, 255, 0)
     
     colorspace = cv2.COLOR_BGR2HSV
     
     enabled = ntproperty('/camera/enabled', False)
     logging_enabled = ntproperty('/camera/logging_enabled', False)
     
-    min_width = ntproperty('/camera/min_width', 25)
+    min_width = ntproperty('/camera/min_width', 20)
     #intensity_threshold = ntproperty('/camera/intensity_threshold', 75)
     
     target_present = ntproperty('/components/autoaim/present', False)
@@ -116,6 +117,8 @@ class TargetFinder:
     
     draw = ntproperty('/camera/draw_targets', True)
     draw_thresh = ntproperty('/camera/draw_thresh', False)
+    draw_c1 = ntproperty('/camera/draw_c1', False)
+    draw_c2 = ntproperty('/camera/draw_c2', False)
     draw_hue = ntproperty('/camera/draw_hue', False)
     draw_sat = ntproperty('/camera/draw_sat', False)
     draw_val = ntproperty('/camera/draw_val', False)
@@ -224,11 +227,17 @@ class TargetFinder:
         
         _, contours, _ = cv2.findContours(thresh_img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
         result = []
-        for cnt in contours:
+        
+        for i, cnt in enumerate(contours):
             approx = cv2.approxPolyDP(cnt,0.01*cv2.arcLength(cnt,True),True)
-            if len(approx)>5 and len(approx)<10:
-                x,y,w,h = cv2.boundingRect(approx)
-                if w > self.min_width:      
+            #print(i, len(approx))
+            if len(approx)>5 and len(approx)<12:
+                _,_,w,h = cv2.boundingRect(approx)
+                
+                if self.draw_c1:
+                    cv2.drawContours(self.out, [approx], -1, self.MOO, 2, lineType=8)
+        
+                if w > h and w > self.min_width:      
                     result.append(approx)
         return result
     
@@ -237,10 +246,15 @@ class TargetFinder:
         for gate in cnt:
             hull = cv2.convexHull(gate)
             approx = cv2.approxPolyDP(hull,0.01*cv2.arcLength(hull,True),True)
-            if len(approx) == 4:
+            
+            if len(approx) in (4,5):
                 result.append(approx)
                 if self.draw:
                     cv2.drawContours(self.out, [approx], -1, self.YELLOW, 2, lineType=8)
+            
+            if self.draw_c2:
+                cv2.drawContours(self.out, [approx], -1, self.BLUE, 2, lineType=8)
+        
         return result
 
     def quad_normals(self, img):

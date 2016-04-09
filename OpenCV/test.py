@@ -51,7 +51,7 @@ class StaticTester:
         idx = 0
         direction = 1
         while True:
-            idx = min(len(files), max(idx, 0))
+            idx = min(len(files)-1, max(idx, 0))
             
             filename = files[idx]
             img = cv2.imread(filename)
