@@ -29,6 +29,13 @@ class MyRobot(MagicRobot):
     ds_ball_in = ntproperty('/teleop/ball_in', False)
     ds_ball_out = ntproperty('/teleop/ball_out', False)
     
+    talon_temp2 = ntproperty('/SmartDashboard/talon_temp/2', 0)
+    talon_temp3 = ntproperty('/SmartDashboard/talon_temp/3', 0)
+    talon_temp4 = ntproperty('/SmartDashboard/talon_temp/4', 0)
+    talon_temp5 = ntproperty('/SmartDashboard/talon_temp/5', 0)
+    talon_temp6 = ntproperty('/SmartDashboard/talon_temp/6', 0)
+    talon_temp7 = ntproperty('/SmartDashboard/talon_temp/7', 0)
+    
     # For debugging only
     target_angle = ntproperty('/components/autoaim/target_angle', 0)
     target_height = ntproperty('/components/autoaim/target_height', 0)
@@ -57,10 +64,10 @@ class MyRobot(MagicRobot):
         self.pitcher_motor.setAllowableClosedLoopErr(10)
         self.pitcher_motor.configEncoderCodesPerRev(0)
         
-        lf_motor = wpilib.CANTalon(4)
-        lr_motor = wpilib.CANTalon(5)
-        rf_motor = wpilib.CANTalon(2)
-        rr_motor = wpilib.CANTalon(3)
+        self.lf_motor = lf_motor = wpilib.CANTalon(4)
+        self.lr_motor = lr_motor = wpilib.CANTalon(5)
+        self.rf_motor = rf_motor = wpilib.CANTalon(2)
+        self.rr_motor = rr_motor = wpilib.CANTalon(3)
 
         lf_motor.setInverted(True)
         lr_motor.setInverted(True)
@@ -132,6 +139,13 @@ class MyRobot(MagicRobot):
             #self.tapemeasure.retract()
         # if self.left_joystick.getTrigger():
             #self.drive.move_at_angle(0, 90)
+            
+        talon_temp2 = self.rf_motor.getTemp()
+        talon_temp3 = self.rr_motor.getTemp()
+        talon_temp4 = self.lf_motor.getTemp()
+        talon_temp5 = self.lr_motor.getTemp()
+        talon_temp6 = self.beltmotor.getTemp()
+        talon_temp7 = self.pitcher_motor.getTemp()
         
 if __name__ == "__main__":
     wpilib.run(MyRobot)
