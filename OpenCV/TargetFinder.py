@@ -22,6 +22,7 @@ class Storage:
     location = '/media/sda1/camera'
     
     logging_error = ntproperty('/camera/logging_error', False, writeDefault=True)
+    capture_period = ntproperty('/camera/capture_period', 1.0)
     
     def __init__(self):
         self.has_image = False
@@ -67,7 +68,7 @@ class Storage:
         while True:
             with self.lock:
                 now = time.time()
-                while (not self.has_image) or (now - last) < 1:
+                while (not self.has_image) or (now - last) < self.capture_period:
                     self.lock.wait()
                     now = time.time()
                     
