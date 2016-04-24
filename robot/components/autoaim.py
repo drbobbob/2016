@@ -7,6 +7,7 @@ from .exposure_control import ExposureControl
 from components.pitcher import Pitcher
 from components.shooter_control import ShooterControl
 
+from magicbot import tunable
 from networktables import NetworkTable
 from networktables.util import ntproperty
 
@@ -21,15 +22,16 @@ class AutoAim:
     camera_light = wpilib.Relay 
     
     # Variables from camera
-    present = ntproperty('/components/autoaim/present', False)
     #target_angle = ntproperty('/components/autoaim/target_angle', 0)
     
     # Variables to driver station
     camera_enabled = ntproperty('/camera/enabled', False)
-    autoaim_enabled = ntproperty('/components/autoaim/enabled', False)
-    autoaim_on_target = ntproperty('/components/autoaim/on_target', False)
-    target_height = ntproperty('/components/autoaim/target_height', 0)
-    height_setpoint = ntproperty('/components/autoaim/height_setpoint', 11)
+    
+    present = tunable(False)
+    autoaim_enabled = tunable(False)
+    on_target = tunable(False)
+    target_height = tunable(0)
+    height_setpoint = tunable(11)
 
     if hal.HALIsSimulation():
         kP = 0.2
@@ -108,7 +110,7 @@ class AutoAim:
         #self.camera_light.set(self.LIGHT_OFF)
         
         if not autoaim_enabled:
-            self.autoaim_on_target = False
+            self.on_target = False
             self.aimed_at_angle = None
             return
         
@@ -133,8 +135,8 @@ class AutoAim:
             self.move_to_target_height_output = None
         
         
-        self.autoaim_on_target = self.drive.is_at_angle() and self.is_at_height()
-        if self.autoaim_on_target == True:
+        self.on_target = self.drive.is_at_angle() and self.is_at_height()
+        if self.on_target == True:
             self.shooter_control.fire()
         
         # reset

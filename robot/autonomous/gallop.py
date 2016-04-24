@@ -1,9 +1,9 @@
 
-from robotpy_ext.autonomous import timed_state, StatefulAutonomous
+from magicbot import timed_state, AutonomousStateMachine
 
 from components.drive import Drive
 
-class DriveForward(StatefulAutonomous):
+class DriveForward(AutonomousStateMachine):
 
     MODE_NAME = 'Drive Forward'
     DEFAULT = True
@@ -15,7 +15,7 @@ class DriveForward(StatefulAutonomous):
         pass
     
     def on_enable(self):
-        StatefulAutonomous.on_enable(self)
+        AutonomousStateMachine.on_enable(self)
         self.drive.reset_angle()
 
     @timed_state(duration=2.5, first=True)

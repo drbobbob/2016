@@ -15,6 +15,11 @@ class Drive:
     
     # Variables to driver station
     robot_angle = ntproperty('/components/drive/angle', 0)
+    robot_pitch = ntproperty('/components/drive/pitch', 0)
+    robot_roll = ntproperty('/components/drive/roll', 0)
+    robot_x = ntproperty('/components/drive/x', 0)
+    robot_y = ntproperty('/components/drive/y', 0)
+    
     robot_setpoint = ntproperty('/components/drive/setpoint', 0)
 
     if hal.HALIsSimulation():
@@ -115,6 +120,10 @@ class Drive:
         
         # send this to the DS
         self.robot_angle = self.get_angle()
+        self.robot_x = self.ahrs.getDisplacementX()
+        self.robot_y = self.ahrs.getDisplacementY()
+        self.robot_pitch = self.ahrs.getPitch()
+        self.robot_roll = self.ahrs.getRoll()
         
         self.x = 0
         self.y = 0

@@ -1,9 +1,9 @@
 
-from robotpy_ext.autonomous import timed_state, StatefulAutonomous
+from magicbot import timed_state, AutonomousStateMachine
 from components.lenny import Lenny
 from components.drive import Drive
 
-class DriveForward(StatefulAutonomous):
+class DriveForward(AutonomousStateMachine):
 
     MODE_NAME = 'Gallop and Pass'
     drive = Drive
