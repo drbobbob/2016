@@ -21,7 +21,7 @@ class MyRobot(MagicRobot):
     #tapemeasure = Tapemeasure
     drive = Drive
     
-    use_arcade_drive = ntproperty('/SmartDashboard/use_arcade', True)
+    turn_sensitivity = ntproperty('/teleop/turn_sensitivity', 0.7)
     fire_toggled = ntproperty('/teleop/fire_toggle', False)
     autoaim_toggled = ntproperty('/teleop/auto_aim_toggle', False)
     
@@ -80,8 +80,8 @@ class MyRobot(MagicRobot):
         #self.tape_motor = wpilib.CANTalon(6)
         #self.winch_motor = wpilib.CANTalon(7)
         
-        #self.left_joystick = wpilib.Joystick(0)
-        self.right_joystick = wpilib.Joystick(0)
+        self.left_joystick = wpilib.Joystick(0)
+        self.right_joystick = wpilib.Joystick(1)
     
     def teleopInit(self):
         self.pitcher_enabled = False
@@ -92,15 +92,12 @@ class MyRobot(MagicRobot):
         
         # NOTE: minimum stationary turn power is ~0.7
         
-        #if self.use_arcade_drive:
         if self.right_joystick.getRawButton(11):
             self.drive.move_at_angle(-self.right_joystick.getY(), 0)
         elif self.right_joystick.getRawButton(10):
             self.drive.move_at_angle(-self.right_joystick.getY(), 180)
         else:
-            self.drive.move(self.right_joystick.getX(), -self.right_joystick.getY(), True)
-        #else:
-        #    self.drive.tank(self.left_joystick.getY(), self.right_joystick.getY())
+            self.drive.move(self.left_joystick.getX()*self.turn_sensitivity, -self.right_joystick.getY(), True)
         
         # Pitcher controls
         if self.right_joystick.getRawButton(4):
