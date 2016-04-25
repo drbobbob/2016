@@ -3,19 +3,23 @@
 import wpilib
 from magicbot import MagicRobot
 from robotpy_ext.common_drivers.distance_sensors import SharpIRGP2Y0A41SK0F, SharpIR2Y0A02
-from components.autoaim import AutoAim
+
 from components.lenny import Lenny
 from components.pitcher import Pitcher
 #from components.tape_measure import Tapemeasure
 from components.drive import Drive
-from components.shooter_control import ShooterControl
+
+from controllers.autoaim import AutoAim
+from controllers.shooter_control import ShooterControl
 
 from networktables.util import ntproperty
 
 class MyRobot(MagicRobot):
     
-    auto_aim = AutoAim
+    # Ordered by expected order of execution
+    autoaim = AutoAim
     shooter_control = ShooterControl
+    
     lenny = Lenny
     pitcher = Pitcher
     #tapemeasure = Tapemeasure
@@ -90,7 +94,7 @@ class MyRobot(MagicRobot):
     
     def teleopPeriodic(self):
         
-        # NOTE: minimum stationary turn power is ~0.7
+        # NOTE: with pneumatic wheels, minimum stationary turn power is ~0.7
         
         if self.right_joystick.getRawButton(11):
             self.drive.move_at_angle(-self.right_joystick.getY(), 0)
@@ -117,11 +121,10 @@ class MyRobot(MagicRobot):
             self.lenny.ball_out()
             
         if self.right_joystick.getRawButton(9):
-            self.lenny.ball_in(-500, pid=True)
-
-
+            self.lenny.ball_shoot()
+        
         if self.right_joystick.getRawButton(6) or self.autoaim_toggled:
-            self.auto_aim.aim(-self.right_joystick.getY())
+            self.autoaim.aim(-self.right_joystick.getY())
             
         #if self.timer.hasPeriodPassed(0.5):
         #    print("has_target: %s, angle: %3.2f, height: %3.2f" % (
@@ -137,12 +140,12 @@ class MyRobot(MagicRobot):
         # if self.left_joystick.getTrigger():
             #self.drive.move_at_angle(0, 90)
             
-        talon_temp2 = self.rf_motor.getTemp()
-        talon_temp3 = self.rr_motor.getTemp()
-        talon_temp4 = self.lf_motor.getTemp()
-        talon_temp5 = self.lr_motor.getTemp()
-        talon_temp6 = self.beltmotor.getTemp()
-        talon_temp7 = self.pitcher_motor.getTemp()
+        self.talon_temp2 = self.rf_motor.getTemp()
+        self.talon_temp3 = self.rr_motor.getTemp()
+        self.talon_temp4 = self.lf_motor.getTemp()
+        self.talon_temp5 = self.lr_motor.getTemp()
+        self.talon_temp6 = self.beltmotor.getTemp()
+        self.talon_temp7 = self.pitcher_motor.getTemp()
         
 if __name__ == "__main__":
     wpilib.run(MyRobot)

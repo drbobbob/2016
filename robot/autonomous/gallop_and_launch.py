@@ -1,7 +1,7 @@
 
 from magicbot import timed_state, AutonomousStateMachine
 from components.drive import Drive
-from components.shooter_control import ShooterControl
+from controllers.shooter_control import ShooterControl
 
 from magicbot import tunable
 
