@@ -83,12 +83,8 @@ class AutoAim(StateMachine):
         else:
             with self.target_height_lock:
                 # decay the value: avoid race conditions
-                ol = self.target_height
                 decay = (self.height_setpoint - self.target_height)*self.height_decay
-                self.target_height += decay 
-                
-                print(decay, ol, '->', self.target_height)
-            
+                self.target_height += decay
             
             return self.target_height
     
@@ -130,13 +126,18 @@ class AutoAim(StateMachine):
         
         if self.present:
             if self._move_to_position():
+                # at the right place? ok, transition!
                 self.next_state('at_position')
         else:
             self.distance_controller.disable()
     
     @timed_state(duration=0.25, next_state='begin_firing')
     def at_position(self):
+        '''Only go to 'begin_firing' if we've been at the right position for
+        more than a set period of time'''
+        
         if not self._move_to_position():
+            # if we're no longer on the right spot, reset
             self.next_state('moving_to_position')
     
     def _move_to_position(self):
@@ -163,6 +164,8 @@ class AutoAim(StateMachine):
         '''At the correct position, fire the ball'''
         self.drive.move(0, 0)
         self.shooter_control.fire()
+        
+        # Wait for the shooter to report that it has fired
         if self.shooter_control.is_firing():
             self.next_state_now('firing')
     
@@ -173,6 +176,7 @@ class AutoAim(StateMachine):
     
     @state
     def end(self):
+        '''Just sit until the operator lets go of the joystick'''
         pass
     
     def done(self):
