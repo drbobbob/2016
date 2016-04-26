@@ -22,7 +22,6 @@ class AutoAim(StateMachine):
     drive = Drive
     pitcher = Pitcher
     shooter_control = ShooterControl
-    camera_light = wpilib.Relay 
     
     # Variables from camera
     #target_angle = ntproperty('/components/autoaim/target_angle', 0)

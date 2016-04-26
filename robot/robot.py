@@ -49,6 +49,7 @@ class MyRobot(MagicRobot):
         self.tower_sensor = SharpIR2Y0A02(1)
         
         self.camera_light = wpilib.Relay(1)
+        self.camera_light.set(wpilib.Relay.Value.kOn)
         
         self.beltmotor = wpilib.CANTalon(6)
         #self.beltmotor.reverseSensor(True)
