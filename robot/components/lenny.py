@@ -13,13 +13,14 @@ class Lenny:
     beltmotor = wpilib.CANTalon
     ball_sensor = Sharp
     
+    ball_detected_distance = tunable(0)
     ball_detected_threshold = tunable(12)
     ball_detected = tunable(False)
     belt_velocity = tunable(0)
     
     motor_setpoint_in = tunable(-1)
     motor_setpoint_out = tunable(1)
-    motor_setpoint_shoot = tunable(-500)
+    motor_setpoint_shoot = tunable(-700)
     
     MANUAL_MODE = wpilib.CANTalon.ControlMode.PercentVbus
     PID_MODE = wpilib.CANTalon.ControlMode.Speed
@@ -41,7 +42,7 @@ class Lenny:
     
     def ball_in(self):
         '''Brings the ball in if a ball is not detected'''
-        if self.is_ball_detected():
+        if not self.is_ball_detected():
             self.motor_setpoint = self.motor_setpoint_in
         
     def ball_out(self):

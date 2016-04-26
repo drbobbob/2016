@@ -102,7 +102,7 @@ class MyRobot(MagicRobot):
         elif self.right_joystick.getRawButton(10):
             self.drive.move_at_angle(-self.right_joystick.getY(), 180)
         else:
-            self.drive.move(self.left_joystick.getX()*self.turn_sensitivity, -self.right_joystick.getY(), True)
+            self.drive.move(self.right_joystick.getX()*self.turn_sensitivity, -self.left_joystick.getY(), True)
         
         # Pitcher controls
         if self.right_joystick.getRawButton(4):

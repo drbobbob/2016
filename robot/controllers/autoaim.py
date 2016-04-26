@@ -1,6 +1,7 @@
 import hal
 import wpilib
 
+import math
 import threading
 
 from components.drive import Drive
@@ -31,20 +32,21 @@ class AutoAim(StateMachine):
     
     present = tunable(False)
     autoaim_enabled = tunable(False)
-    height_setpoint = tunable(11)
+    height_setpoint = tunable(-9)
     
     height_decay = tunable(0.2)
+    decayed_height = tunable(0)
 
     if hal.HALIsSimulation():
         kP = 0.2
     else:
-        kP = 0.1
+        kP = 0.06
         
     kI = 0.00
     kD = 0.00
     kF = 0.00
     
-    kToleranceHeight = .3
+    kToleranceHeight = 2
     
     def __init__(self):
         self.aim_speed = None
@@ -71,6 +73,8 @@ class AutoAim(StateMachine):
         distance_controller.setOutputRange(-1.0, 1.0)
         distance_controller.setAbsoluteTolerance(self.kToleranceHeight)
         self.distance_controller = distance_controller
+        
+        distance_controller.initTable(nt.getSubTable('pid'))
     
     #
     # Internal API
@@ -85,11 +89,20 @@ class AutoAim(StateMachine):
                 decay = (self.height_setpoint - self.target_height)*self.height_decay
                 self.target_height += decay
             
+            # debug usage
+            self.decayed_height = self.target_height
             return self.target_height
     
     def _pidWrite(self, output):
-        self.move_to_target_height_output = output
-    
+        
+        
+        if self.target_height is None:
+            self.move_to_target_height_output = 0
+        else:
+            # y: 0.15 to 0.6
+            output = -output
+            self.move_to_target_height_output = math.copysign(abs(output)*0.45+0.15, output)
+        
     def _on_target_angle(self, source, key, value, isNew):
         self.target_angle = value
         
@@ -102,7 +115,7 @@ class AutoAim(StateMachine):
     #
     
     def is_at_height(self):
-        return self.distance_controller.isEnable() and self.distance_controller.onTarget()
+        return self.target_height is not None and self.distance_controller.onTarget()
     
     def aim(self, speed=0):
         #stores some value
@@ -112,9 +125,15 @@ class AutoAim(StateMachine):
     @state(first=True)
     def initial_state(self):
         
+        # Initially set these to None, they will be updated when a real input
+        # value comes in
+        self.target_angle = None
+        self.target_height = None
+        
         # Tracking only works when exposure is turned down
         self.exposure_control.set_dark_exposure(device=0)
         self.distance_controller.setSetpoint(self.height_setpoint)
+        self.distance_controller.enable()
         self.camera_enabled = True
         
         self.next_state_now('moving_to_position')
@@ -123,38 +142,49 @@ class AutoAim(StateMachine):
     def moving_to_position(self):
         '''Cause the robot to automatically move to the correct position to shoot'''
         
-        if self.present:
-            if self._move_to_position():
-                # at the right place? ok, transition!
-                self.next_state('at_position')
-        else:
-            self.distance_controller.disable()
+        # Don't care about whether the image is 'present', the target
+        # angle/height will be set when it is, and if there's a blip where the
+        # camera can't see the target we don't want to interrupt our movement
+        
+        if self._move_to_position():
+            # at the right place? ok, transition!
+            self.next_state('at_position')
+        
+        #if self.present:
+        #else:
+        #    self.distance_controller.disable()
     
-    @timed_state(duration=0.25, next_state='begin_firing')
+    @timed_state(duration=0.5, next_state='begin_firing')
     def at_position(self):
         '''Only go to 'begin_firing' if we've been at the right position for
         more than a set period of time'''
         
-        if not self._move_to_position():
+        if not self._move_to_position() and self.present:
             # if we're no longer on the right spot, reset
             self.next_state('moving_to_position')
     
     def _move_to_position(self):
         '''returns true if at correct position, false otherwise'''
         
-        self.distance_controller.enable()
-        
         if self.target_angle is not None:
-            self.aimed_at_angle = self.drive.get_angle() + self.target_angle
+            # reduce the camera angle by half to compensate for lag
+            self.aimed_at_angle = self.drive.get_angle() + (self.target_angle/2.0)
             self.target_angle = None
+            
+        at_height = self.is_at_height()
         
         if self.aimed_at_angle is not None:
-            speed = self.move_to_target_height_output
-            if speed is None:
-                speed = self.aim_speed
+            if at_height:
+                # No moving required if already there.. 
+                speed = 0
+            else:
+                speed = self.move_to_target_height_output
+                if speed is None:
+                    speed = self.aim_speed
+            
             self.drive.move_at_angle(speed, self.aimed_at_angle)
     
-        on_target = self.drive.is_at_angle() and self.is_at_height()
+        on_target = self.drive.is_at_angle() and at_height
         self.on_target = on_target
         return on_target
     
