@@ -19,12 +19,13 @@ from networktables.util import ntproperty
 
 class Storage:
     
-    location = '/media/sda1/camera'
+    location_root = '/media/sda1/camera'
     
     logging_error = ntproperty('/camera/logging_error', False, writeDefault=True)
-    capture_period = ntproperty('/camera/capture_period', 1.0)
+    capture_period = ntproperty('/camera/capture_period', 0.5)
     
     def __init__(self):
+        self._location = None
         self.has_image = False
         self.size = None
         self.lock = threading.Condition()
@@ -47,7 +48,21 @@ class Storage:
             cv2.copyMakeBorder(img, 0, 0, 0, 0, cv2.BORDER_CONSTANT, value=(0,0,255), dst=self.out1)
             self.has_image = True
             self.lock.notify()
+    
+    @property
+    def location(self):
+        if self._location is None:
             
+            # This assures that we only log when a USB memory stick is plugged in
+            if not os.path.exists(self.location_root):
+                raise IOError("Logging disabled, %s does not exist" % self.location_root)
+            
+            # Can't do this when program starts, time might be wrong. Ideally by now the DS
+            # has connected, so the time will be correct
+            self._location = self.location_root + '/%s' % time.strftime('%Y-%m-%d %H.%M.%S')
+            os.makedirs(self._location, exist_ok=True)
+            
+        return self._location
     
     def _run(self):
         
@@ -55,32 +70,30 @@ class Storage:
         
         print("Thread started")
         
-        if not os.path.exists(self.location):
-            print("Oops")
-            self.logging_error = True
-            return
-        
         self.logging_error = False
         
-        self.location = self.location + '/%s' % time.strftime('%Y-%m-%d %H.%M.%S')
-        os.makedirs(self.location, exist_ok=True)
+        try:
         
-        while True:
-            with self.lock:
-                now = time.time()
-                while (not self.has_image) or (now - last) < self.capture_period:
-                    self.lock.wait()
+            while True:
+                with self.lock:
                     now = time.time()
-                    
-                self.out2, self.out1 = self.out1, self.out2
-                self.has_image = False
-            
-            
-            fname = '%s/%.2f.jpg' % (self.location, now)
-            #print("Writing", fname)
-            cv2.imwrite(fname, self.out2)
-            
-            last = now
+                    while (not self.has_image) or (now - last) < self.capture_period:
+                        self.lock.wait()
+                        now = time.time()
+                        
+                    self.out2, self.out1 = self.out1, self.out2
+                    self.has_image = False
+                
+                
+                fname = '%s/%.2f.jpg' % (self.location, now)
+                cv2.imwrite(fname, self.out2)
+                
+                last = now
+                
+        except IOError as e:
+            print("Error logging images", e)
+        finally:
+            self.logging_error = True
     
 class TargetFinder:
     
