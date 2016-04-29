@@ -21,13 +21,20 @@ class MyRobot(MagicRobot):
     #tapemeasure = Tapemeasure
     drive = Drive
     
-    use_arcade_drive = ntproperty('/SmartDashboard/use_arcade', True)
+    turn_sensitivity = ntproperty('/teleop/turn_sensitivity', 0.7)
     fire_toggled = ntproperty('/teleop/fire_toggle', False)
     autoaim_toggled = ntproperty('/teleop/auto_aim_toggle', False)
     
     
     ds_ball_in = ntproperty('/teleop/ball_in', False)
     ds_ball_out = ntproperty('/teleop/ball_out', False)
+    
+    talon_temp2 = ntproperty('/SmartDashboard/talon_temp/2', 0)
+    talon_temp3 = ntproperty('/SmartDashboard/talon_temp/3', 0)
+    talon_temp4 = ntproperty('/SmartDashboard/talon_temp/4', 0)
+    talon_temp5 = ntproperty('/SmartDashboard/talon_temp/5', 0)
+    talon_temp6 = ntproperty('/SmartDashboard/talon_temp/6', 0)
+    talon_temp7 = ntproperty('/SmartDashboard/talon_temp/7', 0)
     
     # For debugging only
     target_angle = ntproperty('/components/autoaim/target_angle', 0)
@@ -57,10 +64,10 @@ class MyRobot(MagicRobot):
         self.pitcher_motor.setAllowableClosedLoopErr(10)
         self.pitcher_motor.configEncoderCodesPerRev(0)
         
-        lf_motor = wpilib.CANTalon(4)
-        lr_motor = wpilib.CANTalon(5)
-        rf_motor = wpilib.CANTalon(2)
-        rr_motor = wpilib.CANTalon(3)
+        self.lf_motor = lf_motor = wpilib.CANTalon(4)
+        self.lr_motor = lr_motor = wpilib.CANTalon(5)
+        self.rf_motor = rf_motor = wpilib.CANTalon(2)
+        self.rr_motor = rr_motor = wpilib.CANTalon(3)
 
         lf_motor.setInverted(True)
         lr_motor.setInverted(True)
@@ -73,8 +80,8 @@ class MyRobot(MagicRobot):
         #self.tape_motor = wpilib.CANTalon(6)
         #self.winch_motor = wpilib.CANTalon(7)
         
-        #self.left_joystick = wpilib.Joystick(0)
-        self.right_joystick = wpilib.Joystick(0)
+        self.left_joystick = wpilib.Joystick(0)
+        self.right_joystick = wpilib.Joystick(1)
     
     def teleopInit(self):
         self.pitcher_enabled = False
@@ -85,15 +92,12 @@ class MyRobot(MagicRobot):
         
         # NOTE: minimum stationary turn power is ~0.7
         
-        #if self.use_arcade_drive:
         if self.right_joystick.getRawButton(11):
             self.drive.move_at_angle(-self.right_joystick.getY(), 0)
         elif self.right_joystick.getRawButton(10):
             self.drive.move_at_angle(-self.right_joystick.getY(), 180)
         else:
-            self.drive.move(self.right_joystick.getX(), -self.right_joystick.getY(), True)
-        #else:
-        #    self.drive.tank(self.left_joystick.getY(), self.right_joystick.getY())
+            self.drive.move(self.left_joystick.getX()*self.turn_sensitivity, -self.right_joystick.getY(), True)
         
         # Pitcher controls
         if self.right_joystick.getRawButton(4):
@@ -132,6 +136,13 @@ class MyRobot(MagicRobot):
             #self.tapemeasure.retract()
         # if self.left_joystick.getTrigger():
             #self.drive.move_at_angle(0, 90)
+            
+        talon_temp2 = self.rf_motor.getTemp()
+        talon_temp3 = self.rr_motor.getTemp()
+        talon_temp4 = self.lf_motor.getTemp()
+        talon_temp5 = self.lr_motor.getTemp()
+        talon_temp6 = self.beltmotor.getTemp()
+        talon_temp7 = self.pitcher_motor.getTemp()
         
 if __name__ == "__main__":
     wpilib.run(MyRobot)

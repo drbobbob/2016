@@ -18,6 +18,7 @@ from networktables.util import ntproperty
 from pyfrc.physics.core import PhysicsInitException
 from pyfrc.version import __version__
 from distutils.version import LooseVersion
+import wpilib
 
 class PhysicsEngine(object):
     '''
@@ -68,7 +69,23 @@ class PhysicsEngine(object):
         speed, rotation = drivetrains.four_motor_drivetrain(lr_motor, rr_motor, lf_motor, rf_motor, speed=8)
         self.physics_controller.drive(speed, rotation, tm_diff)
         
-        # Simulate the firing mechanism 
+        # Simulate the firing mechanism, max is around 8000 in one second
+        pitcher = hal_data['CAN'][7]
+        
+        max_v = 8000*tm_diff
+        vel = pitcher['enc_velocity']
+        
+        if pitcher['mode_select'] == wpilib.CANTalon.ControlMode.Speed:
+            # when in pid mode, converge to the correct value
+            err = pitcher['value'] - vel
+            aerr = abs(err)
+            max_v = max(min(max_v, aerr), -aerr)
+            vel += math.copysign(max_v, err)
+        else:
+            # Otherwise increment linearly
+            vel += max_v*pitcher['value']
+        
+        pitcher['enc_velocity'] = max(min(vel, 8000), -8000)
          
         
         # Simulate the camera approaching the tower
