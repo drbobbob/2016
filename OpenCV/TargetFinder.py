@@ -60,6 +60,7 @@ class Storage:
             # Can't do this when program starts, time might be wrong. Ideally by now the DS
             # has connected, so the time will be correct
             self._location = self.location_root + '/%s' % time.strftime('%Y-%m-%d %H.%M.%S')
+            print("Logging to", self._location)
             os.makedirs(self._location, exist_ok=True)
             
         return self._location
@@ -94,6 +95,8 @@ class Storage:
             print("Error logging images", e)
         finally:
             self.logging_error = True
+            
+        print("Thread exited")
     
 class TargetFinder:
     
@@ -109,7 +112,7 @@ class TargetFinder:
     colorspace = cv2.COLOR_BGR2HSV
     
     enabled = ntproperty('/camera/enabled', False)
-    logging_enabled = ntproperty('/camera/logging_enabled', False)
+    logging_enabled = ntproperty('/camera/logging_enabled', False, writeDefault=True)
     
     min_width = ntproperty('/camera/min_width', 20)
     #intensity_threshold = ntproperty('/camera/intensity_threshold', 75)
