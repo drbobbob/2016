@@ -1,4 +1,22 @@
 '''
+    Copyright (C) 2012-2016 Dustin Spicuzza
+    Copyright (C) 2016 Stanislav Ponomarev
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+
     Can run this on the roborio by executing mjpg-streamer like so:
 
     mjpg_streamer -i 'input_opencv.so -r 320x240 --fps 15 --quality 30 --filter /usr/local/lib/mjpg-streamer/cvfilter_py.so --fargs /home/admin/TargetFinder.py'
@@ -19,12 +37,13 @@ from networktables.util import ntproperty
 
 class Storage:
     
-    location = '/media/sda1/camera'
+    location_root = '/media/sda1/camera'
     
     logging_error = ntproperty('/camera/logging_error', False, writeDefault=True)
-    capture_period = ntproperty('/camera/capture_period', 1.0)
+    capture_period = ntproperty('/camera/capture_period', 0.5)
     
     def __init__(self):
+        self._location = None
         self.has_image = False
         self.size = None
         self.lock = threading.Condition()
@@ -47,7 +66,22 @@ class Storage:
             cv2.copyMakeBorder(img, 0, 0, 0, 0, cv2.BORDER_CONSTANT, value=(0,0,255), dst=self.out1)
             self.has_image = True
             self.lock.notify()
+    
+    @property
+    def location(self):
+        if self._location is None:
             
+            # This assures that we only log when a USB memory stick is plugged in
+            if not os.path.exists(self.location_root):
+                raise IOError("Logging disabled, %s does not exist" % self.location_root)
+            
+            # Can't do this when program starts, time might be wrong. Ideally by now the DS
+            # has connected, so the time will be correct
+            self._location = self.location_root + '/%s' % time.strftime('%Y-%m-%d %H.%M.%S')
+            print("Logging to", self._location)
+            os.makedirs(self._location, exist_ok=True)
+            
+        return self._location
     
     def _run(self):
         
@@ -55,32 +89,32 @@ class Storage:
         
         print("Thread started")
         
-        if not os.path.exists(self.location):
-            print("Oops")
-            self.logging_error = True
-            return
-        
         self.logging_error = False
         
-        self.location = self.location + '/%s' % time.strftime('%Y-%m-%d %H.%M.%S')
-        os.makedirs(self.location, exist_ok=True)
+        try:
         
-        while True:
-            with self.lock:
-                now = time.time()
-                while (not self.has_image) or (now - last) < self.capture_period:
-                    self.lock.wait()
+            while True:
+                with self.lock:
                     now = time.time()
-                    
-                self.out2, self.out1 = self.out1, self.out2
-                self.has_image = False
+                    while (not self.has_image) or (now - last) < self.capture_period:
+                        self.lock.wait()
+                        now = time.time()
+                        
+                    self.out2, self.out1 = self.out1, self.out2
+                    self.has_image = False
+                
+                
+                fname = '%s/%.2f.jpg' % (self.location, now)
+                cv2.imwrite(fname, self.out2)
+                
+                last = now
+                
+        except IOError as e:
+            print("Error logging images", e)
+        finally:
+            self.logging_error = True
             
-            
-            fname = '%s/%.2f.jpg' % (self.location, now)
-            #print("Writing", fname)
-            cv2.imwrite(fname, self.out2)
-            
-            last = now
+        print("Thread exited")
     
 class TargetFinder:
     
@@ -96,7 +130,7 @@ class TargetFinder:
     colorspace = cv2.COLOR_BGR2HSV
     
     enabled = ntproperty('/camera/enabled', False)
-    logging_enabled = ntproperty('/camera/logging_enabled', False)
+    logging_enabled = ntproperty('/camera/logging_enabled', False, writeDefault=True)
     
     min_width = ntproperty('/camera/min_width', 20)
     #intensity_threshold = ntproperty('/camera/intensity_threshold', 75)
