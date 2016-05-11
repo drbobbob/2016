@@ -31,6 +31,7 @@ class PhysicsEngine(object):
     target_present = ntproperty('/components/autoaim/present', False)
     target_angle = ntproperty('/components/autoaim/target_angle', 0)
     target_height = ntproperty('/components/autoaim/target_height', 0)
+    camera_enabled = ntproperty('/camera/enabled', False, False)
     
     camera_update_rate = 1/15.0
     
@@ -91,7 +92,7 @@ class PhysicsEngine(object):
         # Simulate the camera approaching the tower
         # -> this is a very simple approximation, should be good enough
         # -> calculation updated at 15hz
-        if now - self.last_cam_update > self.camera_update_rate:
+        if self.camera_enabled and now - self.last_cam_update > self.camera_update_rate:
             
             x, y, angle = self.physics_controller.get_position()
             
@@ -116,10 +117,10 @@ class PhysicsEngine(object):
                     target_present = True 
                 
                     # target 'height' is a number between -18 and 18, where
-                    # the value is related to the distance away. 11 is ideal.
+                    # the value is related to the distance away. -11 is ideal.
                 
                     self.target_angle = offset
-                    self.target_height = -(distance*3)+30
+                    self.target_height = -(-(distance*3)+30)
                 
             self.target_present = target_present
             self.last_cam_update = now

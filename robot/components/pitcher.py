@@ -1,21 +1,21 @@
 
 import wpilib 
 
-from networktables.util import ntproperty
+from magicbot import tunable
 
 class Pitcher: 
    
     pitcher_motor = wpilib.CANTalon
     
-    pid_enabled = ntproperty('/components/pitcher/pid_enabled', True)
-    pid_speed = ntproperty('/components/pitcher/pid_speed', 8000)
-    pid_ok = ntproperty('/components/pitcher/pid_ok', 100)
+    pid_enabled = tunable(True)
+    pid_speed = tunable(8000)
+    pid_ok = tunable(100)
     
-    manual_speed = ntproperty('/components/pitcher/manual_speed', 1)
-    motor_speed = ntproperty('/components/pitcher/motor_speed', 0)
+    manual_speed = tunable(1)
+    motor_speed = tunable(0)
     
-    manual_ok_time = ntproperty('/components/pitcher/manual_ok_time', 1)
-    pid_ok_time = ntproperty('/components/pitcher/pid_ok_time', 0.5)
+    manual_ok_time = tunable(1)
+    pid_ok_time = tunable(0.5)
     
     MANUAL_MODE = wpilib.CANTalon.ControlMode.PercentVbus
     PID_MODE = wpilib.CANTalon.ControlMode.Speed

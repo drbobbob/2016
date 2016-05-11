@@ -1,7 +1,9 @@
 
 import hal
+import math
 import wpilib
 
+from networktables import NetworkTable
 from networktables.util import ntproperty
 
 from robotpy_ext.common_drivers.navx import AHRS
@@ -15,16 +17,27 @@ class Drive:
     
     # Variables to driver station
     robot_angle = ntproperty('/components/drive/angle', 0)
+    robot_pitch = ntproperty('/components/drive/pitch', 0)
+    robot_roll = ntproperty('/components/drive/roll', 0)
+    robot_x = ntproperty('/components/drive/x', 0)
+    robot_y = ntproperty('/components/drive/y', 0)
+    
+    rotateToAngleRate = ntproperty('/components/drive/pidoutput', 0)
+    
     robot_setpoint = ntproperty('/components/drive/setpoint', 0)
 
     if hal.HALIsSimulation():
-        kP = 0.1
+        kP = 0.05
+        kI = 0.00001
+        kD = 0.001
+        kF = 0.0
     else:
-        kP = 0.1
+        kP = 0.05
+        kI = 0.00001
+        kD = 0.001
+        kF = 0.0
         
-    kI = 0.00
-    kD = 0.00
-    kF = 0.00
+        
 
     kToleranceDegrees = 2.0
      
@@ -35,7 +48,6 @@ class Drive:
         self.y2 = 0
         self.speed = 0
         self.squared = False
-        self.rotateToAngleRate = 0
         self.function_called = None
 
         self.ahrs = AHRS.create_spi()
@@ -46,6 +58,8 @@ class Drive:
         turn_controller.setAbsoluteTolerance(self.kToleranceDegrees)
         turn_controller.setContinuous(True)
         self.turn_controller = turn_controller
+        
+        turn_controller.initTable(NetworkTable.getTable('/components/drive/pid'))
         
     
 
@@ -60,12 +74,6 @@ class Drive:
         self.y = y
         self.squared = squared
         self.function_called = Drive.move
-        
-    def tank(self, y1, y2): 
-        self.y1 = y1
-        self.y2 = y2 
-        self.function_called = Drive.tank
-    
           
     def get_angle(self):
         """Returns the robot's current heading"""
@@ -96,25 +104,38 @@ class Drive:
         """This function is invoked periodically by the PID Controller,
         based upon navX MXP yaw angle input and PID Coefficients.
         """
-        self.rotateToAngleRate = output
+        
+        # x: 0.25 to 0.5
+        # y: 0.15 to 0.6
+        
+        # The pure output of the PID controller isn't enough.. 
+        # .. need to scale between some min out
+        
+        # scale between 0 and max
+        self.rotateToAngleRate = math.copysign(abs(output)*0.3+0.2, output)
 
     def execute(self):
         """ JUST DO IT """
         
         if self.function_called == Drive.move_at_angle:
             self.turn_controller.enable()
-            self.robot_drive.arcadeDrive(-self.speed, self.rotateToAngleRate)
+            if self.turn_controller.onTarget():
+                self.x = 0
+            else:
+                self.x = self.rotateToAngleRate
+            self.y = self.speed
+            self.squared = False
         else:
             self.turn_controller.disable()
-
-            if self.function_called == Drive.tank:
-                self.robot_drive.tankDrive(self.y1, self.y2)
-
-            else:
-                self.robot_drive.arcadeDrive(-self.y, self.x, self.squared)
+        
+        self.robot_drive.arcadeDrive(-self.y, self.x, self.squared)
         
         # send this to the DS
         self.robot_angle = self.get_angle()
+        self.robot_x = self.x*self.x if self.squared else self.x
+        self.robot_y = self.y*self.y if self.squared else self.y
+        self.robot_pitch = self.ahrs.getPitch()
+        self.robot_roll = self.ahrs.getRoll()
         
         self.x = 0
         self.y = 0
