@@ -1,9 +1,8 @@
-
-from robotpy_ext.autonomous import timed_state, StatefulAutonomous
+from magicbot import timed_state, AutonomousStateMachine
 
 from components.drive import Drive
 
-class DriveForward(StatefulAutonomous):
+class GallopBackAndForth(AutonomousStateMachine):
 
 	MODE_NAME = 'Gallop Back and Forth'
 
@@ -14,7 +13,7 @@ class DriveForward(StatefulAutonomous):
 		pass
     
 	def on_enable(self):
-		StatefulAutonomous.on_enable(self)
+		AutonomousStateMachine.on_enable(self)
 		self.drive.reset_angle()
 
 	@timed_state(duration=1.7, next_state="drive_backward", first=True)

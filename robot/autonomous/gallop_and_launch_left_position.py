@@ -1,9 +1,9 @@
-from robotpy_ext.autonomous import timed_state, StatefulAutonomous
+from magicbot import timed_state, AutonomousStateMachine
 from networktables.util import ntproperty
 from components.drive import Drive
-from components.shooter_control import ShooterControl
+from controllers.shooter_control import ShooterControl
 
-class GallopAndLaunchleft(StatefulAutonomous):
+class GallopAndLaunchleft(AutonomousStateMachine):
 
     forward_speed = ntproperty('/autonomous/gallop_and_launch/forward_speed', 0.5)
     angle = ntproperty('/autonomous/gallop_and_launch/angle', -45)
@@ -15,7 +15,7 @@ class GallopAndLaunchleft(StatefulAutonomous):
         pass
     
     def on_enable(self):
-        StatefulAutonomous.on_enable(self)
+        AutonomousStateMachine	.on_enable(self)
         self.drive.reset_angle()
 
     @timed_state(duration=0.5, next_state='drive_forward', first=True)
