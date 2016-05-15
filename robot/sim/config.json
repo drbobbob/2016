@@ -51,10 +51,14 @@
     },
    
    "joysticks": {
+      "0": {
+        "axes": {
+          "Y": "Back/Forth"
+        }
+      },
       "1": {
       	"axes": {
-      	  "X": "Left/Right",
-      	  "Y": "Back/Forth" 
+      	  "X": "Left/Right"
       	},
       
         "buttons": {
