@@ -32,6 +32,7 @@ class PhysicsEngine(object):
     
     # Transmit data to robot via NetworkTables
     camera_enabled = ntproperty('/camera/enabled', False, False)
+    ticks_per_ft = ntproperty('/components/distance_ctrl/ticks_per_ft', 0, False)
     
     camera_update_rate = 1/15.0
     
@@ -51,6 +52,9 @@ class PhysicsEngine(object):
         
         self.last_cam_update = -10
         self.last_cam_value = None
+        self.moved = 0
+        
+        self.last_location = self.physics_controller.get_position()[:2]
         
         self.target = NumberArray()
         self.nt = NetworkTable.getTable('/camera')
@@ -103,10 +107,33 @@ class PhysicsEngine(object):
         if self.last_cam_value is not None:
             self.target += self.last_cam_value
             self.last_cam_value = None
+            
+        x, y, angle = self.physics_controller.get_position()
+        
+        # encoder simulation
+        lx, ly = self.last_location
+        dx = x - lx
+        dy = y - ly
+        
+        length = math.hypot(dx, dy)
+        direction = math.atan2(dy, dx)
+        
+        error = angle - direction
+        if abs(error) > math.pi:
+            if error > 0:
+                error = error - math.pi*2
+            else:
+                error = error + math.pi*2
+        
+        if abs(error) > math.pi/2.0:
+            length = length * -1
+         
+        self.moved += length
+        hal_data['encoder'][0]['count'] = int(self.moved*self.ticks_per_ft)*4
+        
+        self.last_location = x, y
         
         if self.camera_enabled and now - self.last_cam_update > self.camera_update_rate:
-            
-            x, y, angle = self.physics_controller.get_position()
             
             tx, ty = self.target_location
             
