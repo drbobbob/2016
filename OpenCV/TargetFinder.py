@@ -31,7 +31,7 @@ import sys
 import threading
 import time
 
-from networktables import NetworkTable
+from networktables import NetworkTable, NumberArray
 from networktables.util import ntproperty
 
 
@@ -135,9 +135,9 @@ class TargetFinder:
     min_width = ntproperty('/camera/min_width', 20)
     #intensity_threshold = ntproperty('/camera/intensity_threshold', 75)
     
-    target_present = ntproperty('/components/autoaim/present', False)
-    target_angle = ntproperty('/components/autoaim/target_angle', 0)
-    target_height = ntproperty('/components/autoaim/target_height', 0)
+    #target_present = ntproperty('/components/autoaim/present', False)
+    #target_angle = ntproperty('/components/autoaim/target_angle', 0)
+    #target_height = ntproperty('/components/autoaim/target_height', 0)
 
     # boston 2013: 30 75 188 255 16 255
     # virginia 2014: ?
@@ -161,7 +161,11 @@ class TargetFinder:
     def __init__(self):
         self.size = None
         self.storage = Storage()
+        self.nt = NetworkTable.getTable('/camera')
         
+        self.target = NumberArray()
+        self.nt.putValue('target', self.target)
+    
     def preallocate(self, img):
         if self.size is None or self.size[0] != img.shape[0] or self.size[1] != img.shape[1]:
             h, w = img.shape[:2]
@@ -300,6 +304,8 @@ class TargetFinder:
             self.target_present = False
             return img
         
+        now = time.time()
+        
         if self.logging_enabled:
             self.storage.set_image(img)
         
@@ -321,6 +327,8 @@ class TargetFinder:
             gate['av'] = self.VFOV * cy / h - self.VFOV/2
             gate['ah'] = self.HFOV * cx / w - self.HFOV/2
             result.append(gate)
+            
+        self.target.clear()
         
         # sort the returned data, tend to prefer the 'closest' gate to the center
         if len(result):
@@ -329,13 +337,11 @@ class TargetFinder:
         
             if self.draw:
                 cv2.drawContours(self.out, [target['d']], -1, self.RED, 2, lineType=8)
-        
-            self.target_present = True
-            self.target_angle = target['ah']
-            self.target_height = target['av']
-        else:
-            self.target_present = False
-            # don't set angle
+            
+            # angle, height, ts
+            self.target += [target['ah'], target['av'], now]
+            
+        self.nt.putValue('target', self.target)
         
         return self.out
 
@@ -347,8 +353,8 @@ def init_filter():
     NetworkTable.setClientMode()
     NetworkTable.initialize()
     
-    os.system("v4l2-ctl -d /dev/video1 -c exposure_auto=1 -c exposure_absolute=20")
-    os.system("v4l2-ctl -d /dev/video2 -c exposure_auto=1 -c exposure_absolute=10")
+    #os.system("v4l2-ctl -d /dev/video1 -c exposure_auto=1 -c exposure_absolute=20")
+    #os.system("v4l2-ctl -d /dev/video2 -c exposure_auto=1 -c exposure_absolute=10")
     
     filter = TargetFinder()
     return filter.quad_normals

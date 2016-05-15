@@ -12,7 +12,10 @@
 #       ... if you have better ideas on how to implement, submit a patch!
 #
 import math
+import time
 from pyfrc.physics import drivetrains
+
+from networktables import NetworkTable, NumberArray
 from networktables.util import ntproperty
 
 from pyfrc.physics.core import PhysicsInitException
@@ -28,9 +31,6 @@ class PhysicsEngine(object):
     '''
     
     # Transmit data to robot via NetworkTables
-    target_present = ntproperty('/components/autoaim/present', False)
-    target_angle = ntproperty('/components/autoaim/target_angle', 0)
-    target_height = ntproperty('/components/autoaim/target_height', 0)
     camera_enabled = ntproperty('/camera/enabled', False, False)
     
     camera_update_rate = 1/15.0
@@ -50,6 +50,11 @@ class PhysicsEngine(object):
         self.physics_controller.add_device_gyro_channel('navxmxp_spi_4_angle')
         
         self.last_cam_update = -10
+        self.last_cam_value = None
+        
+        self.target = NumberArray()
+        self.nt = NetworkTable.getTable('/camera')
+        self.nt.putValue('target', self.target)
             
     def update_sim(self, hal_data, now, tm_diff):
         '''
@@ -92,6 +97,13 @@ class PhysicsEngine(object):
         # Simulate the camera approaching the tower
         # -> this is a very simple approximation, should be good enough
         # -> calculation updated at 15hz
+        self.target.clear()
+        
+        # simulate latency by delaying camera output
+        if self.last_cam_value is not None:
+            self.target += self.last_cam_value
+            self.last_cam_value = None
+        
         if self.camera_enabled and now - self.last_cam_update > self.camera_update_rate:
             
             x, y, angle = self.physics_controller.get_position()
@@ -103,8 +115,6 @@ class PhysicsEngine(object):
             
             distance = math.hypot(dx, dy)
             
-            target_present = False
-            
             if distance > 6 and distance < 17:
                 # determine the absolute angle
                 target_angle = math.atan2(dy, dx)
@@ -114,14 +124,14 @@ class PhysicsEngine(object):
                 # the robot can 'see' it
                 offset = math.degrees(target_angle - angle)
                 if abs(offset) < 30:
-                    target_present = True 
                 
                     # target 'height' is a number between -18 and 18, where
                     # the value is related to the distance away. -11 is ideal.
+                    self.last_cam_value = [offset,
+                                           -(-(distance*3)+30),
+                                           now]
                 
-                    self.target_angle = offset
-                    self.target_height = -(-(distance*3)+30)
-                
-            self.target_present = target_present
             self.last_cam_update = now
+        
+        self.nt.putValue('target', self.target)
 
