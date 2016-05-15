@@ -25,7 +25,7 @@ class MyRobot(MagicRobot):
     #tapemeasure = Tapemeasure
     drive = Drive
     
-    turn_sensitivity = ntproperty('/teleop/turn_sensitivity', 0.7)
+    turn_sensitivity = ntproperty('/teleop/turn_sensitivity', 1)
     fire_toggled = ntproperty('/teleop/fire_toggle', False)
     autoaim_toggled = ntproperty('/teleop/auto_aim_toggle', False)
     
@@ -45,8 +45,10 @@ class MyRobot(MagicRobot):
     target_height = ntproperty('/components/autoaim/target_height', 0)
 
     def createObjects(self):
-        self.ball_sensor = SharpIRGP2Y0A41SK0F(0)
-        self.tower_sensor = SharpIR2Y0A02(1)
+        self.ball_sensor = SharpIRGP2Y0A41SK0F(1)
+        self.tower_sensor = SharpIR2Y0A02(0)
+        
+        self.wheel_encoder = wpilib.Encoder(0, 1, reverseDirection=True)
         
         self.camera_light = wpilib.Relay(1)
         self.camera_light.set(wpilib.Relay.Value.kOn)
