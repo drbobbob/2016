@@ -9,7 +9,9 @@ from components.pitcher import Pitcher
 #from components.tape_measure import Tapemeasure
 from components.drive import Drive
 
+from controllers.angle_controller import AngleController
 from controllers.autoaim import AutoAim
+from controllers.distance_controller import DistanceController
 from controllers.shooter_control import ShooterControl
 
 from networktables.util import ntproperty
@@ -17,8 +19,11 @@ from networktables.util import ntproperty
 class MyRobot(MagicRobot):
     
     # Ordered by expected order of execution
-    autoaim = AutoAim
+    #autoaim = AutoAim
     shooter_control = ShooterControl
+    
+    angle_ctrl = AngleController
+    distance_ctrl = DistanceController
     
     lenny = Lenny
     pitcher = Pitcher
@@ -89,6 +94,8 @@ class MyRobot(MagicRobot):
         
         self.left_joystick = wpilib.Joystick(0)
         self.right_joystick = wpilib.Joystick(1)
+        
+        self.move_pos = None
     
     def teleopInit(self):
         self.pitcher_enabled = False
@@ -96,15 +103,23 @@ class MyRobot(MagicRobot):
         self.timer.start()
     
     def teleopPeriodic(self):
+         
+        self.drive.move(self.right_joystick.getX()*self.turn_sensitivity, -self.left_joystick.getY(), True)
         
-        # NOTE: with pneumatic wheels, minimum stationary turn power is ~0.7
-        
+        # testing: align to absolute angles
         if self.right_joystick.getRawButton(11):
-            self.drive.move_at_angle(-self.right_joystick.getY(), 0)
+            self.angle_ctrl.align_to(0)
         elif self.right_joystick.getRawButton(10):
-            self.drive.move_at_angle(-self.right_joystick.getY(), 180)
+            self.angle_ctrl.align_to(179)
+        
+        # testing: move forward some N
+        if self.left_joystick.getRawButton(10):
+            if self.move_pos is None:
+                self.move_pos = self.distance_ctrl.get_position() + 2.0
+            
+            self.distance_ctrl.move_to(self.move_pos)
         else:
-            self.drive.move(self.right_joystick.getX()*self.turn_sensitivity, -self.left_joystick.getY(), True)
+            self.move_pos = None
         
         # Pitcher controls
         if self.right_joystick.getRawButton(4):
