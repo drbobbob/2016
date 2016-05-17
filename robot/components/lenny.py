@@ -13,7 +13,7 @@ class Lenny:
     beltmotor = wpilib.CANTalon
     ball_sensor = Sharp
     
-    loader_position = tunable(12)
+    loader_position = tunable(9)
     ball_detected_distance = tunable(0)
     ball_detected_threshold = tunable(35)
     ball_detected = tunable(False)
@@ -40,18 +40,18 @@ class Lenny:
         return self.ball_sensor.getDistance() < self.ball_detected_threshold
 
     def get_distance_from_loader(self):
-          return self.ball_sensor.getDistance() - self.loader_position
+        return self.ball_sensor.getDistance() - self.loader_position
  
     def get_distance(self):
         return self.ball_sensor.getDistance()
 
     def set(self, speed):
-          '''Sets lenny to a particular speed'''
-          self.motor_setpoint = speed
+        '''Sets lenny to a particular speed'''
+        self.motor_setpoint = speed
     
     def ball_in(self):
         '''Brings the ball in if a ball is not detected'''
-        if not self.get_distance_from_loader() < self.loader_position:
+        if not self.get_distance() < self.loader_position:
             self.motor_setpoint = self.motor_setpoint_in
         
     def ball_out(self):

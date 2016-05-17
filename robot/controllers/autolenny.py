@@ -1,51 +1,51 @@
 
-import wpilib
 import hal
-from networktables import NetworkTable
+
 from magicbot import tunable
 from components.lenny import Lenny
 from .pid_base import BasePIDComponent
 
 
 class AutoLenny(BasePIDComponent):
+    '''
+        Automatically brings balls in when the sensor detects them
+    '''
 
-	if hal.HALIsSimulation():
-		kP = 0.1
-		kI = 0
-		kD = 0
-		kF = 0
-	else:
-		kP = 0.1
-		kI = 0
-		kD = 0
-		kF = 0
+    if hal.HALIsSimulation():
+        kP = 0.2
+        kI = 0
+        kD = 0
+        kF = 0
+    else:
+        kP = 0.2
+        kI = 0
+        kD = 0
+        kF = 0
 
-	kTolerance = 2
+    kTolerance = tunable(1)
 
-	lenny = Lenny
-	
-	def __init__(self):
+    lenny = Lenny
+    
+    def __init__(self):
+        super().__init__(self._get_lenny, 'autolenny')
 
+        self.pid.setInputRange(0, 40)
+        self.pid.setOutputRange(-1.0, 1.0)
 
-		super().__init__(self.get_lenny, 'auto_lenny')
+    def enable(self):
+        '''Call this to enable automatically bringing in the ball'''
+        
+        self.setpoint = self.lenny.loader_position
 
-		self.pid.setInputRange(0,  40)
-		self.pid.setOutputRange(-1.0, 1.0)
-		self.pid.setAbsoluteTolerance(self.kTolerance)
+    def _get_lenny(self):
+        # required because Lenny isn't populated in the constructor
+        return self.lenny.get_distance()
 
-	def enable(self):
-		
-		self.setpoint = self.lenny.loader_position
+    def execute(self):
+        
+        super().execute()
 
-	def get_lenny(self):
-		return self.lenny.get_distance()
-
-
-
-	def execute(self):
-		
-		super().execute()
-
-		if self.rate is not None:
-			self.lenny.set(self.rate if self.lenny.is_ball_detected() else 0)
+        if self.rate is not None:
+            if abs(self._get_lenny() - self.lenny.loader_position) > self.kTolerance:
+                self.lenny.set(self.rate if self.lenny.is_ball_detected() else 0)
 
