@@ -28,8 +28,8 @@ class AngleController(BasePIDComponent):
         kD = 0.001
         kF = 0.0
     else:
-        kP = 0.01
-        kI = 0.0
+        kP = 0.05
+        kI = 0.0001
         kD = 0.0
         kF = 0.0
     
@@ -97,7 +97,7 @@ class AngleController(BasePIDComponent):
         # .. need to scale between some min out
         
         # scale between 0 and max
-        rotation_rate = math.copysign(abs(output)*0.45+0.45, output)
+        rotation_rate = math.copysign(abs(output)*0.45+0.55, output)
         super().pidWrite(rotation_rate)
     
     def execute(self):

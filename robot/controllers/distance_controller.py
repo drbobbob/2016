@@ -29,12 +29,12 @@ class DistanceController(BasePIDComponent):
         kD = 0.0
         kF = 0.0
     else:
-        kP = 0.01
+        kP = 5.0
         kI = 0.0
         kD = 0.0
         kF = 0.0
         
-    kToleranceFeet = tunable(0.25)
+    kToleranceFeet = tunable(0.15)
         
     def __init__(self):
         super().__init__(self.get_position, 'distance_ctrl')    
