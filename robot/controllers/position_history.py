@@ -1,0 +1,104 @@
+
+import hal
+import wpilib
+import time
+import threading
+
+from controllers.angle_controller import AngleController
+from controllers.distance_controller import DistanceController
+
+from robotpy_ext.misc import PreciseDelay
+
+from collections import deque
+
+class PositionHistory:
+    '''
+        Keeps track of robot positions over the last second or so
+        
+        Not sure if this is the best way to implement this, but we'll
+        see how it goes.
+    '''
+    
+    angle_ctrl = AngleController
+    distance_ctrl = DistanceController
+    
+    def __init__(self):
+        
+        self.running = True
+        self.last_ts = None
+        self.enabled = False
+        self.lock = threading.Lock()
+        self.cond = threading.Condition(self.lock)
+        
+        # limited buffer of data
+        self.buffer = deque(maxlen=20)
+        
+        # WPILib sleep/etc functions have more overhead, so only use in simulation
+        if hal.HALIsSimulation():
+            self.delay = wpilib.Timer.delay
+            self.get_now = wpilib.Timer.getFPGATimestamp
+        else:
+            self.delay = time.sleep
+            self.get_now = time.time
+            
+        self.thread = threading.Thread(target=self._run, daemon=True)
+        self.thread.start()
+        
+        wpilib.Resource._add_global_resource(self)
+        
+    def free(self):
+        with self.cond:
+            self.running = False
+            self.cond.notify()
+        
+        self.thread.join()
+        
+    def enable(self):
+        # edge triggered, don't call continuously
+        with self.cond:
+            self.buffer.clear()
+            self.last_ts = None
+            self.enabled = True
+            self.cond.notify()
+    
+    def disable(self):
+        with self.cond:
+            self.enabled = False
+            self.last_ts = None
+    
+    def get_position(self, ts):
+        
+        if self.last_ts is not None:
+            with self.lock:
+                offset = round((self.last_ts - ts)/0.020)
+                if offset < len(self.buffer):
+                    return self.buffer[offset]
+    
+    def _run(self):
+        
+        while True:
+            
+            with self.cond:
+                while not self.enabled:
+                    self.cond.wait()
+                    if self.running == False:
+                        return
+        
+            while self.enabled:
+                
+                now = self.get_now()
+                angle = self.angle_ctrl.get_angle()
+                distance = self.distance_ctrl.get_position()
+                
+                with self.lock:
+                    if self.enabled:
+                        self.buffer.appendleft((angle, distance, now))
+                        self.last_ts = now
+                
+                # Not very precise, but we're keeping timestamps
+                # so it's probably ok.. 
+                delay = 0.020 - (self.get_now() - now)
+                self.delay(delay)
+    
+    def execute(self):
+        pass

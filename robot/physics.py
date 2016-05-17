@@ -96,17 +96,6 @@ class PhysicsEngine(object):
             vel += max_v*pitcher['value']
         
         pitcher['enc_velocity'] = max(min(vel, 8000), -8000)
-         
-        
-        # Simulate the camera approaching the tower
-        # -> this is a very simple approximation, should be good enough
-        # -> calculation updated at 15hz
-        self.target.clear()
-        
-        # simulate latency by delaying camera output
-        if self.last_cam_value is not None:
-            self.target += self.last_cam_value
-            self.last_cam_value = None
             
         x, y, angle = self.physics_controller.get_position()
         
@@ -133,32 +122,44 @@ class PhysicsEngine(object):
         
         self.last_location = x, y
         
-        if self.camera_enabled and now - self.last_cam_update > self.camera_update_rate:
+        # Simulate the camera approaching the tower
+        # -> this is a very simple approximation, should be good enough
+        # -> calculation updated at 15hz
+        self.target.clear()
+        
+        # simulate latency by delaying camera output
+        if self.last_cam_value is not None:
+            self.target += self.last_cam_value
+        
+        if self.camera_enabled:
+            if now - self.last_cam_update > self.camera_update_rate:
             
-            tx, ty = self.target_location
-            
-            dx = tx - x
-            dy = ty - y
-            
-            distance = math.hypot(dx, dy)
-            
-            if distance > 6 and distance < 17:
-                # determine the absolute angle
-                target_angle = math.atan2(dy, dx)
-                angle = ((angle + math.pi) % (math.pi*2)) - math.pi
+                tx, ty = self.target_location
                 
-                # Calculate the offset, if its within 30 degrees then
-                # the robot can 'see' it
-                offset = math.degrees(target_angle - angle)
-                if abs(offset) < 30:
+                dx = tx - x
+                dy = ty - y
                 
-                    # target 'height' is a number between -18 and 18, where
-                    # the value is related to the distance away. -11 is ideal.
-                    self.last_cam_value = [offset,
-                                           -(-(distance*3)+30),
-                                           now]
+                distance = math.hypot(dx, dy)
                 
-            self.last_cam_update = now
+                if distance > 6 and distance < 17:
+                    # determine the absolute angle
+                    target_angle = math.atan2(dy, dx)
+                    angle = ((angle + math.pi) % (math.pi*2)) - math.pi
+                    
+                    # Calculate the offset, if its within 30 degrees then
+                    # the robot can 'see' it
+                    offset = math.degrees(target_angle - angle)
+                    if abs(offset) < 30:
+                    
+                        # target 'height' is a number between -18 and 18, where
+                        # the value is related to the distance away. -11 is ideal.
+                        self.last_cam_value = [offset,
+                                               -(-(distance*3)+30),
+                                               now]
+                    
+                self.last_cam_update = now
+        else:
+            self.last_cam_value = None
         
         self.nt.putValue('target', self.target)
 

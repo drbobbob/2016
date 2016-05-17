@@ -16,6 +16,8 @@ class BasePIDComponent:
         variables that subclasses should set:
         
         * self.setpoint: must be set each period to enable the controller
+        
+        # TODO: add a 'settle time' output variable
     '''
     
     def __init__(self, pid_input, table_name):
