@@ -13,6 +13,7 @@ from controllers.angle_controller import AngleController
 from controllers.autoaim import AutoAim
 from controllers.distance_controller import DistanceController
 from controllers.shooter_control import ShooterControl
+from controllers.autolenny import AutoLenny
 
 from networktables.util import ntproperty
 
@@ -21,6 +22,7 @@ class MyRobot(MagicRobot):
     # Ordered by expected order of execution
     #autoaim = AutoAim
     shooter_control = ShooterControl
+    autolenny = AutoLenny
     
     angle_ctrl = AngleController
     distance_ctrl = DistanceController
@@ -33,6 +35,7 @@ class MyRobot(MagicRobot):
     turn_sensitivity = ntproperty('/teleop/turn_sensitivity', 1)
     fire_toggled = ntproperty('/teleop/fire_toggle', False)
     autoaim_toggled = ntproperty('/teleop/auto_aim_toggle', False)
+    autolenny_toggled = ntproperty('/telep/auto_lenny_toggle', True)
     
     
     ds_ball_in = ntproperty('/teleop/ball_in', False)
@@ -137,6 +140,8 @@ class MyRobot(MagicRobot):
             self.lenny.ball_in()
         elif self.right_joystick.getRawButton(3) or self.ds_ball_out:
             self.lenny.ball_out()
+        elif self.autolenny_toggled:
+            self.autolenny.enable()
             
         if self.right_joystick.getRawButton(9):
             self.lenny.ball_shoot()
