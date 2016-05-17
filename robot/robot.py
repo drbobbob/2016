@@ -126,12 +126,9 @@ class MyRobot(MagicRobot):
         
         # Pitcher controls
         if self.right_joystick.getRawButton(4):
-            self.pitcher_enabled = True
-        elif self.right_joystick.getRawButton(5):
-            self.pitcher_enabled = False
-        if self.pitcher_enabled == True:
             self.pitcher.enable()
-            self.pitcher_enabled = False
+        elif self.right_joystick.getRawButton(5):
+            self.pitcher.reverse()
             
         # Lenny controls
         if self.right_joystick.getTrigger() or self.fire_toggled:

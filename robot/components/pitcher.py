@@ -24,6 +24,7 @@ class Pitcher:
         self.is_enabled = False
         self.ready_timer = wpilib.Timer()
         self.ready_timer.start()
+        self.do_reverse = False
         
     def on_enabled(self):
         # Ensure that the motor isn't ready
@@ -32,10 +33,16 @@ class Pitcher:
     def enable(self):
         """ turn on motor to spin wheel """
         self.is_enabled = True
+        self.pid_enabled = True
         
     def disable(self):
         """ turn off motor """
         self.is_enabled = False
+        
+    def reverse(self):
+        self.is_enabled = True
+        self.pid_enabled = False
+        self.do_reverse = True
         
     def is_ready(self):
        
@@ -55,7 +62,10 @@ class Pitcher:
         
         else:
             mode = self.MANUAL_MODE
-            speed = self.manual_speed
+            if self.do_reverse:
+                speed = -self.manual_speed
+            else:
+                speed = self.manual_speed
         
         self.pitcher_motor.changeControlMode(mode)
         
@@ -66,6 +76,7 @@ class Pitcher:
             self.ready_timer.reset()
         
         self.is_enabled = False
+        self.do_reverse = False
         
         self.motor_speed = self.pitcher_motor.getSpeed()
         
