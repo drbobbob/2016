@@ -6,36 +6,39 @@ from robotpy_ext.common_drivers.distance_sensors import SharpIRGP2Y0A41SK0F, Sha
 
 from components.lenny import Lenny
 from components.pitcher import Pitcher
-#from components.tape_measure import Tapemeasure
 from components.drive import Drive
 
 from controllers.angle_controller import AngleController
 from controllers.autoaim import AutoAim
-from controllers.distance_controller import DistanceController
-from controllers.shooter_control import ShooterControl
 from controllers.autolenny import AutoLenny
+from controllers.distance_controller import DistanceController
+from controllers.position_history import PositionHistory
+from controllers.shooter_control import ShooterControl
 
 from networktables.util import ntproperty
+
 
 class MyRobot(MagicRobot):
     
     # Ordered by expected order of execution
-    #autoaim = AutoAim
+    autoaim = AutoAim
     shooter_control = ShooterControl
     autolenny = AutoLenny
     
     angle_ctrl = AngleController
     distance_ctrl = DistanceController
+    pos_history = PositionHistory
     
     lenny = Lenny
     pitcher = Pitcher
-    #tapemeasure = Tapemeasure
     drive = Drive
+    
+    distance_thing = ntproperty('/teleop/distance_thing', 2)
     
     turn_sensitivity = ntproperty('/teleop/turn_sensitivity', 1)
     fire_toggled = ntproperty('/teleop/fire_toggle', False)
     autoaim_toggled = ntproperty('/teleop/auto_aim_toggle', False)
-    autolenny_toggled = ntproperty('/telep/auto_lenny_toggle', True)
+    autolenny_toggled = ntproperty('/teleop/auto_lenny_toggle', True)
     
     
     ds_ball_in = ntproperty('/teleop/ball_in', False)
@@ -47,10 +50,6 @@ class MyRobot(MagicRobot):
     talon_temp5 = ntproperty('/SmartDashboard/talon_temp/5', 0)
     talon_temp6 = ntproperty('/SmartDashboard/talon_temp/6', 0)
     talon_temp7 = ntproperty('/SmartDashboard/talon_temp/7', 0)
-    
-    # For debugging only
-    target_angle = ntproperty('/components/autoaim/target_angle', 0)
-    target_height = ntproperty('/components/autoaim/target_height', 0)
 
     def createObjects(self):
         self.ball_sensor = SharpIRGP2Y0A41SK0F(1)
@@ -91,19 +90,10 @@ class MyRobot(MagicRobot):
         self.robot_drive = wpilib.RobotDrive(lf_motor, lr_motor,
                                              rf_motor, rr_motor)
         
-        # tapemeasure stuff.. 
-        #self.tape_motor = wpilib.CANTalon(6)
-        #self.winch_motor = wpilib.CANTalon(7)
-        
         self.left_joystick = wpilib.Joystick(0)
         self.right_joystick = wpilib.Joystick(1)
         
         self.move_pos = None
-    
-    def teleopInit(self):
-        self.pitcher_enabled = False
-        self.timer = wpilib.Timer()
-        self.timer.start()
     
     def teleopPeriodic(self):
          
@@ -118,7 +108,7 @@ class MyRobot(MagicRobot):
         # testing: move forward some N
         if self.left_joystick.getRawButton(10):
             if self.move_pos is None:
-                self.move_pos = self.distance_ctrl.get_position() + 2.0
+                self.move_pos = self.distance_ctrl.get_position() + self.distance_thing
             
             self.distance_ctrl.move_to(self.move_pos)
         else:
@@ -144,21 +134,7 @@ class MyRobot(MagicRobot):
             self.lenny.ball_shoot()
         
         if self.right_joystick.getRawButton(6) or self.autoaim_toggled:
-            self.autoaim.aim(-self.right_joystick.getY())
-            
-        #if self.timer.hasPeriodPassed(0.5):
-        #    print("has_target: %s, angle: %3.2f, height: %3.2f" % (
-        #            self.auto_aim.present,
-        #            self.target_angle,
-        #            self.target_height))
-        
-        # Tapemeasure controls
-        #if self.left_joystick.getRawButton(6):
-            #self.tapemeasure.extend()
-        #elif self.left_joystick.getRawButton(7):
-            #self.tapemeasure.retract()
-        # if self.left_joystick.getTrigger():
-            #self.drive.move_at_angle(0, 90)
+            self.autoaim.aim()
             
         self.talon_temp2 = self.rf_motor.getTemp()
         self.talon_temp3 = self.rr_motor.getTemp()
