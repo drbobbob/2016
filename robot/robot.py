@@ -21,9 +21,9 @@ from networktables.util import ntproperty
 class MyRobot(MagicRobot):
     
     # Ordered by expected order of execution
+    autolenny = AutoLenny
     autoaim = AutoAim
     shooter_control = ShooterControl
-    autolenny = AutoLenny
     
     angle_ctrl = AngleController
     distance_ctrl = DistanceController
