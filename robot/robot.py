@@ -38,7 +38,7 @@ class MyRobot(MagicRobot):
     
     distance_thing = ntproperty('/teleop/distance_thing', 2)
     
-    turn_sensitivity = ntproperty('/teleop/turn_sensitivity', 1)
+    turn_sensitivity = ntproperty('/teleop/turn_sensitivity', 0.9)
     fire_toggled = ntproperty('/teleop/fire_toggle', False)
     autoaim_toggled = ntproperty('/teleop/auto_aim_toggle', False)
     autolenny_toggled = ntproperty('/teleop/auto_lenny_toggle', True)
@@ -123,7 +123,7 @@ class MyRobot(MagicRobot):
         if self.right_joystick.getRawButton(11):
             self.angle_ctrl.align_to(0)
         elif self.right_joystick.getRawButton(10):
-            self.angle_ctrl.align_to(179)
+            self.angle_ctrl.align_to(30)
         
         # testing: move forward some N
         if self.left_joystick.getRawButton(10):
