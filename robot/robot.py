@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+import time
+from collections import deque
+
 import wpilib
 from magicbot import MagicRobot
 from robotpy_ext.common_drivers.distance_sensors import SharpIRGP2Y0A41SK0F, SharpIR2Y0A02
@@ -39,6 +42,9 @@ class MyRobot(MagicRobot):
     fire_toggled = ntproperty('/teleop/fire_toggle', False)
     autoaim_toggled = ntproperty('/teleop/auto_aim_toggle', False)
     autolenny_toggled = ntproperty('/teleop/auto_lenny_toggle', True)
+    
+    measure_loop_time = ntproperty('/robot/measure_loop_time', False)
+    loop_time = ntproperty('/robot/loop_time', 0)
     
     
     ds_ball_in = ntproperty('/teleop/ball_in', False)
@@ -94,8 +100,22 @@ class MyRobot(MagicRobot):
         self.right_joystick = wpilib.Joystick(1)
         
         self.move_pos = None
+        
+        self.i = 0
+        self.last_time = time.monotonic()
+        self.diffs = deque(maxlen=10)
     
     def teleopPeriodic(self):
+        
+        if self.measure_loop_time:
+            now = time.monotonic()
+            diff = now - self.last_time
+            self.last_time = now
+            
+            self.diffs.append(diff)
+            self.i += 1
+            if self.i % 10 == 0:
+                self.loop_time = sum(self.diffs)/len(self.diffs)
          
         self.drive.move(self.right_joystick.getX()*self.turn_sensitivity, -self.left_joystick.getY(), True)
         
