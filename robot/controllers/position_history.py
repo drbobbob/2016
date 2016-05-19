@@ -7,8 +7,6 @@ import threading
 from controllers.angle_controller import AngleController
 from controllers.distance_controller import DistanceController
 
-from robotpy_ext.misc import PreciseDelay
-
 from collections import deque
 
 class PositionHistory:
@@ -62,15 +60,17 @@ class PositionHistory:
             self.cond.notify()
     
     def disable(self):
-        with self.cond:
+        with self.lock:
             self.enabled = False
             self.last_ts = None
     
     def get_position(self, ts):
         
+        #return self.angle_ctrl.get_angle(), self.distance_ctrl.get_position(), None
+        
         if self.last_ts is not None:
             with self.lock:
-                offset = round((self.last_ts - ts)/0.020)
+                offset = round((self.last_ts - ts)/0.050)
                 if offset < len(self.buffer):
                     return self.buffer[offset]
     
@@ -97,7 +97,7 @@ class PositionHistory:
                 
                 # Not very precise, but we're keeping timestamps
                 # so it's probably ok.. 
-                delay = 0.020 - (self.get_now() - now)
+                delay = max(0.050 - (self.get_now() - now), 0.001)
                 self.delay(delay)
     
     def execute(self):
