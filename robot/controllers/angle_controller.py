@@ -7,7 +7,7 @@ from magicbot import tunable
 from robotpy_ext.common_drivers.navx.ahrs import AHRS
 
 from components.drive import Drive
-from .pid_base import BasePIDComponent
+from .my_pid_base import BasePIDComponent
 
 class AngleController(BasePIDComponent):
     '''
@@ -23,27 +23,31 @@ class AngleController(BasePIDComponent):
     robot_roll = tunable(0)
 
     if hal.HALIsSimulation():
-        kP = 0.05
-        kI = 0.00001
-        kD = 0.001
-        kF = 0.0
-    else:
-        kP = 0.05
-        kI = 0.0001
+        kP = 0.03
+        kI = 0.0
         kD = 0.0
         kF = 0.0
+    else:
+        kP = tunable(0.01)
+        kI = tunable(0.001)
+        kD = tunable(0.03)
+        kF = tunable(0.0)
     
     kToleranceDegrees = tunable(3.5)
+    kIzone = tunable(3.5)
     
     def __init__(self):
         
         self.ahrs = AHRS.create_spi()
         
-        super().__init__(self.ahrs, 'angle_ctrl')
+        super().__init__(self.ahrs.getYaw, 'angle_ctrl')
         
-        self.pid.setInputRange(-180.0,  180.0)
-        self.pid.setOutputRange(-1.0, 1.0)
-        self.pid.setContinuous(True)
+        if hasattr(self, 'pid'):
+            self.pid.setInputRange(-180.0,  180.0)
+            self.pid.setOutputRange(-1.0, 1.0)
+            self.pid.setContinuous(True)
+        
+        self.report = 0
         
     def get_angle(self):
         """Returns the robot's current heading"""
@@ -64,7 +68,7 @@ class AngleController(BasePIDComponent):
             return False
         
         angle = self.get_angle()
-        setpoint = self.pid.getSetpoint()
+        setpoint = self.setpoint
         
         # compensate for wraparound (code from PIDController)
         error = setpoint - angle
@@ -78,6 +82,17 @@ class AngleController(BasePIDComponent):
 
     def reset_angle(self):
         self.ahrs.reset()
+    
+    
+    def compute_error(self, setpoint, pid_input):
+        error = setpoint - pid_input
+        if abs(error) > 180.0:
+            if error > 0:
+                error = error - 360.0
+            else:
+                error = error + 360.0
+                
+        return error
         
         
     def pidWrite(self, output):
@@ -95,6 +110,8 @@ class AngleController(BasePIDComponent):
         
         # The pure output of the PID controller isn't enough.. 
         # .. need to scale between some min out
+        
+        # scale input range
         
         # scale between 0 and max
         rotation_rate = math.copysign(abs(output)*0.45+0.55, output)

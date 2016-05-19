@@ -23,6 +23,8 @@ class AutoAim(StateMachine):
         and then shoots.
     '''
     
+    VERBOSE_LOGGING = True
+    
     LIGHT_ON = wpilib.Relay.Value.kOn
     LIGHT_OFF = wpilib.Relay.Value.kOff
     
@@ -42,12 +44,12 @@ class AutoAim(StateMachine):
     
     # straight-line approximation for translating pixels to 
     # encoder feet movements
-    ideal_height = tunable(-9)
-    other_height = tunable(10)
-    ideal_encoder = tunable(0)
-    other_encoder = tunable(10)
-    
-    angle_offset = tunable(-10)
+    #ideal_height = tunable(-3)
+    #other_height = tunable(11.7)
+    #ideal_encoder = tunable(0)
+    #other_encoder = tunable(6.3)
+    ideal_distance = tunable(5.0)
+    angle_offset = tunable(-8)
 
     if hal.HALIsSimulation():
         kP = 0.2
@@ -57,8 +59,6 @@ class AutoAim(StateMachine):
     kI = 0.00
     kD = 0.00
     kF = 0.00
-    
-    kToleranceHeight = 2
     
     def __init__(self):
         self.aimed_at_angle = None
@@ -85,9 +85,9 @@ class AutoAim(StateMachine):
     def _on_target(self, source, key, value, isNew):
         self.target = value
         
-    def _height_to_distance_offset(self, h):
-        '''converts a height to a distance'''
-        return ((h - self.other_height) * (self.ideal_encoder - self.other_encoder)) / (self.ideal_height - self.other_height) + self.other_encoder
+    #def _height_to_distance_offset(self, h):
+    #    '''converts a height to a distance'''
+    #    return ((h - self.other_height) * (self.ideal_encoder - self.other_encoder)) / (self.ideal_height - self.other_height) + self.other_encoder
     
     def _move_to_position(self):
         '''returns true if at correct position, false otherwise'''
@@ -102,15 +102,20 @@ class AutoAim(StateMachine):
             
             # old idea: reduce the camera angle by half to compensate for lag
             # new idea: latency compensation
-            angle, height, capture_ts = target
+            angle, height, tgt_dist, capture_ts = target
             history = self.pos_history.get_position(capture_ts)
             
             if history is not None:
                 r_angle, r_position, r_ts = history
                 
+                
                 #self.aimed_at_angle = self.drive.get_angle_at_ts(capture_ts) + (angle/2.0)
-                self.aimed_at_angle = r_angle + angle
-                self.aimed_at_distance = r_position + self._height_to_distance_offset(height)
+                self.aimed_at_angle = r_angle + angle - self.angle_offset
+                self.aimed_at_distance = r_position + (tgt_dist - self.ideal_distance)
+                
+                
+                #self.logger.info("Target distance: %0.3f (%0.3f); %0.3f vs %0.3f; %0.3f", self.aimed_at_distance, offset,
+                #                 r_position, self.distance_ctrl.get_position(), height)
             
             self.target = None
         
@@ -123,6 +128,7 @@ class AutoAim(StateMachine):
             self.distance_ctrl.move_to(self.aimed_at_distance)
         
         return self.is_at_position()
+        #return False
     
     #
     # External API
@@ -170,7 +176,7 @@ class AutoAim(StateMachine):
             # at the right place? ok, transition!
             self.next_state('at_position')
     
-    @timed_state(duration=0.75, next_state='begin_firing')
+    @timed_state(duration=.5, next_state='begin_firing')
     def at_position(self):
         '''Only go to 'begin_firing' if we've been at the right position for
         more than a set period of time'''
@@ -200,6 +206,7 @@ class AutoAim(StateMachine):
     def firing(self):
         '''Waits for the ball to exit before allowing the operator to move'''
         self.drive.move(0, 0)
+        self.shooter_control.fire()
     
     @state
     def end(self):

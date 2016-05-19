@@ -1,4 +1,5 @@
 
+import math
 import threading
 
 import wpilib
@@ -24,7 +25,10 @@ class BasePIDComponent:
         
         self.enabled = False
         self.rate = None
-        self.setpoint = None
+        
+        self._has_setpoint = False
+        self._setpoint = None
+        self._last_setpoint = math.inf
         
         # protects enabled/rotation_rate
         self.lock = threading.RLock()
@@ -33,6 +37,15 @@ class BasePIDComponent:
         
         # TODO: magicbot should initialize this for us..
         self.pid.initTable(NetworkTable.getTable('/components/%s/pid' % table_name))
+    
+    @property
+    def setpoint(self):
+        return self._setpoint
+    
+    @setpoint.setter
+    def setpoint(self, value):
+        self._setpoint = value
+        self._has_setpoint = True
       
     def pidWrite(self, output):
         # prevent race condition (https://github.com/wpilibsuite/allwpilib/issues/30)
@@ -43,8 +56,10 @@ class BasePIDComponent:
     def execute(self):
         
         # set the initial setpoint before enabling the PIDController!
-        if self.setpoint is not None:
-            self.pid.setSetpoint(self.setpoint)
+        if self._has_setpoint:
+            if abs(self._last_setpoint - self._setpoint) > 0.0001:
+                self.pid.setSetpoint(self._setpoint)
+                self._last_setpoint = self._setpoint
 
             # if self.enabled was not previously set, enable the controller
             # -> no lock required, not messing with rate
@@ -60,5 +75,7 @@ class BasePIDComponent:
                     self.enabled = False
                     self.rate = None
         
-        self.setpoint = None
+        self._has_setpoint = False
+
+s_setpoint = False
 

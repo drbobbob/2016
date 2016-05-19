@@ -3,7 +3,7 @@ import hal
 
 from magicbot import tunable
 from components.lenny import Lenny
-from .pid_base import BasePIDComponent
+from .wpi_pid_base import BasePIDComponent
 
 
 class AutoLenny(BasePIDComponent):

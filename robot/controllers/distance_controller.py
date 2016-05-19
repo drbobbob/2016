@@ -6,7 +6,7 @@ import wpilib
 from magicbot import tunable
 
 from components.drive import Drive
-from .pid_base import BasePIDComponent
+from .my_pid_base import BasePIDComponent
 
 class DistanceController(BasePIDComponent):
     '''
@@ -29,16 +29,17 @@ class DistanceController(BasePIDComponent):
         kD = 0.0
         kF = 0.0
     else:
-        kP = 5.0
-        kI = 0.0
-        kD = 0.0
-        kF = 0.0
+        kP = tunable(0.1)
+        kI = tunable(0.001)
+        kD = tunable(2.0)
+        kF = tunable(0.0)
         
     kToleranceFeet = tunable(0.15)
+    kIzone = tunable(0.15)
         
     def __init__(self):
         super().__init__(self.get_position, 'distance_ctrl')    
-        self.pid.setOutputRange(-1.0, 1.0)
+        #self.pid.setOutputRange(-1.0, 1.0)
     
     def get_position(self):
         """Encoder position in feet"""
@@ -49,7 +50,7 @@ class DistanceController(BasePIDComponent):
         
     def is_at_location(self):
         return self.enabled and \
-                abs(self.get_position() - self.pid.getSetpoint()) < self.kToleranceFeet
+                abs(self.get_position() - self.setpoint) < self.kToleranceFeet
     
     def pidWrite(self, output):
         rate = math.copysign(abs(output)*0.15+0.45, output)
