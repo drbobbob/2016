@@ -19,10 +19,20 @@
 
     Can run this on the roborio by executing mjpg-streamer like so:
 
-    mjpg_streamer -i 'input_opencv.so -r 320x240 --fps 15 --quality 30 --filter /usr/local/lib/mjpg-streamer/cvfilter_py.so --fargs /home/admin/TargetFinder.py'
+    mjpg_streamer -i 'input_opencv.so -r 320x240 --fps 5 --quality 10 --filter /usr/local/lib/mjpg-streamer/cvfilter_py.so --fargs /home/admin/TargetFinder.py'
+
+    Note that because mjpg-streamer is re-encoding the images, by
+    setting the quality lower you significantly reduce the CPU usage.
+    
+    We've seen the following results:
+    
+    * Quality 30: ~30% CPU at rest
+    * Quality 10: ~10% CPU at rest
+    
 '''
 
 import cv2
+import math
 import numpy as np
 import os
 import os.path
@@ -119,8 +129,20 @@ class Storage:
 class TargetFinder:
     
     # Values for the lifecam-3000
-    VFOV = 34.3 # Camera's vertical field of view
+    #VFOV = 34.3 # Camera's vertical field of view
+    VFOV = 45.6
     HFOV = 61 # Camera's horizontal field of view
+    
+    VFOV_2 = VFOV / 2.0
+    HFOV_2 = HFOV / 2.0
+    
+    target_center = 7.66 # 7' 8in
+    
+    camera_height = 1.08 # 13in
+    camera_pitch = 40.0
+    
+    tcx = target_center - camera_height
+    
     
     RED = (0, 0, 255)
     YELLOW = (0, 255, 255)
@@ -154,6 +176,7 @@ class TargetFinder:
     draw_thresh = ntproperty('/camera/draw_thresh', False)
     draw_c1 = ntproperty('/camera/draw_c1', False)
     draw_c2 = ntproperty('/camera/draw_c2', False)
+    draw_other = ntproperty('/camera/draw_other', False)
     draw_hue = ntproperty('/camera/draw_hue', False)
     draw_sat = ntproperty('/camera/draw_sat', False)
     draw_val = ntproperty('/camera/draw_val', False)
@@ -165,6 +188,10 @@ class TargetFinder:
         
         self.target = NumberArray()
         self.nt.putValue('target', self.target)
+        
+        # TODO: this makes this no longer tunable.. 
+        self.lower = np.array([self.thresh_hue_p, self.thresh_sat_p, self.thresh_val_p], dtype=np.uint8)
+        self.upper = np.array([self.thresh_hue_n, self.thresh_sat_n, self.thresh_val_n], dtype=np.uint8)
     
     def preallocate(self, img):
         if self.size is None or self.size[0] != img.shape[0] or self.size[1] != img.shape[1]:
@@ -208,41 +235,46 @@ class TargetFinder:
     def threshold(self, img):
         
         cv2.cvtColor(img, self.colorspace, dst=self.hsv)
-        cv2.split(self.hsv, [self.hue, self.sat, self.val])
         
-        # Threshold each component separately
         
-        # Hue
-        cv2.threshold(self.hue, self.thresh_hue_p, 255, type=cv2.THRESH_BINARY, dst=self.bin)
-        cv2.threshold(self.hue, self.thresh_hue_n, 255, type=cv2.THRESH_BINARY_INV, dst=self.hue)
-        cv2.bitwise_and(self.hue, self.bin, self.hue)
+        cv2.inRange(self.hsv, self.lower, self.upper, dst=self.bin)
         
-        if self.draw_hue:
-        #    # overlay green where the hue threshold is non-zero
-            self.out[np.dstack((self.zeros, self.hue != 0, self.zeros))] = 255
-        
-        # Saturation
-        cv2.threshold(self.sat, self.thresh_sat_p, 255, type=cv2.THRESH_BINARY, dst=self.bin)
-        cv2.threshold(self.sat, self.thresh_sat_n, 255, type=cv2.THRESH_BINARY_INV, dst=self.sat)
-        cv2.bitwise_and(self.sat, self.bin, self.sat)
-        
-        if self.draw_sat:
-            # overlay blue where the sat threshold is non-zero
-            self.out[np.dstack((self.sat != 0, self.zeros, self.zeros))] = 255
-        
-        # Value
-        cv2.threshold(self.val, self.thresh_val_p, 255, type=cv2.THRESH_BINARY, dst=self.bin)
-        cv2.threshold(self.val, self.thresh_val_n, 255, type=cv2.THRESH_BINARY_INV, dst=self.val)
-        cv2.bitwise_and(self.val, self.bin, self.val)
-        
-        if self.draw_val:
-            # overlay red where the val threshold is non-zero
-            self.out[np.dstack((self.zeros, self.zeros, self.val != 0))] = 255
-        
-        # Combine the results to obtain our binary image which should for the most
-        # part only contain pixels that we care about        
-        cv2.bitwise_and(self.hue, self.sat, self.bin)
-        cv2.bitwise_and(self.bin, self.val, self.bin)
+        if False:
+            cv2.split(self.hsv, [self.hue, self.sat, self.val])
+            
+            # Threshold each component separately
+            
+            # Hue
+            cv2.threshold(self.hue, self.thresh_hue_p, 255, type=cv2.THRESH_BINARY, dst=self.bin)
+            cv2.threshold(self.hue, self.thresh_hue_n, 255, type=cv2.THRESH_BINARY_INV, dst=self.hue)
+            cv2.bitwise_and(self.hue, self.bin, self.hue)
+            
+            if self.draw_hue:
+            #    # overlay green where the hue threshold is non-zero
+                self.out[np.dstack((self.zeros, self.hue != 0, self.zeros))] = 255
+            
+            # Saturation
+            cv2.threshold(self.sat, self.thresh_sat_p, 255, type=cv2.THRESH_BINARY, dst=self.bin)
+            cv2.threshold(self.sat, self.thresh_sat_n, 255, type=cv2.THRESH_BINARY_INV, dst=self.sat)
+            cv2.bitwise_and(self.sat, self.bin, self.sat)
+            
+            if self.draw_sat:
+                # overlay blue where the sat threshold is non-zero
+                self.out[np.dstack((self.sat != 0, self.zeros, self.zeros))] = 255
+            
+            # Value
+            cv2.threshold(self.val, self.thresh_val_p, 255, type=cv2.THRESH_BINARY, dst=self.bin)
+            cv2.threshold(self.val, self.thresh_val_n, 255, type=cv2.THRESH_BINARY_INV, dst=self.val)
+            cv2.bitwise_and(self.val, self.bin, self.val)
+            
+            if self.draw_val:
+                # overlay red where the val threshold is non-zero
+                self.out[np.dstack((self.zeros, self.zeros, self.val != 0))] = 255
+            
+            # Combine the results to obtain our binary image which should for the most
+            # part only contain pixels that we care about        
+            cv2.bitwise_and(self.hue, self.sat, self.bin)
+            cv2.bitwise_and(self.bin, self.val, self.bin)
 
         # Fill in any gaps using binary morphology
         cv2.morphologyEx(self.bin, cv2.MORPH_CLOSE, self.morphKernel, dst=self.bin, iterations=self.kHoleClosingIterations)
@@ -267,7 +299,7 @@ class TargetFinder:
         _, contours, _ = cv2.findContours(thresh_img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
         result = []
         
-        for i, cnt in enumerate(contours):
+        for cnt in contours:
             approx = cv2.approxPolyDP(cnt,0.01*cv2.arcLength(cnt,True),True)
             #print(i, len(approx))
             if len(approx)>5 and len(approx)<12:
@@ -288,7 +320,7 @@ class TargetFinder:
             
             if len(approx) in (4,5):
                 result.append(approx)
-                if self.draw:
+                if self.draw_other:
                     cv2.drawContours(self.out, [approx], -1, self.YELLOW, 2, lineType=8)
             
             if self.draw_c2:
@@ -319,13 +351,18 @@ class TargetFinder:
         w = float(w)
         
         for q in gates:
-            M = cv2.moments(q)
-            cx = int(M['m10']/M['m00'])
-            cy = int(M['m01']/M['m00'])
+            #M = cv2.moments(q)
+            #cx = int(M['m10']/M['m00'])
+            #cy = int(M['m01']/M['m00'])
+            ((cx, cy), (rw, rh), rotation) = cv2.minAreaRect(q)
+            
             gate = {}
             gate['d'] = q
-            gate['av'] = self.VFOV * cy / h - self.VFOV/2
-            gate['ah'] = self.HFOV * cx / w - self.HFOV/2
+            gate['av'] = self.VFOV * cy / h - self.VFOV_2
+            gate['ah'] = self.HFOV * cx / w - self.HFOV_2
+            
+            # experimental distance value.. doesn't work
+            gate['ad'] = (self.tcx)/math.tan(math.radians(-gate['av'] + self.camera_pitch))
             result.append(gate)
             
         self.target.clear()
@@ -339,7 +376,7 @@ class TargetFinder:
                 cv2.drawContours(self.out, [target['d']], -1, self.RED, 2, lineType=8)
             
             # angle, height, ts
-            self.target += [target['ah'], target['av'], now]
+            self.target += [target['ah'], target['av'], target['ad'], now]
             
         self.nt.putValue('target', self.target)
         

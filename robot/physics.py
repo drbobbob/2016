@@ -155,6 +155,7 @@ class PhysicsEngine(object):
                         # the value is related to the distance away. -11 is ideal.
                         self.last_cam_value = [offset,
                                                -(-(distance*3)+30),
+                                               distance,
                                                now]
                     
                 self.last_cam_update = now

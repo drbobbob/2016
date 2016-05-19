@@ -37,7 +37,7 @@ class StaticTester:
         out_img = self.tf.quad_normals(self.current)
         out = self.filename+', '
         for normal in self.tf.result:
-            out += '%.2f, %.2f ' % (normal['av'], normal['ah'])
+            out += '%.2f, %.2f %.2f' % (normal['av'], normal['ah'], normal['ad'])
             
         print(' '.join(str(getattr(self.tf, s)) for s in self.settings))
             
