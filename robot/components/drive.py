@@ -57,8 +57,8 @@ class Drive:
     def execute(self):
         self.robot_drive.arcadeDrive(-self.y, self.x)
         
-        self.robot_x = self.x
-        self.robot_y = self.y
+        #self.robot_x = self.x
+        #self.robot_y = self.y
 
         self.x = 0.0
         self.y = 0.0

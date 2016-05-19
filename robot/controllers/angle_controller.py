@@ -112,6 +112,9 @@ class AngleController(BasePIDComponent):
                 self.drive.move_x(self.rate)
                 
         # Feedback variables
-        self.robot_angle = self.get_angle()
-        self.robot_pitch = self.ahrs.getPitch()
-        self.robot_roll = self.ahrs.getRoll()
+        # ... ooh, magicbot global for feedback?
+        self.report += 1
+        if self.report % 5 == 0:
+            self.robot_angle = self.get_angle()
+        #self.robot_pitch = self.ahrs.getPitch()
+        #self.robot_roll = self.ahrs.getRoll()

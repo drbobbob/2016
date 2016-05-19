@@ -71,7 +71,7 @@ class Lenny:
 
         self.ball_detected_distance = self.ball_sensor.getDistance()
         self.ball_detected = self.is_ball_detected()
-        self.belt_velocity = self.beltmotor.getEncVelocity()
+        #self.belt_velocity = self.beltmotor.getEncVelocity()
         
         if self.disabled == False:
             mode = self.PID_MODE if self.pid_enabled else self.MANUAL_MODE

@@ -44,12 +44,12 @@ class MyRobot(MagicRobot):
     ds_ball_in = ntproperty('/teleop/ball_in', False)
     ds_ball_out = ntproperty('/teleop/ball_out', False)
     
-    talon_temp2 = ntproperty('/SmartDashboard/talon_temp/2', 0)
-    talon_temp3 = ntproperty('/SmartDashboard/talon_temp/3', 0)
-    talon_temp4 = ntproperty('/SmartDashboard/talon_temp/4', 0)
-    talon_temp5 = ntproperty('/SmartDashboard/talon_temp/5', 0)
-    talon_temp6 = ntproperty('/SmartDashboard/talon_temp/6', 0)
-    talon_temp7 = ntproperty('/SmartDashboard/talon_temp/7', 0)
+    #talon_temp2 = ntproperty('/SmartDashboard/talon_temp/2', 0)
+    #talon_temp3 = ntproperty('/SmartDashboard/talon_temp/3', 0)
+    #talon_temp4 = ntproperty('/SmartDashboard/talon_temp/4', 0)
+    #talon_temp5 = ntproperty('/SmartDashboard/talon_temp/5', 0)
+    #talon_temp6 = ntproperty('/SmartDashboard/talon_temp/6', 0)
+    #talon_temp7 = ntproperty('/SmartDashboard/talon_temp/7', 0)
 
     def createObjects(self):
         self.ball_sensor = SharpIRGP2Y0A41SK0F(1)
@@ -135,13 +135,6 @@ class MyRobot(MagicRobot):
         
         if self.right_joystick.getRawButton(6) or self.autoaim_toggled:
             self.autoaim.aim()
-            
-        self.talon_temp2 = self.rf_motor.getTemp()
-        self.talon_temp3 = self.rr_motor.getTemp()
-        self.talon_temp4 = self.lf_motor.getTemp()
-        self.talon_temp5 = self.lr_motor.getTemp()
-        self.talon_temp6 = self.beltmotor.getTemp()
-        self.talon_temp7 = self.pitcher_motor.getTemp()
         
 if __name__ == "__main__":
     wpilib.run(MyRobot)
