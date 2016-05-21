@@ -8,7 +8,7 @@ class Pitcher:
     pitcher_motor = wpilib.CANTalon
     
     pid_enabled = tunable(True)
-    pid_speed = tunable(8000)
+    pid_speed = tunable(8100)
     pid_ok = tunable(100)
     
     manual_speed = tunable(1)

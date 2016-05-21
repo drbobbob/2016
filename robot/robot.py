@@ -104,6 +104,10 @@ class MyRobot(MagicRobot):
         self.i = 0
         self.last_time = time.monotonic()
         self.diffs = deque(maxlen=10)
+        
+    def autonomous(self):
+        self.angle_ctrl.reset_angle()
+        MagicRobot.autonomous(self)
     
     def teleopPeriodic(self):
         
@@ -153,7 +157,8 @@ class MyRobot(MagicRobot):
         if self.right_joystick.getRawButton(9):
             self.lenny.ball_shoot()
         
-        if self.right_joystick.getRawButton(6) or self.autoaim_toggled:
+        if self.right_joystick.getRawButton(6) or \
+           self.left_joystick.getTrigger() or self.autoaim_toggled:
             self.autoaim.aim()
         
 if __name__ == "__main__":

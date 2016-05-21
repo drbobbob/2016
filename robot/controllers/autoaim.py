@@ -48,8 +48,8 @@ class AutoAim(StateMachine):
     #other_height = tunable(11.7)
     #ideal_encoder = tunable(0)
     #other_encoder = tunable(6.3)
-    ideal_distance = tunable(5.0)
-    angle_offset = tunable(-8)
+    ideal_distance = tunable(6)
+    angle_offset = tunable(-6)
 
     if hal.HALIsSimulation():
         kP = 0.2
