@@ -115,6 +115,8 @@ $(document).ready(function(){
 	
 	// connection indicator for debugging
 	attachRobotConnectionIndicator('#connected', 20);
+
+	attachSelectToSendableChooser('#teleop_auto', '/SmartDashboard/Autonomous Mode');
 	
 	// ball indicator
 	NetworkTables.addKeyListener(ntkeys.ballSensor, function(k, v) {

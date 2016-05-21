@@ -58,6 +58,12 @@ body {
 	border: 2px solid black;
 }
 
+#teleop_auto {
+	position: absolute;
+	top: 360px;
+	left: 950px;
+}
+
 #logo {
 	position: absolute;
 	top: 160px;

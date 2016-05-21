@@ -121,7 +121,7 @@ class MyRobot(MagicRobot):
             if self.i % 10 == 0:
                 self.loop_time = sum(self.diffs)/len(self.diffs)
          
-        self.drive.move(self.right_joystick.getX()*self.turn_sensitivity, -self.left_joystick.getY(), True)
+        self.drive.move(self.right_joystick.getX()*self.turn_sensitivity, self.left_joystick.getY(), True)
         
         # testing: align to absolute angles
         if self.right_joystick.getRawButton(11):
