@@ -152,7 +152,7 @@ class TargetFinder:
     colorspace = cv2.COLOR_BGR2HSV
     
     enabled = ntproperty('/camera/enabled', False)
-    logging_enabled = ntproperty('/camera/logging_enabled', False, writeDefault=True)
+    logging_enabled = ntproperty('/camera/logging_enabled', True, writeDefault=True)
     
     min_width = ntproperty('/camera/min_width', 20)
     #intensity_threshold = ntproperty('/camera/intensity_threshold', 75)
@@ -165,9 +165,9 @@ class TargetFinder:
     # virginia 2014: ?
     # test image:  43 100 0 255 57 255
 
-    thresh_hue_p = ntproperty('/camera/thresholds/hue_p', 0)
-    thresh_hue_n = ntproperty('/camera/thresholds/hue_n', 255)
-    thresh_sat_p = ntproperty('/camera/thresholds/sat_p', 145)
+    thresh_hue_p = ntproperty('/camera/thresholds/hue_p', 60)
+    thresh_hue_n = ntproperty('/camera/thresholds/hue_n', 120)
+    thresh_sat_p = ntproperty('/camera/thresholds/sat_p', 90)
     thresh_sat_n = ntproperty('/camera/thresholds/sat_n', 255)
     thresh_val_p = ntproperty('/camera/thresholds/val_p', 80)
     thresh_val_n = ntproperty('/camera/thresholds/val_n', 255)
@@ -235,7 +235,6 @@ class TargetFinder:
     def threshold(self, img):
         
         cv2.cvtColor(img, self.colorspace, dst=self.hsv)
-        
         
         cv2.inRange(self.hsv, self.lower, self.upper, dst=self.bin)
         
