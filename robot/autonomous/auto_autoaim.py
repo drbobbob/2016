@@ -13,14 +13,18 @@ class AutoaimBase(AutonomousStateMachine):
     autoaim = AutoAim
     
     speed = tunable(0.8)
+    fwd_tm = tunable(3)
 
     def initialize(self):
         pass
     
-    @timed_state(duration=2, first=True, next_state='turn')
-    def drive_forward(self):
+    @state(first=True)
+    def drive_forward(self, state_tm):
         self.drive.move_y(self.speed)
         self.angle_ctrl.align_to(0)
+        if state_tm > self.fwd_tm:
+            self.next_state('turn')
+             
         
     @timed_state(duration=4, next_state='fire')
     def turn(self):
@@ -29,6 +33,7 @@ class AutoaimBase(AutonomousStateMachine):
       
     @state
     def fire(self):
+        self.drive.move_y(0.55)
         self.autoaim.aim()
         
 
@@ -45,8 +50,9 @@ class AutoaimStraightEmpty(AutoaimBase):
     MODE_NAME = "Autoaim - Straight Empty"
     DEFAULT = False
     
-    angle = 0
+    angle = 15 # turns right
     speed = tunable(0.7)
+    fwd_tm = tunable(1.75)
     
 
 class AutoaimLeft(AutoaimBase):

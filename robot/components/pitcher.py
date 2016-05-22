@@ -9,7 +9,7 @@ class Pitcher:
     
     pid_enabled = tunable(True)
     pid_speed = tunable(8100)
-    pid_ok = tunable(100)
+    pid_ok = tunable(150)
     
     manual_speed = tunable(1)
     #motor_speed = tunable(0)

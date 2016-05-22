@@ -13,7 +13,7 @@ class Lenny:
     beltmotor = wpilib.CANTalon
     ball_sensor = Sharp
     
-    loader_position = tunable(9)
+    loader_position = tunable(11)
     ball_detected_distance = tunable(0)
     ball_detected_threshold = tunable(35)
     ball_detected = tunable(False)
